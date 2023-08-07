@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerService : MonoBehaviour
+public class PlayerService : MonoSingletonGeneric<PlayerService>
 {
     [SerializeField] PlayerView playerPrefab;
     private PlayerController playerController;
