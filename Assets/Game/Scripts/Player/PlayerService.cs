@@ -8,7 +8,7 @@ public class PlayerService : MonoSingletonGeneric<PlayerService>
     void Awake()
     {
         PlayerModel playerModel = new();
-        PlayerView playerView = Instantiate(playerPrefab);
-        playerController = new PlayerController(playerModel, playerView);
+        //PlayerView playerView = Instantiate(playerPrefab);
+        playerController = new PlayerController(playerModel, playerPrefab);
     }
 }
