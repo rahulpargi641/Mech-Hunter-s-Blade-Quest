@@ -26,8 +26,7 @@ public class PlayerView : MonoBehaviour
     }
     private void ProcessPlayerMovement()
     {
-        //if (horizontalInput != 0 || verticalInput != 0)
-            Controller.PlayerMovement(horizontalInput, verticalInput);
+        Controller.PlayerMovement(horizontalInput, verticalInput);
     }
     private void OnDisable()
     {

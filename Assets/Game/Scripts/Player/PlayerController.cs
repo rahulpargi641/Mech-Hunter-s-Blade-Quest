@@ -21,8 +21,6 @@ public class PlayerController
         Turn();
 
         view.CharacterController.Move(model.MovementVelocity);
-
-        PlayerMovementAnimation();
     }
 
     private void PlayerMovementAnimation()
@@ -36,6 +34,7 @@ public class PlayerController
         model.MovementVelocity.Set(horizontalInput, 0f, verticalInput);
         model.MovementVelocity.Normalize();
         model.MovementVelocity = Quaternion.Euler(0, -45f, 0) * model.MovementVelocity;
+        PlayerMovementAnimation();
 
         model.MovementVelocity *= model.MoveSpeed * Time.deltaTime;
     }
