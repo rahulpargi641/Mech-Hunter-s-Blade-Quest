@@ -11,6 +11,6 @@ public class PlayerModel
     public PlayerModel()
     {
         MoveSpeed = 5f;
-        Gravity = -20f;
+        Gravity = -9.8f;
     }
 }
