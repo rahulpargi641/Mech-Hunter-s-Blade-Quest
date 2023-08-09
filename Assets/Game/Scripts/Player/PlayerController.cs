@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerController
@@ -14,16 +13,15 @@ public class PlayerController
         view.Controller = this;
     }
 
-    public void PlayerMovement(float horizontalInput, float verticalInput)
+    public void Run(float horizontalInput, float verticalInput)
     {
         XZPlaneMovementVelocity(horizontalInput, verticalInput);
         Turn();
         YAxisMovementVelocity();
-        PlayerMovementAnimation();
+        InAir();
 
         view.CharacterController.Move(model.MovementVelocity);
     }
-
 
     private void XZPlaneMovementVelocity(float horizontalInput, float verticalInput)
     {
@@ -40,6 +38,7 @@ public class PlayerController
             view.transform.rotation = Quaternion.LookRotation(model.MovementVelocity);
     }
 
+
     private void YAxisMovementVelocity()
     {
         if (view.CharacterController.isGrounded == false)
@@ -50,9 +49,22 @@ public class PlayerController
             model.MovementVelocity += model.VerticalVelocity * Vector3.up * Time.deltaTime;
     }
 
-    private void PlayerMovementAnimation()
+    private void InAir()
     {
-        view.Animator.SetFloat("Speed", model.MovementVelocity.magnitude);
         view.Animator.SetBool("AirBorne", !view.CharacterController.isGrounded);
+        //view.Animator.SetFloat("Speed", model.MovementVelocity.magnitude);
+    }
+
+    internal void AttackSlide()
+    {
+        model.MovementVelocity = Vector3.zero; // might have value from last frame
+
+
+        if (Time.time < model.AttackStartTime + model.AttackSlideDuration)
+        {
+            float timePassed = Time.time - model.AttackStartTime;
+            float lerpTime = timePassed / model.AttackSlideDuration;
+            model.MovementVelocity = Vector3.Lerp(view.transform.forward * model.AttackSlideSpeed, Vector3.zero, lerpTime);
+        }
     }
 }
