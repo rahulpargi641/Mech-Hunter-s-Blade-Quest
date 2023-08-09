@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerController
@@ -14,30 +13,31 @@ public class PlayerController
         view.Controller = this;
     }
 
-    public void PlayerMovement(float horizontalInput, float verticalInput)
+    public void Run(float horizontalInput, float verticalInput)
     {
         XZPlaneMovementVelocity(horizontalInput, verticalInput);
-        YAxisMovementVelocity();
         Turn();
+        YAxisMovementVelocity();
+        InAir();
 
         view.CharacterController.Move(model.MovementVelocity);
-    }
-
-    private void PlayerMovementAnimation()
-    {
-        view.Animator.SetFloat("Speed", model.MovementVelocity.magnitude);
-        view.Animator.SetBool("AirBorne", ! view.CharacterController.isGrounded);
     }
 
     private void XZPlaneMovementVelocity(float horizontalInput, float verticalInput)
     {
         model.MovementVelocity.Set(horizontalInput, 0f, verticalInput);
         model.MovementVelocity.Normalize();
-        model.MovementVelocity = Quaternion.Euler(0, -45f, 0) * model.MovementVelocity;
-        PlayerMovementAnimation();
+        model.MovementVelocity = Quaternion.Euler(0f, -45f, 0f) * model.MovementVelocity;
 
         model.MovementVelocity *= model.MoveSpeed * Time.deltaTime;
     }
+
+    private void Turn()
+    {
+        if (model.MovementVelocity != Vector3.zero)
+            view.transform.rotation = Quaternion.LookRotation(model.MovementVelocity);
+    }
+
 
     private void YAxisMovementVelocity()
     {
@@ -46,13 +46,25 @@ public class PlayerController
         else
             model.VerticalVelocity = model.Gravity * 0.3f;
 
-        if (model.MovementVelocity != Vector3.zero)
             model.MovementVelocity += model.VerticalVelocity * Vector3.up * Time.deltaTime;
     }
 
-    private void Turn()
+    private void InAir()
     {
-        if (model.MovementVelocity != Vector3.zero)
-            view.transform.rotation = Quaternion.LookRotation(model.MovementVelocity);
+        view.Animator.SetBool("AirBorne", !view.CharacterController.isGrounded);
+        //view.Animator.SetFloat("Speed", model.MovementVelocity.magnitude);
+    }
+
+    internal void AttackSlide()
+    {
+        model.MovementVelocity = Vector3.zero; // might have value from last frame
+
+
+        if (Time.time < model.AttackStartTime + model.AttackSlideDuration)
+        {
+            float timePassed = Time.time - model.AttackStartTime;
+            float lerpTime = timePassed / model.AttackSlideDuration;
+            model.MovementVelocity = Vector3.Lerp(view.transform.forward * model.AttackSlideSpeed, Vector3.zero, lerpTime);
+        }
     }
 }
