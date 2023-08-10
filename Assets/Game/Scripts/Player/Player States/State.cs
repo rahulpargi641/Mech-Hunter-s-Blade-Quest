@@ -1,17 +1,16 @@
 using UnityEngine;
 
-public enum EStage
-{
-    Enter, Update, Exit
-};
-
-public enum EPlayerState
-{
-    Idle, Run, Attack
-};
-
 public class State
 {
+    public enum EStage
+    {
+        Enter, Update, Exit
+    };
+    public enum EPlayerState
+    {
+        Idle, Run, Attack
+    };
+
     protected EStage stage;
     public EPlayerState state;
     protected PlayerView playerView;
