@@ -6,31 +6,62 @@ public class PlayerView : MonoBehaviour
     public CharacterController CharacterController { get; set; }
     public Animator Animator { get; set; }
 
-    private float horizontalInput;
-    private float verticalInput;
+    private State currentState;
+    public bool AttackAnimationEnded { get; set; }
+    public float HorizontalInput { get; private set; }
+    public float VerticalInput { get; private set; }
+    public bool MouseButtonDown { get; private set; }
 
     private void Awake()
     {
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponent<Animator>();
     }
+
+    private void Start()
+    {
+        currentState = new Idle(this, Animator);
+    }
+
     private void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        ReadPlayerInput();
     }
 
     private void FixedUpdate()
     {
-        ProcessPlayerMovement();
+        currentState = currentState.Process();
     }
-    private void ProcessPlayerMovement()
+
+    private void ReadPlayerInput()
     {
-        Controller.PlayerMovement(horizontalInput, verticalInput);
+        if (!MouseButtonDown && Time.timeScale != 0)
+            MouseButtonDown = Input.GetMouseButton(0);
+
+        HorizontalInput = Input.GetAxisRaw("Horizontal");
+        VerticalInput = Input.GetAxisRaw("Vertical");
     }
+
+    public void Run()
+    {
+        Controller.Run(HorizontalInput, VerticalInput);
+    }
+
+    internal void AttackSlide()
+    {
+        Controller.AttackSlide();
+    }
+
+    public void AttackAnimationEnd()
+    {
+        AttackAnimationEnded = true;
+        MouseButtonDown = false;
+    }
+
     private void OnDisable()
     {
-        horizontalInput = 0;
-        verticalInput = 0;
+        MouseButtonDown = false;
+        HorizontalInput = 0;
+        VerticalInput = 0;
     }
 }
