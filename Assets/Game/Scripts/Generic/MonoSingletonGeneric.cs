@@ -11,7 +11,7 @@ public class MonoSingletonGeneric<T> : MonoBehaviour where T : MonoSingletonGene
         if(Instance == null)
         {
             Instance = (T)this;
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(gameObject);
         }
         else
         { Destroy(gameObject); }
