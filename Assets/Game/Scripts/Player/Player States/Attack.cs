@@ -11,6 +11,11 @@ public class Attack : State
     {
         animator.SetTrigger("Attack");
         playerView.AttackSlide();
+
+        DamageCasterView damageCaster = playerView.GetComponentInChildren<DamageCasterView>();
+        if (damageCaster)
+            damageCaster.DisableDamageCaster();
+
         //AudioService.Instance.PlayAttackSound
         base.Enter();
     }

@@ -6,6 +6,8 @@ public class PlayerView : MonoBehaviour
     public CharacterController CharacterController { get; set; }
     public Animator Animator { get; set; }
 
+    private DamageCasterView damageCaster;
+
     private State currentState;
     public bool AttackAnimationEnded { get; set; }
     public float HorizontalInput { get; private set; }
@@ -16,6 +18,7 @@ public class PlayerView : MonoBehaviour
     {
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponent<Animator>();
+        damageCaster = GetComponentInChildren<DamageCasterView>();
     }
 
     private void Start()
@@ -56,6 +59,16 @@ public class PlayerView : MonoBehaviour
     {
         AttackAnimationEnded = true;
         MouseButtonDown = false;
+    }
+
+    public void EnableDamageCaster()
+    {
+        damageCaster.EnableDamageCaster();
+    }
+
+    public void DisableDamageCaster()
+    {
+        damageCaster.DisableDamageCaster();
     }
 
     private void OnDisable()

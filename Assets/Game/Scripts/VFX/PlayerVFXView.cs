@@ -5,6 +5,7 @@ public class PlayerVFXView : MonoBehaviour
 {
     [SerializeField] VisualEffect footStep;
     [SerializeField] ParticleSystem blade01;
+    [SerializeField] VisualEffect slash;
 
     public void UpdateFootStep(bool state)
     {
@@ -17,5 +18,11 @@ public class PlayerVFXView : MonoBehaviour
     public void PlayBlade01()
     {
         blade01.Play();
+    }
+
+    public void PlaySlash(Vector3 pos)
+    {
+        slash.transform.position = pos;
+        slash.Play();
     }
 }
