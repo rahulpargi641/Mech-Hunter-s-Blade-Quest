@@ -27,6 +27,8 @@ public class EnemyState
     private float pathUpdateDelay = 0.2f;
     private float pathUpdateDeadline;
 
+    bool isDead = false;
+
     public EnemyState(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
     {
         this.enemyAIView = enemyAIView;
@@ -35,8 +37,23 @@ public class EnemyState
         this.playerTransform = playerTransform;
     }
 
-    protected virtual void Enter() { stage = EStage.Update; }
-    protected virtual void Update() { stage = EStage.Update; }
+    protected virtual void Enter() 
+    { 
+        stage = EStage.Update;
+
+        EventService.Instance.onEnemyDeathAction += EnemyDead;
+    }
+    protected virtual void Update() 
+    { 
+        stage = EStage.Update; 
+
+        if(isDead)
+        {
+            nextState = new EnemyDead(enemyAIView, navMeshAgent, animator, playerTransform);
+            stage = EStage.Exit;
+            return;
+        }
+    }
     protected virtual void Exit() { stage = EStage.Exit; }
     
     public EnemyState Process()
@@ -80,5 +97,10 @@ public class EnemyState
             return true;
         else
             return false;
+    }
+
+    void EnemyDead()
+    {
+        isDead = true;
     }
 }

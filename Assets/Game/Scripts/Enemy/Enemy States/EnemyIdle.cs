@@ -13,12 +13,15 @@ public class EnemyIdle : EnemyState
 
     protected override void Enter()
     {
-        animator.SetTrigger("Idle");
         base.Enter();
+
+        animator.SetTrigger("Idle");
     }
 
     protected override void Update()
     {
+        base.Update();
+
         if (CanSeePlayer())
         {
             nextState = new EnemyPursue(enemyAIView, navMeshAgent, animator, playerTransform);
@@ -29,6 +32,7 @@ public class EnemyIdle : EnemyState
             nextState = new EnemyPatrol(enemyAIView, navMeshAgent, animator, playerTransform);
             stage = EStage.Exit;
         }
+
     }
 
     protected override void Exit()

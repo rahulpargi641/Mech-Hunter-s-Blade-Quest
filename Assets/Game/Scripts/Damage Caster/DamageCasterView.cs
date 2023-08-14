@@ -14,7 +14,7 @@ public class DamageCasterView : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        HealthView enemyhealthView = other.GetComponent<HealthView>();
+        EnemyHealthView enemyhealthView = other.GetComponent<EnemyHealthView>();
 
         if(enemyhealthView && ! model.damagedTargets.Contains(other))
         {

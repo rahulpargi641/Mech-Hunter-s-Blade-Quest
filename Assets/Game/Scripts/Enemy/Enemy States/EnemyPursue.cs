@@ -15,13 +15,15 @@ public class EnemyPursue : EnemyState
 
     protected override void Enter()
     {
-        animator.SetTrigger("Run");
         base.Enter();
+
+        animator.SetTrigger("Run");
     }
 
     protected override void Update()
     {
-        //navMeshAgent.SetDestination(playerTransform.position);
+        base.Update();
+
         UpdatePath(playerTransform.position);
         if (navMeshAgent.hasPath) // means following the player       
         {

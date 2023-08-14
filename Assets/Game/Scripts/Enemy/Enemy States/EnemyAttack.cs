@@ -15,13 +15,16 @@ public class EnemyAttack : EnemyState
 
     protected override void Enter()
     {
+        base.Enter();
+
         Attack();
         //AudioService.Instance.PlayAttackSound
-        base.Enter();
     }
 
     protected override void Update()
     {
+        base.Update();
+
         if (enemyAIView.AttackAnimationEnded)
         {
             Attack();

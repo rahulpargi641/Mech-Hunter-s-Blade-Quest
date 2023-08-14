@@ -16,6 +16,8 @@ public class EnemyPatrol : EnemyState
 
     protected override void Enter()
     {
+        base.Enter();
+
         float lastDist = Mathf.Infinity;
         for (int i = 0; i < EnvironmentService.Instance.PatrolPoints.Count; i++)
         {
@@ -28,11 +30,11 @@ public class EnemyPatrol : EnemyState
             }
         }
         animator.SetTrigger("Run");
-        base.Enter();
     }
     protected override void Update()
     {
-        //base.Update();
+        base.Update();
+
         if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
         {
             if (currentIndex >= EnvironmentService.Instance.PatrolPoints.Count - 1)

@@ -2,18 +2,19 @@ using UnityEngine;
 
 public class EnemyHealthView : HealthView
 {
-    public override void ApplyDamage(int damage, Vector3 attackerPos = default)
+    public EnemyHealthController Controller { get; set; }
+
+    public void ApplyDamage(int damage, Vector3 attackerPos = new Vector3())
     {
-        base.ApplyDamage(damage, attackerPos);
-       
         EnemyVFXView enemyVFXView = GetComponent<EnemyVFXView>();
-        if(enemyVFXView)
+        if (enemyVFXView)
         {
             enemyVFXView.PlayBeingHitVFX(attackerPos);
             enemyVFXView.PlayBeingHitSplashVFX();
         }
+        DamageBlinkEffect();
 
-        DamageBlink();
+        Controller.ReduceHealth(damage);
     }
 }
 
