@@ -1,20 +1,24 @@
 using UnityEngine;
 
-public class Idle : State
+public class Idle : PlayerState
 {
     public Idle(PlayerView playerView, Animator animator) : base (playerView, animator)
     {
         state = EPlayerState.Idle;
+
+        stage = EStage.Enter;
     }
 
-    public override void Enter()
+    protected override void Enter()
     {
         animator.SetTrigger("Idle");
         base.Enter();
     }
 
-    public override void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (playerView.HorizontalInput != 0 || playerView.VerticalInput != 0)
         {
             nextState = new Run(playerView, animator);
@@ -28,7 +32,7 @@ public class Idle : State
         }
     }
 
-    public override void Exit()
+    protected override void Exit()
     {
         animator.ResetTrigger("Idle");
         base.Exit();

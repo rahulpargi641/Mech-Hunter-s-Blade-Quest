@@ -23,6 +23,8 @@ public class EnemyAttack : EnemyState
 
     protected override void Update()
     {
+        if (isPlayerDead) return;
+
         base.Update();
 
         if (enemyAIView.AttackAnimationEnded)
@@ -76,5 +78,6 @@ public class EnemyAttack : EnemyState
             return true;
         else
             return false;
+
     }
 }

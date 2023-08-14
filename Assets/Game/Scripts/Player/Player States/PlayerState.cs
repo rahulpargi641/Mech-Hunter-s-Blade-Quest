@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class State
+public class PlayerState
 {
     public enum EStage
     {
@@ -15,9 +16,11 @@ public class State
     public EPlayerState state;
     protected PlayerView playerView;
     protected Animator animator;
-    protected State nextState;
+    protected PlayerState nextState;
 
-    public State(PlayerView playerView, Animator animator)
+    bool isDead = false;
+
+    public PlayerState(PlayerView playerView, Animator animator)
     {
         this.playerView = playerView;
         this.animator = animator;
@@ -25,12 +28,28 @@ public class State
         stage = EStage.Enter;
     }
 
-    public virtual void Enter() { stage = EStage.Update; }
-    public virtual void Update() { stage = EStage.Update; }
-    public virtual void Exit() { stage = EStage.Exit; }
+    protected virtual void Enter() 
+    { 
+        stage = EStage.Update;
+
+        EventService.Instance.onPlayerDeathAction += PlayerDead;
+    }
+
+    protected virtual void Update() 
+    {
+        stage = EStage.Update;
+
+        if (isDead)
+        {
+            nextState = new Dead(playerView, animator);
+            stage = EStage.Exit;
+            return;
+        }
+    }
+    protected virtual void Exit() { stage = EStage.Exit; }
 
     // Get run from outside and progress state through each of the different stages
-    public State Process()
+    public PlayerState Process()
     {
         if (stage == EStage.Enter) Enter();
         if (stage == EStage.Update) Update();
@@ -40,5 +59,10 @@ public class State
             return nextState;
         }
         return this; // we keep returning the same state
+    }
+
+    private void PlayerDead()
+    {
+        isDead = true;
     }
 }

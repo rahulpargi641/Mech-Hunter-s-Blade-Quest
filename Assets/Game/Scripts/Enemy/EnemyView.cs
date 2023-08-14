@@ -9,6 +9,8 @@ public class EnemyView : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Transform playerTransform;
 
+    private DamageCasterView damageCaster;
+
     private EnemyState currentState;
 
     public bool AttackAnimationEnded { get; set; }
@@ -18,6 +20,7 @@ public class EnemyView : MonoBehaviour
         CharacterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        damageCaster = GetComponentInChildren<DamageCasterView>();
     }
 
     private void Start()
@@ -36,5 +39,15 @@ public class EnemyView : MonoBehaviour
     {
         AttackAnimationEnded = true;
         Debug.Log("AttackANimationEnded set to true");
+    }
+
+    public void EnableDamageCaster()
+    {
+        damageCaster.EnableDamageCaster();
+    }
+
+    public void DisableDamageCaster()
+    {
+        damageCaster.DisableDamageCaster();
     }
 }

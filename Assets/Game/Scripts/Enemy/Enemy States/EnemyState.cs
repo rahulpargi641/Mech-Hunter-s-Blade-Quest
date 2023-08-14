@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -27,7 +28,8 @@ public class EnemyState
     private float pathUpdateDelay = 0.2f;
     private float pathUpdateDeadline;
 
-    bool isDead = false;
+    private bool isEnemyDead = false;
+    public bool isPlayerDead = false;
 
     public EnemyState(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
     {
@@ -42,12 +44,14 @@ public class EnemyState
         stage = EStage.Update;
 
         EventService.Instance.onEnemyDeathAction += EnemyDead;
+        EventService.Instance.onPlayerDeathAction += PlayerDead;
     }
-    protected virtual void Update() 
-    { 
-        stage = EStage.Update; 
 
-        if(isDead)
+    protected virtual void Update() 
+    {
+        stage = EStage.Update;
+
+        if (isEnemyDead)
         {
             nextState = new EnemyDead(enemyAIView, navMeshAgent, animator, playerTransform);
             stage = EStage.Exit;
@@ -101,6 +105,11 @@ public class EnemyState
 
     void EnemyDead()
     {
-        isDead = true;
+        isEnemyDead = true;
+    }
+
+    private void PlayerDead()
+    {
+        isPlayerDead = true;
     }
 }

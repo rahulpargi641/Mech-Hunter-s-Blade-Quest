@@ -1,13 +1,14 @@
 using UnityEngine;
 
-public class Attack : State
+public class Attack : PlayerState
 {
     public Attack(PlayerView playerView, Animator animator) : base(playerView, animator)
     {
         state = EPlayerState.Attack;
+        stage = EStage.Enter;
     }
 
-    public override void Enter()
+    protected override void Enter()
     {
         animator.SetTrigger("Attack");
         playerView.AttackSlide();
@@ -20,8 +21,10 @@ public class Attack : State
         base.Enter();
     }
 
-    public override void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if(playerView.AttackAnimationEnded)
         {
             playerView.AttackAnimationEnded = false;
@@ -30,7 +33,7 @@ public class Attack : State
         }
     }
 
-    public override void Exit()
+    protected override void Exit()
     {
         animator.ResetTrigger("Attack");
         base.Exit();

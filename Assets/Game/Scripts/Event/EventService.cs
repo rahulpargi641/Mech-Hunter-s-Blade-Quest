@@ -13,7 +13,7 @@ public class EventService : MonoSingletonGeneric<EventService>
         onEnemyDeathAction?.Invoke();
     }
 
-    internal void InvokePlayerDeathAction()
+    public void InvokePlayerDeathAction()
     {
         onPlayerDeathAction?.Invoke();
     }

@@ -9,7 +9,7 @@ public class PlayerView : MonoBehaviour
 
     private DamageCasterView damageCaster;
 
-    private State currentState;
+    private PlayerState currentState;
     public bool AttackAnimationEnded { get; set; }
     public float HorizontalInput { get; private set; }
     public float VerticalInput { get; private set; }

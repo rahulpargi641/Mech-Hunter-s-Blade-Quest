@@ -18,4 +18,9 @@ public class EnemyDead : EnemyState
 
         animator.SetTrigger("Dead");
     }
+
+    protected override void Exit()
+    {
+        base.Exit();
+    }
 }

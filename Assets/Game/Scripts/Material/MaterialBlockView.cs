@@ -22,12 +22,13 @@ public class MaterialBlockView : MonoBehaviour
     }
     private void OnEnable()
     {
+        //EventService.Instance.onPlayerDeathAction += CharacterDissolve;
         EventService.Instance.onEnemyDeathAction += CharacterDissolve;
-
     }
 
     private void OnDisable()
     {
+        //EventService.Instance.onPlayerDeathAction -= CharacterDissolve;
         EventService.Instance.onEnemyDeathAction -= CharacterDissolve;
     }
 
@@ -69,5 +70,7 @@ public class MaterialBlockView : MonoBehaviour
 
             yield return null;
         }
+
+        gameObject.SetActive(false);
     }
 }
