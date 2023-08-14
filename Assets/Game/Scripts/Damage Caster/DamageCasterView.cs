@@ -18,7 +18,7 @@ public class DamageCasterView : MonoBehaviour
 
         if(enemyhealthView && ! model.damagedTargets.Contains(other))
         {
-            enemyhealthView.ApplyDamage(model.Damage);
+            enemyhealthView.ApplyDamage(model.Damage, transform.parent.position);
             PlayerVFXView playerVFXView = transform.parent.GetComponent<PlayerVFXView>();
             if(playerVFXView)
             {
