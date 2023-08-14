@@ -69,5 +69,7 @@ public class MaterialBlockView : MonoBehaviour
 
             yield return null;
         }
+
+        CollectibleService.Instance.DropItem(transform.position);
     }
 }

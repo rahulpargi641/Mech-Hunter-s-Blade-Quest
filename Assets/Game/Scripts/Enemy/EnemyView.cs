@@ -10,7 +10,6 @@ public class EnemyView : MonoBehaviour
     private Transform playerTransform;
 
     private EnemyState currentState;
-
     public bool AttackAnimationEnded { get; set; }
 
     private void Awake()
