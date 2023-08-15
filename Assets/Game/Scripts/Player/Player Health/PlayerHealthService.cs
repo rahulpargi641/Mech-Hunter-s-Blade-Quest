@@ -14,6 +14,11 @@ public class PlayerHealthService : MonoSingletonGeneric<PlayerHealthService>
         playerHealthController = new PlayerHealthController(healthModel, playerHealthView);
     }
 
+    public void AddHealth(int healthPoints)
+    {
+        playerHealthController.AddHealth(healthPoints);
+    }
+
     internal void PlayerDead()
     {
         EventService.Instance.InvokePlayerDeathAction();

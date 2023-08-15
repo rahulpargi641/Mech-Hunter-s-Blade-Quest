@@ -6,6 +6,7 @@ public class PlayerVFXView : MonoBehaviour
     [SerializeField] VisualEffect footStep;
     [SerializeField] ParticleSystem blade01;
     [SerializeField] VisualEffect slash;
+    [SerializeField] VisualEffect heal;
 
     public void UpdateFootStep(bool state)
     {
@@ -24,5 +25,10 @@ public class PlayerVFXView : MonoBehaviour
     {
         slash.transform.position = pos;
         slash.Play();
+    }
+
+    public void PlayHealVFX()
+    {
+        heal.Play();
     }
 }

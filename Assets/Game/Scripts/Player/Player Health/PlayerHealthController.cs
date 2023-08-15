@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerHealthController
@@ -27,5 +28,11 @@ public class PlayerHealthController
             PlayerService.Instance.AddHitImpact(attackerPos, 10f);
             Debug.Log("Player Health reduced to : " + model.CurrentHealth);
         }
+    }
+
+    internal void AddHealth(int healthPoints)
+    {
+        model.CurrentHealth += healthPoints;
+        Debug.Log("Health added");
     }
 }
