@@ -19,17 +19,8 @@ public class Idle : PlayerState
     {
         base.Update();
 
-        if (playerView.HorizontalInput != 0 || playerView.VerticalInput != 0)
-        {
-            nextState = new Run(playerView, animator);
-            stage = EStage.Exit;
-        }
-
-        if (playerView.MouseButtonDown)
-        {
-            nextState = new Attack(playerView, animator);
-            stage = EStage.Exit;
-        }
+        ProcessMovement();
+        ProcessAttacking();
     }
 
     protected override void Exit()

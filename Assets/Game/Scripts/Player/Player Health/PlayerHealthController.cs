@@ -25,5 +25,7 @@ public class PlayerHealthController
             PlayerHealthService.Instance.PlayerDead();
             Debug.Log("Player is Dead!");
         }
+        else
+            PlayerHealthService.Instance.PlayerHit();
     }
 }

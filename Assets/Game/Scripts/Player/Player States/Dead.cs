@@ -4,7 +4,7 @@ public class Dead : PlayerState
 {
     public Dead(PlayerView playerView, Animator animator) : base(playerView, animator)
     {
-        state = PlayerState.EPlayerState.Run;
+        state = EPlayerState.Dead;
         stage = EStage.Enter;
     }
     protected override void Enter()

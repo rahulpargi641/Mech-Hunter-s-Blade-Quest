@@ -18,4 +18,9 @@ public class PlayerHealthService : MonoSingletonGeneric<PlayerHealthService>
     {
         EventService.Instance.InvokePlayerDeathAction();
     }
+
+    public void PlayerHit()
+    {
+        EventService.Instance.InvokePlayerHitAction();
+    }
 }

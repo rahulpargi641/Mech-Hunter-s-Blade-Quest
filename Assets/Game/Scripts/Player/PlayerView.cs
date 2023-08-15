@@ -11,6 +11,7 @@ public class PlayerView : MonoBehaviour
 
     private PlayerState currentState;
     public bool AttackAnimationEnded { get; set; }
+    public bool BeingHitAnimationEnded { get; set; }
     public float HorizontalInput { get; private set; }
     public float VerticalInput { get; private set; }
     public bool MouseButtonDown { get; private set; }
@@ -37,6 +38,13 @@ public class PlayerView : MonoBehaviour
         currentState = currentState.Process();
     }
 
+    private void OnDisable()
+    {
+        MouseButtonDown = false;
+        HorizontalInput = 0;
+        VerticalInput = 0;
+    }
+
     private void ReadPlayerInput()
     {
         if (!MouseButtonDown && Time.timeScale != 0)
@@ -56,12 +64,18 @@ public class PlayerView : MonoBehaviour
         Controller.AttackSlide();
     }
 
+    // called via animation event
     public void AttackAnimationEnd()
     {
         AttackAnimationEnded = true;
         MouseButtonDown = false;
     }
 
+    // called via animation event
+    public void BeingHitAnimationEnd()
+    {
+        BeingHitAnimationEnded = true;
+    }
     public void EnableDamageCaster()
     {
         damageCaster.EnableDamageCaster();
@@ -70,12 +84,5 @@ public class PlayerView : MonoBehaviour
     public void DisableDamageCaster()
     {
         damageCaster.DisableDamageCaster();
-    }
-
-    private void OnDisable()
-    {
-        MouseButtonDown = false;
-        HorizontalInput = 0;
-        VerticalInput = 0;
     }
 }

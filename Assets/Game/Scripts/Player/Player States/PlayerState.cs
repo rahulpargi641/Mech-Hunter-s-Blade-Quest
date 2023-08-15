@@ -9,7 +9,7 @@ public class PlayerState
     };
     public enum EPlayerState
     {
-        Idle, Run, Attack
+        Idle, Run, Attack, BeingHit, Dead
     };
 
     protected EStage stage;
@@ -18,7 +18,8 @@ public class PlayerState
     protected Animator animator;
     protected PlayerState nextState;
 
-    bool isDead = false;
+    private bool isHit = false;
+    private bool isDead = false;
 
     public PlayerState(PlayerView playerView, Animator animator)
     {
@@ -29,15 +30,23 @@ public class PlayerState
     }
 
     protected virtual void Enter() 
-    { 
+    {
         stage = EStage.Update;
 
         EventService.Instance.onPlayerDeathAction += PlayerDead;
+        EventService.Instance.onPlayerHitAction += PlayerHit;
     }
 
     protected virtual void Update() 
     {
         stage = EStage.Update;
+
+        if(isHit)
+        {
+            nextState = new BeingHit(playerView, animator);
+            stage = EStage.Exit;
+            return;
+        }
 
         if (isDead)
         {
@@ -59,6 +68,29 @@ public class PlayerState
             return nextState;
         }
         return this; // we keep returning the same state
+    }
+
+    protected void ProcessAttacking()
+    {
+        if (playerView.MouseButtonDown)
+        {
+            nextState = new Attack(playerView, animator);
+            stage = EStage.Exit;
+        }
+    }
+
+    protected void ProcessMovement()
+    {
+        if (playerView.HorizontalInput != 0 || playerView.VerticalInput != 0)
+        {
+            nextState = new Run(playerView, animator);
+            stage = EStage.Exit;
+        }
+    }
+
+    private void PlayerHit()
+    {
+        isHit = true;
     }
 
     private void PlayerDead()

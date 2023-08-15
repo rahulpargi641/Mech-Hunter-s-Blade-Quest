@@ -38,7 +38,6 @@ public class EnemyView : MonoBehaviour
     public void AttackAnimationEnd()
     {
         AttackAnimationEnded = true;
-        Debug.Log("AttackANimationEnded set to true");
     }
 
     public void EnableDamageCaster()

@@ -10,7 +10,7 @@ public class EnemyState
     };
     public enum EState
     {
-        Idle, Patrol, Pursue, Attack
+        Idle, Patrol, Pursue, Attack, BeingHit, Dead
     };
 
     protected EState state;

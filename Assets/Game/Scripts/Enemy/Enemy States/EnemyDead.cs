@@ -8,7 +8,7 @@ public class EnemyDead : EnemyState
     public EnemyDead(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
           : base(enemyAIView, navMeshAgent, animator, playerTransform)
     {
-        state = EState.Idle;
+        state = EState.Dead;
         stage = EStage.Enter;
     }
 

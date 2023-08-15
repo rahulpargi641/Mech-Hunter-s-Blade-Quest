@@ -7,6 +7,7 @@ public class EventService : MonoSingletonGeneric<EventService>
 {
     public event Action onEnemyDeathAction;
     public event Action onPlayerDeathAction;
+    public event Action onPlayerHitAction;
 
     public void InvokeEnemyDeathAction()
     {
@@ -16,5 +17,10 @@ public class EventService : MonoSingletonGeneric<EventService>
     public void InvokePlayerDeathAction()
     {
         onPlayerDeathAction?.Invoke();
+    }
+
+    public void InvokePlayerHitAction()
+    {
+        onPlayerHitAction?.Invoke();
     }
 }

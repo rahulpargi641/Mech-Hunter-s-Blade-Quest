@@ -10,6 +10,8 @@ public class Attack : PlayerState
 
     protected override void Enter()
     {
+        base.Enter();
+
         animator.SetTrigger("Attack");
         playerView.AttackSlide();
 
@@ -18,7 +20,6 @@ public class Attack : PlayerState
             damageCaster.DisableDamageCaster();
 
         //AudioService.Instance.PlayAttackSound
-        base.Enter();
     }
 
     protected override void Update()
