@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BeingHit : PlayerState
@@ -28,7 +26,10 @@ public class BeingHit : PlayerState
             ProcessAttacking();
             playerView.BeingHitAnimationEnded = false;
         }
+        else
+            PlayerService.Instance.ProcessHitImpact();
     }
+
 
     protected override void Exit()
     {

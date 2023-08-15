@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHealthController
@@ -16,16 +13,19 @@ public class PlayerHealthController
         view.Controller = this;
     }
 
-    internal void ReduceHealth(int damage)
+    internal void ApplyDamage(int damage, Vector3 attackerPos)
     {
-        model.CurrentHealth -= damage;
-        Debug.Log("Player Health reduced to : " + model.CurrentHealth);
         if (model.CurrentHealth <= 0)
         {
             PlayerHealthService.Instance.PlayerDead();
             Debug.Log("Player is Dead!");
         }
         else
+        {
+            model.CurrentHealth -= damage;
             PlayerHealthService.Instance.PlayerHit();
+            PlayerService.Instance.AddHitImpact(attackerPos, 10f);
+            Debug.Log("Player Health reduced to : " + model.CurrentHealth);
+        }
     }
 }

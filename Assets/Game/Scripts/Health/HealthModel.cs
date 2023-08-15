@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public class HealthModel
 {
     public int MaxHealth { get; private set; }

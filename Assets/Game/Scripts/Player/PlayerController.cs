@@ -67,4 +67,26 @@ public class PlayerController
             model.MovementVelocity = Vector3.Lerp(view.transform.forward * model.AttackSlideSpeed, Vector3.zero, lerpTime);
         }
     }
+
+    public void AddHitImpact(Vector3 attackerPos, float force)
+    {
+        Vector3 impactDir = view.transform.position - attackerPos;
+        impactDir.Normalize();
+        impactDir.y = 0;
+        model.impactOnCharacter = impactDir * force;
+
+        Debug.Log("Hit Impact added: " + model.impactOnCharacter.magnitude);
+    }
+
+    public void ProcessHitImpact()
+    {
+        if(model.impactOnCharacter.magnitude > 0.2f)
+        {
+            model.MovementVelocity = model.impactOnCharacter * Time.deltaTime;
+            view.CharacterController.Move(model.MovementVelocity);
+
+            Debug.Log("Player Movement Velocity" + model.MovementVelocity);
+        }
+        model.impactOnCharacter = Vector3.Lerp(model.impactOnCharacter, Vector3.zero, Time.deltaTime * 5);
+    }
 }

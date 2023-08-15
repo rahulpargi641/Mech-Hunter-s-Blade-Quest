@@ -15,6 +15,6 @@ public class PlayerHealthView : HealthView
         }
         DamageBlinkEffect();
 
-        Controller.ReduceHealth(damage);
+        Controller.ApplyDamage(damage, attackerPos);
     }
 }

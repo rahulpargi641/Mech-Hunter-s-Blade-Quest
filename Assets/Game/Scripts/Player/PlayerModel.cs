@@ -7,6 +7,7 @@ public class PlayerModel
     public float VerticalVelocity { get; set; }
 
     public Vector3 MovementVelocity;
+    public Vector3 impactOnCharacter { get; set; }
 
     // Player Sliding
     public float AttackStartTime;
@@ -17,5 +18,7 @@ public class PlayerModel
     {
         MoveSpeed = 5f;
         Gravity = -20f;
+        //MovementVelocity = new Vector3();
+        impactOnCharacter = new Vector3();
     }
 }
