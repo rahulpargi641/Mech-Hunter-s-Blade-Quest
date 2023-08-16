@@ -5,22 +5,37 @@ public class Idle : PlayerState
     public Idle(PlayerView playerView, Animator animator) : base (playerView, animator)
     {
         state = EPlayerState.Idle;
-
         stage = EStage.Enter;
     }
 
     protected override void Enter()
     {
-        animator.SetTrigger("Idle");
         base.Enter();
+
+        animator.SetTrigger("Idle");
     }
 
     protected override void Update()
     {
         base.Update();
 
-        ProcessMovement();
-        ProcessAttacking();
+        if (CanRoll())
+        {
+            nextState = new Roll(playerView, animator);
+            stage = EStage.Exit;
+        }
+
+        if (CanRun())
+        {
+            nextState = new Run(playerView, animator);
+            stage = EStage.Exit;
+        }
+
+        if(CanAttack())
+        {
+            nextState = new Attack(playerView, animator);
+            stage = EStage.Exit;
+        }
     }
 
     protected override void Exit()

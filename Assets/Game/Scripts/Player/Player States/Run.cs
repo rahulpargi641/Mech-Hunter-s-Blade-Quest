@@ -1,19 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Run : PlayerState
 {
     public Run(PlayerView playerView, Animator animator) : base(playerView, animator)
     {
-        state = PlayerState.EPlayerState.Run;
+        state = EPlayerState.Run;
         stage = EStage.Enter;
     }
 
     protected override void Enter()
     {
-        animator.SetTrigger("Run");
         base.Enter();
+
+        animator.SetTrigger("Run");
     }
 
     protected override void Update()
@@ -22,9 +21,21 @@ public class Run : PlayerState
 
         playerView.Run();
 
-        if (playerView.HorizontalInput == 0 && playerView.VerticalInput == 0)
+        if (! CanRun())
         {
             nextState = new Idle(playerView, animator);
+            stage = EStage.Exit;
+        }
+
+        if (CanRoll())
+        {
+            nextState = new Roll(playerView, animator);
+            stage = EStage.Exit;
+        }
+
+        if (CanAttack())
+        {
+            nextState = new Attack(playerView, animator);
             stage = EStage.Exit;
         }
     }

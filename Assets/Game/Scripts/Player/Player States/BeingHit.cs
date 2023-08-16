@@ -13,23 +13,29 @@ public class BeingHit : PlayerState
         base.Enter();
 
         animator.SetTrigger("BeingHit");
+        playerView.BeingHitAnimationEnded = false;
     }
 
     protected override void Update()
     {
         base.Update();
 
+        PlayerService.Instance.HitImpactOnPlayer();
+
         if (playerView.BeingHitAnimationEnded)
         {
-            Debug.Log("Value of Being Hit inside" + playerView.BeingHitAnimationEnded);
-            ProcessMovement();
-            ProcessAttacking();
-            playerView.BeingHitAnimationEnded = false;
+            if(CanRun())
+            {
+                nextState = new Run(playerView, animator);
+                stage = EStage.Exit;
+            }
+            if(CanAttack())
+            {
+                nextState = new Attack(playerView, animator);
+                stage = EStage.Exit;
+            }
         }
-        else
-            PlayerService.Instance.ProcessHitImpact();
     }
-
 
     protected override void Exit()
     {

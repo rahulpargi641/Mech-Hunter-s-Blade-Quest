@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHealthService : MonoSingletonGeneric<PlayerHealthService>
@@ -14,18 +11,18 @@ public class PlayerHealthService : MonoSingletonGeneric<PlayerHealthService>
         playerHealthController = new PlayerHealthController(healthModel, playerHealthView);
     }
 
+    public void ApplyDamage(int damage)
+    {
+        playerHealthController.ApplyDamage(damage);
+    }
+
     public void AddHealth(int healthPoints)
     {
         playerHealthController.AddHealth(healthPoints);
     }
 
-    internal void PlayerDead()
+    internal void InvokePlayerDeath()
     {
         EventService.Instance.InvokePlayerDeathAction();
-    }
-
-    public void PlayerHit()
-    {
-        EventService.Instance.InvokePlayerHitAction();
     }
 }

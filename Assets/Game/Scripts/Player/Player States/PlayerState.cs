@@ -9,7 +9,7 @@ public class PlayerState
     };
     public enum EPlayerState
     {
-        Idle, Run, Attack, BeingHit, Dead
+        Idle, Run, Attack, BeingHit, Roll, Dead
     };
 
     protected EStage stage;
@@ -41,16 +41,16 @@ public class PlayerState
     {
         stage = EStage.Update;
 
-        if(isHit)
+        if (isDead)
         {
-            nextState = new BeingHit(playerView, animator);
+            nextState = new Dead(playerView, animator);
             stage = EStage.Exit;
             return;
         }
 
-        if (isDead)
+        if (isHit)
         {
-            nextState = new Dead(playerView, animator);
+            nextState = new BeingHit(playerView, animator);
             stage = EStage.Exit;
             return;
         }
@@ -70,22 +70,29 @@ public class PlayerState
         return this; // we keep returning the same state
     }
 
-    protected void ProcessAttacking()
+    protected bool CanAttack()
     {
         if (playerView.MouseButtonDown)
-        {
-            nextState = new Attack(playerView, animator);
-            stage = EStage.Exit;
-        }
+            return true;
+        else
+            return false;
+
     }
 
-    protected void ProcessMovement()
+    protected bool CanRun()
     {
         if (playerView.HorizontalInput != 0 || playerView.VerticalInput != 0)
-        {
-            nextState = new Run(playerView, animator);
-            stage = EStage.Exit;
-        }
+            return true;
+        else
+            return false;
+    }
+
+    protected bool CanRoll()
+    {
+        if (playerView.SpaceKeyDown)
+            return true;
+        else
+            return false;
     }
 
     private void PlayerHit()

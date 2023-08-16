@@ -17,7 +17,7 @@ public class PlayerDamageCaster : DamageCasterView
                 DrawBox(out hit, out isHit);
 
                 if (isHit)
-                    playerVFXView.PlaySlash(hit.point + new Vector3(0f, 0.5f, 0f));
+                    playerVFXView.PlaySlashVFX(hit.point + new Vector3(0f, 0.5f, 0f));
             }
 
         }

@@ -1,28 +1,27 @@
 using UnityEngine;
 
-public class Running : StateMachineBehaviour
+public class PlayerRun : StateMachineBehaviour
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (animator.GetComponent<PlayerVFXView>() != null)
-            animator.GetComponent<PlayerVFXView>().UpdateFootStep(true);
+        PlayerVFXView playerVFXView = animator.GetComponent<PlayerVFXView>();
+        if (playerVFXView)
+            playerVFXView.UpdateFootStep(true);
     }
 
-    ////OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+    //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
+
     //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-    //    PlayerVFXView playerVFXView = animator.GetComponent<PlayerVFXView>();
-    //    if (playerVFXView)
-    //        playerVFXView.UpdateFootStep(false);
-
-        if (animator.GetComponent<PlayerVFXView>() != null)
-            animator.GetComponent<PlayerVFXView>().UpdateFootStep(false);
+        PlayerVFXView playerVFXView = animator.GetComponent<PlayerVFXView>();
+        if (playerVFXView)
+            playerVFXView.UpdateFootStep(false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

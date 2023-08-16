@@ -18,7 +18,7 @@ public class PlayerService : MonoSingletonGeneric<PlayerService>
         playerController.AddHitImpact(attackerPos, force);
     }
 
-    public void ProcessHitImpact()
+    public void HitImpactOnPlayer()
     {
         playerController.ProcessHitImpact();
     }

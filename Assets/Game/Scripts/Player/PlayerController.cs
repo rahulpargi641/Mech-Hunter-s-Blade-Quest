@@ -55,38 +55,21 @@ public class PlayerController
         //view.Animator.SetFloat("Speed", model.MovementVelocity.magnitude);
     }
 
-    internal void AttackSlide()
-    {
-        model.MovementVelocity = Vector3.zero; // might have value from last frame
-
-
-        if (Time.time < model.AttackStartTime + model.AttackSlideDuration)
-        {
-            float timePassed = Time.time - model.AttackStartTime;
-            float lerpTime = timePassed / model.AttackSlideDuration;
-            model.MovementVelocity = Vector3.Lerp(view.transform.forward * model.AttackSlideSpeed, Vector3.zero, lerpTime);
-        }
-    }
-
     public void AddHitImpact(Vector3 attackerPos, float force)
     {
         Vector3 impactDir = view.transform.position - attackerPos;
         impactDir.Normalize();
         impactDir.y = 0;
-        model.impactOnCharacter = impactDir * force;
-
-        Debug.Log("Hit Impact added: " + model.impactOnCharacter.magnitude);
+        model.ImpactOnCharacter = impactDir * force;
     }
 
     public void ProcessHitImpact()
     {
-        if(model.impactOnCharacter.magnitude > 0.2f)
+        if(model.ImpactOnCharacter.magnitude > model.ImpactMagnitude)
         {
-            model.MovementVelocity = model.impactOnCharacter * Time.deltaTime;
+            model.MovementVelocity = model.ImpactOnCharacter * Time.deltaTime;
             view.CharacterController.Move(model.MovementVelocity);
-
-            Debug.Log("Player Movement Velocity" + model.MovementVelocity);
         }
-        model.impactOnCharacter = Vector3.Lerp(model.impactOnCharacter, Vector3.zero, Time.deltaTime * 5);
+        model.ImpactOnCharacter = Vector3.Lerp(model.ImpactOnCharacter, Vector3.zero, Time.deltaTime * 5);
     }
 }
