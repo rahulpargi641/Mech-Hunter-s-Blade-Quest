@@ -9,7 +9,7 @@ public class HealthModel
 
     public HealthModel()
     {
-        MaxHealth = 1000;
+        MaxHealth = 100;
         CurrentHealth = MaxHealth;
     }
 }

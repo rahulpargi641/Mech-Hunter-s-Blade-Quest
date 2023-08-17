@@ -23,7 +23,8 @@ public class EnemyView : MonoBehaviour
     private void Start()
     {
         playerTransform = FindAnyObjectByType<PlayerView>().transform;
-        currentState = new EnemyIdle(this, navMeshAgent, animator, playerTransform);
+        currentState = new EnemySpawning(this, navMeshAgent, animator, playerTransform);
+        //currentState = new EnemyIdle(this, navMeshAgent, animator, playerTransform);
         //navMeshAgent.speed = MoveSpeed = 5;
     }
 
