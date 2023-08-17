@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Roll : PlayerState
 {
-    private float slideSpeed = 9f;
+    private float slideSpeed = 7f;
     public Roll(PlayerView playerView, Animator animator) : base(playerView, animator)
     {
         state = EPlayerState.Run;

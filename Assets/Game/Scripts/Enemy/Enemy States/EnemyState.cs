@@ -23,7 +23,8 @@ public class EnemyState
 
     private float visibleDist = 8.0f; // 10f
     private float visibleAngle = 80.0f; // 30f
-    private float attackDist = 2.2f; // 7f
+                                        // private float attackDist = 2.2f; // 6f
+    private float attackDist = 6f;
 
     private float pathUpdateDelay = 0.2f;
     private float pathUpdateDeadline;

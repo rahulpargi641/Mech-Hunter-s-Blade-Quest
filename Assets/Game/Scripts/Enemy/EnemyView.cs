@@ -8,9 +8,7 @@ public class EnemyView : MonoBehaviour
     private Animator animator;
     private NavMeshAgent navMeshAgent;
     private Transform playerTransform;
-
     private DamageCasterView damageCaster;
-
     private EnemyState currentState;
     public bool AttackAnimationEnded { get; set; }
 
