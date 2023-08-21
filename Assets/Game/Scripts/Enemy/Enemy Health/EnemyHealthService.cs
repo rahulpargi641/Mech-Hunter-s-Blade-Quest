@@ -2,17 +2,28 @@ using UnityEngine;
 
 public class EnemyHealthService : MonoSingletonGeneric<EnemyHealthService>
 {
-    [SerializeField] EnemyHealthView enemyHealthView;
+    private EnemyHealthView enemyHealthView;
     private EnemyHealthController enemyHealthController;
 
-    void Start()
+    private void Start()
     {
+        EventService.Instance.onEnemySpawned += CreateHealthComponent;
+    }
+
+    private void OnDisable()
+    {
+        EventService.Instance.onEnemySpawned -= CreateHealthComponent;
+    }
+
+    private void CreateHealthComponent()
+    {
+        enemyHealthView = FindAnyObjectByType<EnemyHealthView>();
         HealthModel healthModel = new HealthModel();
         enemyHealthController = new EnemyHealthController(healthModel, enemyHealthView);
     }
 
-    internal void EnemyDead()
+    internal void EnemyDead(EnemyView enemyView)
     {
-        EventService.Instance.InvokeEnemyDeathAction();
+        EventService.Instance.InvokeEnemyDeathAction(enemyView);
     }
 }

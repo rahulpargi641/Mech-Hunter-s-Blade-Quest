@@ -14,13 +14,14 @@ public class EnemyHealthController
         view.Controller = this;
     }
 
-    internal void ReduceHealth(int damage)
+    internal void ReduceHealth(EnemyView enemyView, int damage)
     {
         model.CurrentHealth -= damage;
         Debug.Log("Enemy Health reduced to : " + model.CurrentHealth);
         if(model.CurrentHealth <= 0)
-        {
-            EnemyHealthService.Instance.EnemyDead();
+        { 
+            EnemyHealthService.Instance.EnemyDead(enemyView);
+            
             Debug.Log("Enemy is Dead!");
         }
     }

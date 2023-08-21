@@ -46,7 +46,7 @@ public class MaterialBlockView : MonoBehaviour
         skinnedMeshRenderer.SetPropertyBlock(materialPropertyBlock);
     }
 
-    private void CharacterDissolve()
+    private void CharacterDissolve(EnemyView enemyView)
     {
         if(gameObject.GetComponent<EnemyView>())
         StartCoroutine(MaterialDissolve());

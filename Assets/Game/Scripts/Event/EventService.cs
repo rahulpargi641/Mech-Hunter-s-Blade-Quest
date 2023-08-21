@@ -5,13 +5,24 @@ using UnityEngine;
 
 public class EventService : MonoSingletonGeneric<EventService>
 {
-    public event Action onEnemyDeathAction;
+    public event Action onEnemySpawned;
+    public event Action<EnemyView> onEnemyDeathAction;
+    public event Action onAllEnemiesDeadAction;
     public event Action onPlayerDeathAction;
     public event Action onPlayerHitAction;
 
-    public void InvokeEnemyDeathAction()
+    private void Awake()
     {
-        onEnemyDeathAction?.Invoke();
+        base.Awake();
+    }
+    public void InvokeEnemySpawnedAction()
+    {
+        onEnemySpawned?.Invoke();
+    }
+
+    public void InvokeEnemyDeathAction(EnemyView enemyView)
+    {
+        onEnemyDeathAction?.Invoke(enemyView);
     }
 
     public void InvokePlayerDeathAction()
@@ -22,5 +33,10 @@ public class EventService : MonoSingletonGeneric<EventService>
     public void InvokePlayerHitAction()
     {
         onPlayerHitAction?.Invoke();
+    }
+
+    public void InvokeAllEnemiesDeadAction()
+    {
+        onAllEnemiesDeadAction?.Invoke();
     }
 }

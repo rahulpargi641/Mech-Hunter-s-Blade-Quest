@@ -14,7 +14,8 @@ public class EnemyHealthView : HealthView
         }
         DamageBlinkEffect();
 
-        Controller.ReduceHealth(damage);
+        EnemyView enemyView = GetComponent<EnemyView>();
+        Controller.ReduceHealth(enemyView, damage);
     }
 }
 

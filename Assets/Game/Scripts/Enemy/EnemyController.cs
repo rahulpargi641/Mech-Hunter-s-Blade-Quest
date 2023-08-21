@@ -13,6 +13,19 @@ public class EnemyController
         view.Controller = this;
     }
 
+    public void EnemyDead()
+    {
+        model.IsDead = true;
+    }
+
+    public bool IsDead()
+    {
+        if (model.IsDead)
+            return true;
+        else
+            return false;
+    }
+
     //public void EnemyMovement()
     //{
     //    float distanceToPlayer = Vector3.Distance(view.playerTransform.position, view.transform.position);

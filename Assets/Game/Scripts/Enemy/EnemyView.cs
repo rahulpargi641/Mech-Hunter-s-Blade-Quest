@@ -47,4 +47,9 @@ public class EnemyView : MonoBehaviour
     {
         damageCaster.DisableDamageCaster();
     }
+
+    public void EnemyDead()
+    {
+        Controller.EnemyDead();
+    }
 }

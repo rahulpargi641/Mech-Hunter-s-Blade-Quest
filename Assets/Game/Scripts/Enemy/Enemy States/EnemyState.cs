@@ -104,7 +104,7 @@ public class EnemyState
             return false;
     }
 
-    void EnemyDead()
+    void EnemyDead(EnemyView enemyView)
     {
         isEnemyDead = true;
     }
