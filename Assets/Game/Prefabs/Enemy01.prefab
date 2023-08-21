@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b620e75ba76b344b90720607407c29a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
+  damage: 10
 --- !u!1 &4853082171859999126
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,7 +1246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6572561595865496318, guid: c2792d034b3f4154281cad9326455974, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6572561595865496319, guid: c2792d034b3f4154281cad9326455974, type: 3}
       propertyPath: m_InitialEventName
@@ -1329,7 +1329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3744957851513120301, guid: 5032253f50fbf924285917747193c530, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3744957851513120303, guid: 5032253f50fbf924285917747193c530, type: 3}
       propertyPath: m_Name

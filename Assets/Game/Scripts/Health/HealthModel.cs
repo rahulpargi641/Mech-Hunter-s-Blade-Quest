@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class HealthModel
@@ -7,6 +6,11 @@ public class HealthModel
 
     public int CurrentHealth { get; set; }
 
+    public float CurrentHealthPercent 
+    {
+        get { return CurrentHealth / (float)MaxHealth; }
+    }
+     
     public HealthModel()
     {
         MaxHealth = 100;
