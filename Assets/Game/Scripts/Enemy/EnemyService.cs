@@ -16,9 +16,6 @@ public class EnemyService : MonoBehaviour
         spawnPointList = new List<SpawnPoint>(spawnPointArray);
 
         enemyControllers = new List<EnemyController>();
-        //spawnedEnemies = new List<EnemyView>();
-
-        //SpawnEnemies();
     }
 
     private void Start()
@@ -77,7 +74,7 @@ public class EnemyService : MonoBehaviour
             if(spawnPoint.EnemyPrefab)
             {
                 EnemyModel enemyModel = new();
-                EnemyView enemyView = Instantiate(spawnPoint.EnemyPrefab, spawnPoint.transform.position, Quaternion.identity);
+                EnemyView enemyView = Instantiate(spawnPoint.EnemyPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
                 Debug.Log("Enemy Spawned." + enemyView.gameObject.name);
                 enemyControllers.Add(new EnemyController(enemyModel, enemyView));
                 EventService.Instance.InvokeEnemySpawnedAction();

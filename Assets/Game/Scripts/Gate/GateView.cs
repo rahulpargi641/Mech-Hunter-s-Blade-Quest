@@ -46,7 +46,6 @@ public class GateView : MonoBehaviour
             gateVisual.transform.position = Vector3.Lerp(startPos, targetPos, currentOpen_Duration / model.OpenDuration);
             yield return null;
         }
+        gateCollider.gameObject.SetActive(false);
     }
-
-   
 }
