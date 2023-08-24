@@ -19,11 +19,13 @@ public class GameService : MonoSingletonGeneric<GameService>
         if(controller.IsGameOver())
         {
             Debug.Log("Game Over");
+            GameUIService.Instance.ShowGameOverUI();
         }
 
         if(controller.IsGameFinished())
         {
             Debug.Log("Game Finished");
+            GameUIService.Instance.ShowGameFinishedUI();
         }
     }
 

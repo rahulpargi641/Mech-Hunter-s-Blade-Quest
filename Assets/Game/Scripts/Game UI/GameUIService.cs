@@ -11,4 +11,15 @@ public class GameUIService : MonoSingletonGeneric<GameUIService>
         GameUIModel model = new GameUIModel();
         gameUIController = new GameUIController(model, gameUIView);
     }
+
+    public void ShowGameOverUI()
+    {
+        gameUIController.ShowGameOverUI();
+    }
+
+    public void ShowGameFinishedUI()
+    {
+        gameUIController.ShowGameFinishedUI();
+    }
+
 }

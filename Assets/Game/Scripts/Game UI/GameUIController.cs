@@ -24,4 +24,14 @@ public class GameUIController
     {
         return model.CurrentState;
     }
+
+    public void ShowGameOverUI()
+    {
+        view.ShowGameOverUI();
+    }
+
+    public void ShowGameFinishedUI()
+    {
+        view.ShowGameOverUI();
+    }
 }

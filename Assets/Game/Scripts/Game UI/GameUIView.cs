@@ -26,6 +26,36 @@ public class GameUIView : MonoBehaviour
         }
     }
 
+    public void TogglePauseState()
+    {
+        GameUI_State currentState = Controller.GetCurrentState();
+
+        if (currentState == GameUI_State.GamePlay)
+            SwitchUIState(GameUI_State.Pause);
+        else if (currentState == GameUI_State.Pause)
+            SwitchUIState(GameUI_State.GamePlay);
+    }
+
+    public void Button_MainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Button_Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ShowGameOverUI()
+    {
+        SwitchUIState(GameUI_State.GameOver);
+    }
+
+    public void ShowGameFinishedUI()
+    {
+        SwitchUIState(GameUI_State.GameFinished);
+    }
 
     public void SwitchUIState(GameUI_State state)
     {
@@ -53,26 +83,6 @@ public class GameUIView : MonoBehaviour
 
         Controller.SetCurrentState(state);
 
-    }
-
-    public void TogglePauseState()
-    {
-        GameUI_State currentState = Controller.GetCurrentState();
-
-        if (currentState == GameUI_State.GamePlay)
-            SwitchUIState(GameUI_State.Pause);
-        else if (currentState == GameUI_State.Pause)
-            SwitchUIState(GameUI_State.GamePlay);
-    }
-
-    public void Button_MainMenu()
-    {
-
-    }
-
-    public void Button_Restart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }
