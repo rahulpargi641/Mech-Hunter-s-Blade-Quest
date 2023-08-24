@@ -1,21 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameUIService : MonoSingletonGeneric<GameUIService>
 {
-    private GameUIController Controller;
+    [SerializeField] GameUIView gameUIView;
+    private GameUIController gameUIController;
 
     // Start is called before the first frame update
     void Start()
     {
         GameUIModel model = new GameUIModel();
-        Controller = new GameUIController(model);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        gameUIController = new GameUIController(model, gameUIView);
     }
 }

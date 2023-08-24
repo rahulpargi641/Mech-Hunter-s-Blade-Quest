@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameService : MonoSingletonGeneric<GameService>
 {
     private GameController controller;
 
-    // Start is called before the first frame update
     void Start()
     {
         GameModel model = new GameModel();
