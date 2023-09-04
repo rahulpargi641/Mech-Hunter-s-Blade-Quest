@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 
-public class LobbyView : MonoBehaviour
+public class MainMenyView : MonoBehaviour
 {
     public void Button_Start()
     {
