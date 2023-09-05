@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +5,6 @@ public class EnemySpawning : EnemyState
 {
     private float spawnDuration = 3f;
     private float currentSpawnTime;
-
 
     public EnemySpawning(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
            : base(enemyAIView, navMeshAgent, animator, playerTransform)
@@ -43,6 +40,4 @@ public class EnemySpawning : EnemyState
         animator.ResetTrigger("Idle");
         base.Exit();
     }
-
-  
 }

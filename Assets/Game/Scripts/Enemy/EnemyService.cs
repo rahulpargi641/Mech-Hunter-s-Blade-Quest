@@ -1,19 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyService : MonoBehaviour
+public class EnemyService : MonoSingletonGeneric<EnemyService>
 {
-    [SerializeField] BoxCollider boxCollider;
-    private List<SpawnPoint> spawnPointList;
-    //private List<EnemyView> spawnedEnemies;
+    //[SerializeField] BoxCollider boxCollider;
+    private List<EnemySpawner> spawnPointList;
     private List<EnemyController> enemyControllers;
 
     private bool areEnemiesSpawned = false;
 
-    void Awake()
+    protected override void Awake()
     {
-        var spawnPointArray = transform.parent.GetComponentsInChildren<SpawnPoint>();
-        spawnPointList = new List<SpawnPoint>(spawnPointArray);
+        base.Awake();
+
+        //var spawnPointArray = transform.parent.GetComponentsInChildren<SpawnPoint>();
+        //spawnPointList = new List<SpawnPoint>(spawnPointArray);
 
         enemyControllers = new List<EnemyController>();
     }
@@ -36,19 +37,19 @@ public class EnemyService : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<PlayerView>())
-        {
-            SpawnEnemies();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.GetComponent<PlayerView>())
+    //    {
+    //        SpawnEnemies();
+    //    }
+    //}
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(boxCollider.transform.position, boxCollider.bounds.size);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawCube(boxCollider.transform.position, boxCollider.bounds.size);
+    //}
 
     private bool AllEnemiesDead()
     {
@@ -63,23 +64,28 @@ public class EnemyService : MonoBehaviour
         return allEnemiesDead;
     }
 
-    public void SpawnEnemies()
+    //public void SpawnEnemies()
+    //{
+    //    if (areEnemiesSpawned) return;
+
+    //    areEnemiesSpawned = true;
+
+    //    foreach (SpawnPoint spawnPoint in spawnPointList)
+    //    {
+    //        if(spawnPoint.EnemyPrefab)
+    //        {
+    //            EnemyModel enemyModel = new();
+    //            EnemyView enemyView = Instantiate(spawnPoint.EnemyPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+    //            Debug.Log("Enemy Spawned." + enemyView.gameObject.name);
+    //            enemyControllers.Add(new EnemyController(enemyModel, enemyView));
+    //            EventService.Instance.InvokeEnemySpawnedAction();
+    //        }
+    //    }
+    //}
+
+    public void AddEnemyController(EnemyModel model, EnemyView view)
     {
-        if (areEnemiesSpawned) return;
-
-        areEnemiesSpawned = true;
-
-        foreach (SpawnPoint spawnPoint in spawnPointList)
-        {
-            if(spawnPoint.EnemyPrefab)
-            {
-                EnemyModel enemyModel = new();
-                EnemyView enemyView = Instantiate(spawnPoint.EnemyPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
-                Debug.Log("Enemy Spawned." + enemyView.gameObject.name);
-                enemyControllers.Add(new EnemyController(enemyModel, enemyView));
-                EventService.Instance.InvokeEnemySpawnedAction();
-            }
-        }
+        enemyControllers.Add(new EnemyController(model, view));
     }
 
     public void EnemyDead(EnemyView enemyView)
