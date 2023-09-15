@@ -19,13 +19,12 @@ public class GateView : MonoBehaviour
 
     private void Start()
     {
-        EventService.Instance.onAllEnemiesDeadAction += OpenGate;
+        EventService.Instance.onCurrentEnemyGroupDeadAction += OpenGate;
     }
 
     private void OnDisable()
     {
-        EventService.Instance.onAllEnemiesDeadAction -= OpenGate;
-
+        EventService.Instance.onCurrentEnemyGroupDeadAction -= OpenGate;
     }
 
     private void OpenGate()

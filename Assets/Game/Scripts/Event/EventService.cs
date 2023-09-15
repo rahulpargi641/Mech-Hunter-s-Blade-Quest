@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class EventService : MonoSingletonGeneric<EventService>
 {
-    public event Action onEnemySpawned;
+    //public event Action<EnemyView> onEnemySpawned;
     public event Action<EnemyView> onEnemyDeathAction;
     public event Action onAllEnemiesDeadAction;
+    public event Action onCurrentEnemyGroupDeadAction;
     public event Action onPlayerDeathAction;
     public event Action onPlayerHitAction;
 
@@ -15,10 +16,10 @@ public class EventService : MonoSingletonGeneric<EventService>
     {
         base.Awake();
     }
-    public void InvokeEnemySpawnedAction()
-    {
-        onEnemySpawned?.Invoke();
-    }
+    //public void InvokeEnemySpawnedAction(EnemyView enemyView)
+    //{
+    //    onEnemySpawned?.Invoke(enemyView);
+    //}
 
     public void InvokeEnemyDeathAction(EnemyView enemyView)
     {
@@ -38,5 +39,10 @@ public class EventService : MonoSingletonGeneric<EventService>
     public void InvokeAllEnemiesDeadAction()
     {
         onAllEnemiesDeadAction?.Invoke();
+    }
+
+    public void InvokeCurrentEnemyGroupDeadAction()
+    {
+        onCurrentEnemyGroupDeadAction?.Invoke();
     }
 }

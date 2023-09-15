@@ -8,6 +8,8 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
     private List<EnemyController> enemyControllers;
 
     private bool areEnemiesSpawned = false;
+    private int TotalEnemies = 9;
+    private int deadEnemies;
 
     protected override void Awake()
     {
@@ -21,7 +23,7 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
 
     private void Start()
     {
-        EventService.Instance.onEnemyDeathAction += EnemyDead;
+        EventService.Instance.onEnemyDeathAction += EnemyDead;        
     }
 
     private void Update()
@@ -29,12 +31,20 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
         if (enemyControllers.Count == 0)
             return;
 
-        if(AllEnemiesDead())
+        if(CurrentEnemyGroupDead())
         {
-            EventService.Instance.InvokeAllEnemiesDeadAction();
+            EventService.Instance.InvokeCurrentEnemyGroupDeadAction();
             enemyControllers.Clear();
-            Debug.Log("All Enemies dead");
+            Debug.Log("Current Enemy Group dead");
         }
+
+        AllEnemiesDead();
+    }
+
+    private void AllEnemiesDead()
+    {
+        if(deadEnemies == TotalEnemies)
+            EventService.Instance.InvokeAllEnemiesDeadAction();
     }
 
     //private void OnTriggerEnter(Collider other)
@@ -51,18 +61,21 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
     //    Gizmos.DrawCube(boxCollider.transform.position, boxCollider.bounds.size);
     //}
 
-    private bool AllEnemiesDead()
+    private bool CurrentEnemyGroupDead()
     {
-        bool allEnemiesDead = true;
+        bool currentEnemyGroupDead = true;
         foreach (EnemyController enemyController in enemyControllers)
         {
             if (!enemyController.IsDead())
             {
-                allEnemiesDead = false;
+                currentEnemyGroupDead = false;
             }
         }
-        return allEnemiesDead;
+
+        return currentEnemyGroupDead;
     }
+
+
 
     //public void SpawnEnemies()
     //{
@@ -91,5 +104,6 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
     public void EnemyDead(EnemyView enemyView)
     {
         enemyView.EnemyDead();
+        deadEnemies++;
     }
 }

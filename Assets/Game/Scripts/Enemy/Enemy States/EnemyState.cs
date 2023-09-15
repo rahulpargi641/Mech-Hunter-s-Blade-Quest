@@ -24,6 +24,7 @@ public class EnemyState
     private float visibleDist = 8.0f; // 10f
     private float visibleAngle = 80.0f; // 30f
     private float attackDist = 2.2f; // 6f
+    private float shootingDist = 6.0f;
 
     private float pathUpdateDelay = 0.2f;
     private float pathUpdateDeadline;
@@ -43,8 +44,8 @@ public class EnemyState
     { 
         stage = EStage.Update;
 
-        EventService.Instance.onEnemyDeathAction += EnemyDead;
         EventService.Instance.onPlayerDeathAction += PlayerDead;
+        EventService.Instance.onEnemyDeathAction += EnemyDead;
     }
 
     protected virtual void Update() 
@@ -55,7 +56,6 @@ public class EnemyState
         {
             nextState = new EnemyDead(enemyAIView, navMeshAgent, animator, playerTransform);
             stage = EStage.Exit;
-            return;
         }
     }
     protected virtual void Exit() { stage = EStage.Exit; }
@@ -97,19 +97,34 @@ public class EnemyState
 
         float facingAngle = Vector3.Angle(playerDirection, enemyAIView.transform.forward);
 
-        if (playerDirection.magnitude < attackDist && facingAngle < 60)
-            return true;
+        if (enemyAIView.EnemyOfType == EnemyType.Enemy01)
+        {
+            if (playerDirection.magnitude < attackDist && facingAngle < 60)
+                return true;
+            else
+                return false;
+        }
+        else if (enemyAIView.EnemyOfType == EnemyType.Enemy02)
+        {
+            if (playerDirection.magnitude < shootingDist && facingAngle < 60)
+                return true;
+            else
+                return false;
+        }
         else
             return false;
-    }
-
-    void EnemyDead(EnemyView enemyView)
-    {
-        isEnemyDead = true;
     }
 
     private void PlayerDead()
     {
         isPlayerDead = true;
+    }
+
+    private void EnemyDead(EnemyView enemyView)
+    {
+        if(enemyAIView == enemyView)
+        {
+            isEnemyDead = true;
+        }
     }
 }

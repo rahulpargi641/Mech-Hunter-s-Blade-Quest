@@ -19,10 +19,10 @@ public class EnemyHealthController
         model.CurrentHealth -= damage;
         Debug.Log("Enemy Health reduced to : " + model.CurrentHealth);
         if(model.CurrentHealth <= 0)
-        { 
-            EnemyHealthService.Instance.EnemyDead(enemyView);
+        {
+            EventService.Instance.InvokeEnemyDeathAction(enemyView);
             
-            Debug.Log("Enemy is Dead!");
+            Debug.Log( enemyView.gameObject.name +": is Dead!");
         }
     }
 }

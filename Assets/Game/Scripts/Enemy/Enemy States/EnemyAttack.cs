@@ -44,6 +44,14 @@ public class EnemyAttack : EnemyState
         }
     }
 
+    private void Attack()
+    {
+        FaceTowardsPlayer();
+        enemyAIView.AttackAnimationEnded = false;
+        navMeshAgent.isStopped = true;
+        animator.SetTrigger("Attack");
+    }
+
     private void FaceTowardsPlayer()
     {
         Vector3 playerDirection = playerTransform.position - enemyAIView.transform.position;
@@ -59,14 +67,6 @@ public class EnemyAttack : EnemyState
     {
         animator.ResetTrigger("Attack");
         base.Exit();
-    }
-
-    private void Attack()
-    {
-        FaceTowardsPlayer();
-        enemyAIView.AttackAnimationEnded = false;
-        navMeshAgent.isStopped = true;
-        animator.SetTrigger("Attack");
     }
 
     private bool CanDetectPlayer()

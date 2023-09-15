@@ -33,7 +33,5 @@ public class DamageOrbPresenter : MonoBehaviour
             Instantiate(hitVFX, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
-
-     
     }
 }

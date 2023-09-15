@@ -82,7 +82,6 @@ public class GameUIView : MonoBehaviour
         }
 
         Controller.SetCurrentState(state);
-
     }
 
 }

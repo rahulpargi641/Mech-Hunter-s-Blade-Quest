@@ -32,6 +32,6 @@ public class GameUIController
 
     public void ShowGameFinishedUI()
     {
-        view.ShowGameOverUI();
+        view.ShowGameFinishedUI();
     }
 }

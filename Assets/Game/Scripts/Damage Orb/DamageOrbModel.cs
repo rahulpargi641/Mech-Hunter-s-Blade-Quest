@@ -7,7 +7,7 @@ public class DamageOrbModel
     public DamageOrbModel()
     {
         Speed = 9f;
-        Damage = 30;
+        Damage = 10;
     }
 
 }

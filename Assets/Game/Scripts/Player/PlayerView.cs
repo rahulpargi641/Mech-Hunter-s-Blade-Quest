@@ -15,7 +15,8 @@ public class PlayerView : MonoBehaviour
     public bool BeingHitAnimationEnded { get; set; }
     public float HorizontalInput { get; private set; }
     public float VerticalInput { get; private set; }
-    public bool MouseButtonDown { get; set; }
+    public bool MouseButton1Down { get; set; }
+    public bool MouseButton2Down { get; set; }
     public bool SpaceKeyDown { get; set; }
 
     private void Awake()
@@ -50,7 +51,9 @@ public class PlayerView : MonoBehaviour
 
     private void ReadPlayerInput()
     {
-        if (Time.timeScale != 0) MouseButtonDown = Input.GetMouseButton(0);
+        if (Time.timeScale != 0) MouseButton1Down = Input.GetMouseButton(0);
+
+        if (Time.timeScale != 0) MouseButton2Down = Input.GetMouseButton(1);
 
         SpaceKeyDown = Input.GetKeyDown(KeyCode.Space);
 

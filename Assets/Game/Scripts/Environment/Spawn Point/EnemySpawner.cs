@@ -4,19 +4,21 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] Transform[] spawnPoints;
-    [SerializeField] EnemyView enemyPrefab;
+    [SerializeField] EnemyView[] enemyViews;
     [SerializeField] BoxCollider boxCollider;
-    //EnemyView EnemyPrefab => enemyPrefab;
 
     private bool areEnemiesSpawned = false;
 
-    private List<EnemySpawner> spawnPointList;
+    private void Awake()
+    {
+        //var spawnPointArray = transform.parent.GetComponentsInChildren<EnemySpawner>();
+        //spawnPointList = new List<EnemySpawner>(spawnPointArray);
+    }
 
-    //private void Awake()
-    //{
-    //    var spawnPointArray = transform.parent.GetComponentsInChildren<EnemySpawner>();
-    //    spawnPointList = new List<EnemySpawner>(spawnPointArray);
-    //}
+    private void Start()
+    {
+        //SpawnEnemies();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -32,20 +34,19 @@ public class EnemySpawner : MonoBehaviour
 
         areEnemiesSpawned = true;
 
-        foreach (Transform spawnPoint in spawnPoints)
+        foreach (EnemyView enemyView in enemyViews)
         {
-            if (enemyPrefab)
+            if (enemyView)
             {
+                enemyView.gameObject.SetActive(true);
                 EnemyModel enemyModel = new();
-                EnemyView enemyView = Instantiate(enemyPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
-                Debug.Log("Enemy Spawned." + enemyView.gameObject.name);
-                //enemyControllers.Add(new EnemyController(enemyModel, enemyView));
                 EnemyService.Instance.AddEnemyController(enemyModel, enemyView);
-                EventService.Instance.InvokeEnemySpawnedAction();
+                enemyView.SpawnEnemy();
+                //EventService.Instance.InvokeEnemySpawnedAction();
+                Debug.Log("Enemy Spawned." + enemyView.gameObject.name);
             }
         }
     }
-
 
     private void OnDrawGizmos()
     {
@@ -57,7 +58,10 @@ public class EnemySpawner : MonoBehaviour
         //Gizmos.DrawWireCube(center, Vector3.one);
         //Gizmos.DrawLine(center, center + transform.forward * 2);
 
-        Gizmos.DrawWireCube(spawnPoints[0].position, Vector3.one);
-        Gizmos.DrawLine(spawnPoints[0].position, spawnPoints[0].position + transform.forward * 2);
+        foreach(Transform spawnPoint in spawnPoints)
+        {
+            Gizmos.DrawWireCube(spawnPoint.position, Vector3.one);
+            Gizmos.DrawLine(spawnPoint.position, spawnPoint.position + transform.forward * 2);
+        }
     }
 }

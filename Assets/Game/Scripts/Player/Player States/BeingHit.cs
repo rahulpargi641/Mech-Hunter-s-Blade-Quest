@@ -34,6 +34,12 @@ public class BeingHit : PlayerState
                 nextState = new Attack(playerView, animator);
                 stage = EStage.Exit;
             }
+
+            if (CanAttack2())
+            {
+                nextState = new SlideAttack(playerView, animator);
+                stage = EStage.Exit;
+            }
         }
     }
 

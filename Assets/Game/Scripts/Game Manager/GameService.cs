@@ -1,9 +1,9 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameService : MonoSingletonGeneric<GameService>
 {
     private GameController controller;
-
     void Start()
     {
         GameModel model = new GameModel();
@@ -19,14 +19,28 @@ public class GameService : MonoSingletonGeneric<GameService>
         if(controller.IsGameOver())
         {
             Debug.Log("Game Over");
-            GameUIService.Instance.ShowGameOverUI();
+            StartCoroutine(ShowGameOverUI());
         }
 
         if(controller.IsGameFinished())
         {
             Debug.Log("Game Finished");
-            GameUIService.Instance.ShowGameFinishedUI();
+            StartCoroutine(ShowGameFinishedUI());
         }
+    }
+
+    IEnumerator ShowGameOverUI()
+    {
+        yield return new WaitForSeconds(5f);
+
+        GameUIService.Instance.ShowGameOverUI();
+    }
+
+    IEnumerator ShowGameFinishedUI()
+    {
+        yield return new WaitForSeconds(5f);
+
+        GameUIService.Instance.ShowGameFinishedUI();
     }
 
     private void OnDisable()

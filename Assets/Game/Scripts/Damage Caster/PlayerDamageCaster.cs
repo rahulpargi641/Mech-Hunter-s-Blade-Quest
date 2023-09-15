@@ -6,7 +6,7 @@ public class PlayerDamageCaster : DamageCasterView
     {
         EnemyHealthView enemyhealthView = other.GetComponent<EnemyHealthView>();
 
-        if (enemyhealthView && !model.damagedTargets.Contains(other))
+        if (enemyhealthView /*&& !model.damagedTargets.Contains(other)*/)
         {
             enemyhealthView.ApplyDamage(model.Damage, transform.parent.position);
             PlayerVFXView playerVFXView = transform.parent.GetComponent<PlayerVFXView>();

@@ -20,7 +20,8 @@ public class MaterialBlockView : MonoBehaviour
         materialPropertyBlock = new MaterialPropertyBlock();
         skinnedMeshRenderer.GetPropertyBlock(materialPropertyBlock);
     }
-    private void Start()
+
+    private void OnEnable()
     {
         EventService.Instance.onEnemyDeathAction += CharacterDissolve;
     }
@@ -46,10 +47,10 @@ public class MaterialBlockView : MonoBehaviour
         skinnedMeshRenderer.SetPropertyBlock(materialPropertyBlock);
     }
 
-    private void CharacterDissolve(EnemyView enemyView)
+    public void CharacterDissolve(EnemyView enemyView)
     {
-        if(gameObject.GetComponent<EnemyView>())
-        StartCoroutine(MaterialDissolve());
+        if(GetComponent<EnemyView>() == enemyView)
+            StartCoroutine(MaterialDissolve());
     }
 
     public void CharacterAppear()

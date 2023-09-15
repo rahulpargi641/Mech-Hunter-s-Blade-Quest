@@ -72,11 +72,18 @@ public class PlayerState
 
     protected bool CanAttack()
     {
-        if (playerView.MouseButtonDown)
+        if (playerView.MouseButton1Down)
             return true;
         else
             return false;
+    }
 
+    protected bool CanAttack2()
+    {
+        if (playerView.MouseButton2Down)
+            return true;
+        else
+            return false;
     }
 
     protected bool CanRun()
@@ -103,5 +110,6 @@ public class PlayerState
     private void PlayerDead()
     {
         isDead = true;
+        Debug.Log("Player dead notified");
     }
 }
