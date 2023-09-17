@@ -15,6 +15,7 @@ public class EnemyView : MonoBehaviour
     public EnemyController Controller { private get; set; }
     public CharacterController CharacterController { get; set; }
     public bool AttackAnimationEnded { get; set; }
+    public bool BeingHitAnimationEnded { get; set; }
 
     protected Animator animator;
     protected NavMeshAgent navMeshAgent;
@@ -49,11 +50,17 @@ public class EnemyView : MonoBehaviour
         currentState = currentState.Process();
     }
 
+    // called via animation event
     public void AttackAnimationEnd()
     {
         AttackAnimationEnded = true;
     }
 
+    // called via animation event
+    public void HurtAnimationEnd()
+    {
+        BeingHitAnimationEnded = true;
+    }
     public void EnableDamageCaster()
     {
         damageCaster.EnableDamageCaster();
@@ -67,6 +74,7 @@ public class EnemyView : MonoBehaviour
     public void EnemyDead()
     {
         Controller.EnemyDead();
+        CharacterController.enabled = false;
     }
 
     public bool IsDead()

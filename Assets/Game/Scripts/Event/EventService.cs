@@ -11,6 +11,7 @@ public class EventService : MonoSingletonGeneric<EventService>
     public event Action onCurrentEnemyGroupDeadAction;
     public event Action onPlayerDeathAction;
     public event Action onPlayerHitAction;
+    public event Action<EnemyView> onEnemyHitAction;
 
     private void Awake()
     {
@@ -34,6 +35,11 @@ public class EventService : MonoSingletonGeneric<EventService>
     public void InvokePlayerHitAction()
     {
         onPlayerHitAction?.Invoke();
+    }
+
+    public void InvokeEnemyHitAction(EnemyView enemyView)
+    {
+        onEnemyHitAction?.Invoke(enemyView);
     }
 
     public void InvokeAllEnemiesDeadAction()

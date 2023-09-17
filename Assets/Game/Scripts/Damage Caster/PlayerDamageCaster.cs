@@ -5,10 +5,12 @@ public class PlayerDamageCaster : DamageCasterView
     protected override void OnTriggerEnter(Collider other)
     {
         EnemyHealthView enemyhealthView = other.GetComponent<EnemyHealthView>();
+        EnemyView enemyView = other.GetComponent<EnemyView>();
 
-        if (enemyhealthView /*&& !model.damagedTargets.Contains(other)*/)
+        if (enemyhealthView && enemyView /*&& !model.damagedTargets.Contains(other)*/)
         {
             enemyhealthView.ApplyDamage(model.Damage, transform.parent.position);
+            EventService.Instance.InvokeEnemyHitAction(enemyView);
             PlayerVFXView playerVFXView = transform.parent.GetComponent<PlayerVFXView>();
             if (playerVFXView)
             {
