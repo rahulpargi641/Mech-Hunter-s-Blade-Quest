@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class BeingHit : PlayerState
+public class Hurt : PlayerState
 {
-    public BeingHit(PlayerView playerView, Animator animator) : base(playerView, animator)
+    public Hurt(PlayerView playerView, Animator animator) : base(playerView, animator)
     {
         state = EPlayerState.BeingHit;
         stage = EStage.Enter;
@@ -12,7 +12,7 @@ public class BeingHit : PlayerState
     {
         base.Enter();
 
-        animator.SetTrigger("BeingHit");
+        animator.SetTrigger("Hurt");
         playerView.BeingHitAnimationEnded = false;
     }
 
@@ -45,7 +45,7 @@ public class BeingHit : PlayerState
 
     protected override void Exit()
     {
-        animator.ResetTrigger("BeingHit");
+        animator.ResetTrigger("Hurt");
         base.Exit();
     }
 }

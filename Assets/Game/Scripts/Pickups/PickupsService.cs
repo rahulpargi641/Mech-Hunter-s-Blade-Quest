@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CollectibleService : MonoSingletonGeneric<CollectibleService>
+public class PickupsService : MonoSingletonGeneric<PickupsService>
 {
     [SerializeField] GameObject itemToDrop;
 

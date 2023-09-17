@@ -42,13 +42,6 @@ public class PlayerView : MonoBehaviour
         // currentState = currentState.Process();
     }
 
-    private void OnDisable()
-    {
-        //MouseButtonDown = false;
-        HorizontalInput = 0;
-        VerticalInput = 0;
-    }
-
     private void ReadPlayerInput()
     {
         if (Time.timeScale != 0) MouseButton1Down = Input.GetMouseButton(0);
@@ -95,4 +88,10 @@ public class PlayerView : MonoBehaviour
     {
         damageCaster.DisableDamageCaster();
     }
+
+    //private void OnDisable()
+    //{
+    //    HorizontalInput = 0;
+    //    VerticalInput = 0;
+    //}
 }

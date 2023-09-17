@@ -19,25 +19,9 @@ public class EnemyPatrol : EnemyState
         base.Enter();
 
         float lastDist = Mathf.Infinity;
-        //for (int i = 0; i < EnvironmentService.Instance.PatrolPoints.Count; i++)
-        //{
-        //    //Transform currPatrolPoint = EnvironmentService.Instance.PatrolPoints[i];
-        //    Transform currPatrolPoint = enemyAIView.PatrolPoints[i];
-
-
-        //    float distance = Vector3.Distance(enemyAIView.transform.position, currPatrolPoint.position);
-        //    if (distance < lastDist)
-        //    {
-        //        currentIndex = i;
-        //        lastDist = distance;
-        //    }
-        //}
-
         for (int i = 0; i < enemyAIView.PatrolPoints.Count; i++)
         {
-            //Transform currPatrolPoint = EnvironmentService.Instance.PatrolPoints[i];
             Transform currPatrolPoint = enemyAIView.PatrolPoints[i];
-
 
             float distance = Vector3.Distance(enemyAIView.transform.position, currPatrolPoint.position);
             if (distance < lastDist)
@@ -52,15 +36,6 @@ public class EnemyPatrol : EnemyState
     {
         base.Update();
 
-        //if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-        //{
-        //    if (currentIndex >= EnvironmentService.Instance.PatrolPoints.Count - 1)
-        //        currentIndex = 0;
-
-        //    Vector3 patrolPoint = EnvironmentService.Instance.PatrolPoints[currentIndex].position;
-        //    UpdatePath(patrolPoint);
-        //    currentIndex++;
-        //}
         if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
         {
             if (currentIndex >= enemyAIView.PatrolPoints.Count - 1)

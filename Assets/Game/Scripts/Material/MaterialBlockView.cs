@@ -6,13 +6,6 @@ public class MaterialBlockView : MonoBehaviour
     private SkinnedMeshRenderer skinnedMeshRenderer;
     private MaterialPropertyBlock materialPropertyBlock;
 
-    private float blinkDuration = 0.4f;
-
-    //private float dissolveTimeDuration = 2f;
-    //private float currentDissolveTime = 0f;
-    //private float dissolveHeightStart = 20f;
-    //private float dissolveHeightTarget = -10f;
-    //private float dissolveHeight;
 
     private void Awake()
     {
@@ -38,6 +31,8 @@ public class MaterialBlockView : MonoBehaviour
 
     IEnumerator MaterialBlink()
     {
+        float blinkDuration = 0.4f;
+
         materialPropertyBlock.SetFloat("_blink", blinkDuration);
         skinnedMeshRenderer.SetPropertyBlock(materialPropertyBlock);
 
@@ -82,7 +77,7 @@ public class MaterialBlockView : MonoBehaviour
             yield return null;
         }
 
-        CollectibleService.Instance.DropItem(transform.position);
+        PickupsService.Instance.DropItem(transform.position);
         gameObject.SetActive(false);
     }
 

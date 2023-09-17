@@ -18,7 +18,8 @@ public class EnemyHealthView : HealthView
             enemyVFXView.PlayBeingHitVFX(attackerPos);
             enemyVFXView.PlayBeingHitSplashVFX();
         }
-        DamageBlinkEffect();
+
+        PlayDamageBlinkEffect();
 
         EnemyView enemyView = GetComponent<EnemyView>();
         Controller.ReduceHealth(enemyView, damage);

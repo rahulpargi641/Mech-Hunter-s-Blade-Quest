@@ -29,18 +29,6 @@ public class Roll : PlayerState
             nextState = new Idle(playerView, animator);
             stage = EStage.Exit;
         }
-
-        //if (CanRun())
-        //{
-        //    nextState = new Run(playerView, animator);
-        //    stage = EStage.Exit;
-        //}
-
-        //if (CanAttack())
-        //{
-        //    nextState = new Attack(playerView, animator);
-        //    stage = EStage.Exit;
-        //}
     }
 
     protected override void Exit()
@@ -54,5 +42,4 @@ public class Roll : PlayerState
         Vector3 movementVelocity = playerView.transform.forward * slideSpeed * Time.deltaTime;
         playerView.CharacterController.Move(movementVelocity);
     }
-
 }

@@ -9,5 +9,4 @@ public class DamageOrbModel
         Speed = 9f;
         Damage = 10;
     }
-
 }

@@ -9,16 +9,11 @@ public class EnemySpawner : MonoBehaviour
 
     private bool areEnemiesSpawned = false;
 
-    private void Awake()
-    {
-        //var spawnPointArray = transform.parent.GetComponentsInChildren<EnemySpawner>();
-        //spawnPointList = new List<EnemySpawner>(spawnPointArray);
-    }
-
-    private void Start()
-    {
-        //SpawnEnemies();
-    }
+    //private void Awake()
+    //{
+    //    //var spawnPointArray = transform.parent.GetComponentsInChildren<EnemySpawner>();
+    //    //spawnPointList = new List<EnemySpawner>(spawnPointArray);
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
@@ -55,13 +50,14 @@ public class EnemySpawner : MonoBehaviour
 
         Gizmos.color = Color.green;
         Vector3 center = transform.position + new Vector3(0f, 0.5f, 0f);
-        //Gizmos.DrawWireCube(center, Vector3.one);
-        //Gizmos.DrawLine(center, center + transform.forward * 2);
 
         foreach(Transform spawnPoint in spawnPoints)
         {
             Gizmos.DrawWireCube(spawnPoint.position, Vector3.one);
             Gizmos.DrawLine(spawnPoint.position, spawnPoint.position + transform.forward * 2);
         }
+
+        //Gizmos.DrawWireCube(center, Vector3.one);
+        //Gizmos.DrawLine(center, center + transform.forward * 2);
     }
 }

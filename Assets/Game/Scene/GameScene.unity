@@ -362,7 +362,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &106557439 stripped
 Transform:
@@ -822,7 +822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 253060979}
   m_Layer: 0
-  m_Name: Patrol Area
+  m_Name: Patrol Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -848,7 +848,7 @@ Transform:
   - {fileID: 1035612663}
   - {fileID: 572724957}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &261814289 stripped
 GameObject:
@@ -1010,7 +1010,7 @@ Transform:
   - {fileID: 1862177244}
   - {fileID: 1574015908}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &288243831
 GameObject:
@@ -1273,7 +1273,7 @@ Transform:
   - {fileID: 860469467}
   - {fileID: 1508373284}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &415029044
 GameObject:
@@ -1664,7 +1664,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1.5}
+  m_Size: {x: 1, y: 1, z: 1.7}
   m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!114 &518522645
 MonoBehaviour:
@@ -2125,7 +2125,7 @@ Transform:
   - {fileID: 1942356001}
   - {fileID: 511701147}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!2083052967 &733110748 stripped
 VisualEffect:
@@ -6326,7 +6326,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 999
+  m_text: '0
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7731,7 +7733,7 @@ RectTransform:
   - {fileID: 3619117189789831087}
   - {fileID: 3619117190616962062}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

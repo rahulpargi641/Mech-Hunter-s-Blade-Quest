@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GateView : MonoBehaviour
@@ -31,7 +30,6 @@ public class GateView : MonoBehaviour
     {
         StartCoroutine(OpenGateAnimation());
     }
-
 
     IEnumerator OpenGateAnimation()
     {

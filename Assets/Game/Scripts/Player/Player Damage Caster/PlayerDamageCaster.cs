@@ -7,7 +7,7 @@ public class PlayerDamageCaster : DamageCasterView
         EnemyHealthView enemyhealthView = other.GetComponent<EnemyHealthView>();
         EnemyView enemyView = other.GetComponent<EnemyView>();
 
-        if (enemyhealthView && enemyView /*&& !model.damagedTargets.Contains(other)*/)
+        if (enemyhealthView && enemyView) /*&& !model.damagedTargets.Contains(other)*/
         {
             enemyhealthView.ApplyDamage(model.Damage, transform.parent.position);
             EventService.Instance.InvokeEnemyHitAction(enemyView);
@@ -23,6 +23,7 @@ public class PlayerDamageCaster : DamageCasterView
             }
 
         }
+
         base.OnTriggerEnter(other);
     }
 }

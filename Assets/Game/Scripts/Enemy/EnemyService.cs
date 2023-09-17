@@ -6,7 +6,7 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
     private List<EnemyController> enemyControllers;
 
     private bool areEnemiesSpawned = false;
-    private int TotalEnemies = 15;
+    private int TotalEnemies = 7;
     private int deadEnemies;
 
     protected override void Awake()

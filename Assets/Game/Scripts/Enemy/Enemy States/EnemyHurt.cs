@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyHit : EnemyState
+public class EnemyHurt : EnemyState
 {
-    public EnemyHit(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
+    public EnemyHurt(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
            : base(enemyAIView, navMeshAgent, animator, playerTransform)
     {
         state = EState.Idle;
@@ -16,7 +14,7 @@ public class EnemyHit : EnemyState
     {
         base.Enter();
 
-        animator.SetTrigger("BeingHit");
+        animator.SetTrigger("Hurt");
         enemyAIView.BeingHitAnimationEnded = false;
     }
 
@@ -33,7 +31,7 @@ public class EnemyHit : EnemyState
 
     protected override void Exit()
     {
-        animator.ResetTrigger("BeingHit");
+        animator.ResetTrigger("Hurt");
         base.Exit();
     }
 }

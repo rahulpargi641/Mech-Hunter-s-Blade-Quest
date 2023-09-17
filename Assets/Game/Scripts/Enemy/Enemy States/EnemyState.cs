@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -64,7 +63,7 @@ public class EnemyState
 
         if(isEnemyHit)
         {
-            nextState = new EnemyHit(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyHurt(enemyAIView, navMeshAgent, animator, playerTransform);
             stage = EStage.Exit;
         }
     }

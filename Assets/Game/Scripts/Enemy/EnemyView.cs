@@ -38,11 +38,9 @@ public class EnemyView : MonoBehaviour
         playerTransform = FindAnyObjectByType<PlayerView>().transform;
     }
 
-    virtual public void SpawnEnemy()
+    public void SpawnEnemy()
     {
         currentState = new EnemySpawning(this, navMeshAgent, animator, playerTransform);
-        //currentState = new EnemyIdle(this, navMeshAgent, animator, playerTransform);
-        //navMeshAgent.speed = MoveSpeed = 5;
     }
 
     virtual protected void FixedUpdate()
@@ -61,11 +59,14 @@ public class EnemyView : MonoBehaviour
     {
         BeingHitAnimationEnded = true;
     }
+
+    // called via animation event
     public void EnableDamageCaster()
     {
         damageCaster.EnableDamageCaster();
     }
 
+    // called via animation event
     public void DisableDamageCaster()
     {
         damageCaster.DisableDamageCaster();

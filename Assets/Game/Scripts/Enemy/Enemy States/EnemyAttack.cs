@@ -4,8 +4,8 @@ using UnityEngine.AI;
 public class EnemyAttack : EnemyState
 {
     private float detectDist = 4f;
-    private float rotationSpeed = 2f;
-    private float rotationDuration = 0.5f;
+    //private float rotationSpeed = 2f;
+    //private float rotationDuration = 0.5f;
     public EnemyAttack(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
           : base(enemyAIView, navMeshAgent, animator, playerTransform)
     {
@@ -44,6 +44,17 @@ public class EnemyAttack : EnemyState
         }
     }
 
+    private bool CanDetectPlayer()
+    {
+        Vector3 playerDirection = playerTransform.position - enemyAIView.transform.position;
+        float facingAngle = Vector3.Angle(playerDirection, enemyAIView.transform.forward);
+
+        if (playerDirection.magnitude < detectDist)
+            return true;
+        else
+            return false;
+    }
+
     private void Attack()
     {
         FaceTowardsPlayer();
@@ -55,7 +66,7 @@ public class EnemyAttack : EnemyState
     private void FaceTowardsPlayer()
     {
         Vector3 playerDirection = playerTransform.position - enemyAIView.transform.position;
-        playerDirection.y = 0; // Update this 
+        playerDirection.y = 0; // Update this extension function
 
         float facingAngle = Vector3.Angle(playerDirection, enemyAIView.transform.forward);
         Quaternion lookRotation = Quaternion.LookRotation(playerDirection);
@@ -67,17 +78,5 @@ public class EnemyAttack : EnemyState
     {
         animator.ResetTrigger("Attack");
         base.Exit();
-    }
-
-    private bool CanDetectPlayer()
-    {
-        Vector3 playerDirection = playerTransform.position - enemyAIView.transform.position;
-        float facingAngle = Vector3.Angle(playerDirection, enemyAIView.transform.forward);
-
-        if (playerDirection.magnitude < detectDist)
-            return true;
-        else
-            return false;
-
     }
 }

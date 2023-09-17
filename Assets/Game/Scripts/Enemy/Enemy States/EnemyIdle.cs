@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyIdle : EnemyState
 {
-    private int patrolChance = 100;
+    private int patrolChance = 50;
     public EnemyIdle(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
            : base(enemyAIView, navMeshAgent, animator, playerTransform)
     {
@@ -27,18 +27,11 @@ public class EnemyIdle : EnemyState
             nextState = new EnemyPursue(enemyAIView, navMeshAgent, animator, playerTransform);
             stage = EStage.Exit;
         }
-        else //if (Random.Range(0, 100) < patrolChance)
+        else if (Random.Range(0, 100) < patrolChance)
         {
             nextState = new EnemyPatrol(enemyAIView, navMeshAgent, animator, playerTransform);
             stage = EStage.Exit;
         }
-
-        //if(isPlayerDead)
-        //{
-        //    nextState = new EnemyPatrol(enemyAIView, navMeshAgent, animator, playerTransform);
-        //    stage = EStage.Exit;
-        //}
-
     }
 
     protected override void Exit()

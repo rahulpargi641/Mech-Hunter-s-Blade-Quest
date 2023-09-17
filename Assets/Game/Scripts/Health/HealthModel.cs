@@ -8,7 +8,7 @@ public class HealthModel
 
     public float CurrentHealthPercent 
     {
-        get { return CurrentHealth / (float)MaxHealth; }
+        get { return CurrentHealth / (float) MaxHealth; }
     }
      
     public HealthModel()

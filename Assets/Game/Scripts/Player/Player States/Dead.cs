@@ -16,7 +16,7 @@ public class Dead : PlayerState
 
     protected override void Exit()
     {
-        //animator.ResetTrigger("Dead");
-        //base.Exit();
+        animator.ResetTrigger("Dead");
+        base.Exit();
     }
 }

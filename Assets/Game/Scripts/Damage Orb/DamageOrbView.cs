@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class DamageOrbPresenter : MonoBehaviour
+public class DamageOrbView : MonoBehaviour
 {
     [SerializeField] ParticleSystem hitVFX;
     private Rigidbody rigidBody;
 
     private DamageOrbModel model;
 
-    DamageOrbPresenter()
+    DamageOrbView()
     {
         model = new DamageOrbModel();
     }

@@ -11,8 +11,6 @@ public class PlayerHealthController
         this.view = view;
 
         view.Controller = this;
-
-        //model.CurrentHealth = 100;
     }
 
     internal void ApplyDamage(int damage)

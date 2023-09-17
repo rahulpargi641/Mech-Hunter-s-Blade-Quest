@@ -113,6 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43323a6d9b8e92340ae1299e2856043c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
+  PatrolPoints: []
 --- !u!114 &4853082170790360669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b620e75ba76b344b90720607407c29a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 30
 --- !u!1 &4853082171859999126
 GameObject:
   m_ObjectHideFlags: 0

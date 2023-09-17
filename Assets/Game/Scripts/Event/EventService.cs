@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class EventService : MonoSingletonGeneric<EventService>
 {
@@ -17,6 +14,7 @@ public class EventService : MonoSingletonGeneric<EventService>
     {
         base.Awake();
     }
+
     //public void InvokeEnemySpawnedAction(EnemyView enemyView)
     //{
     //    onEnemySpawned?.Invoke(enemyView);
