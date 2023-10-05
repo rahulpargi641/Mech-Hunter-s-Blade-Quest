@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyService : MonoSingletonGeneric<EnemyService>
 {
+    private EnemyPool enemyPool;
     private List<EnemyController> enemyControllers;
 
     private int totalEnemies = 7;
@@ -12,6 +13,7 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
     {
         base.Awake();
 
+        enemyPool = GetComponent<EnemyPool>();
         enemyControllers = new List<EnemyController>();
     }
 
@@ -20,22 +22,32 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
         EventService.Instance.onEnemyDeathAction += EnemyDead;        
     }
 
+    private void OnDestroy()
+    {
+        EventService.Instance.onEnemyDeathAction -= EnemyDead;
+    }
+
     private void Update()
     {
         if (enemyControllers.Count == 0)
             return;
 
-        if(IsCurrentEnemyGroupDead())
+        CheckIfCurrentEnemyGroupDead();
+
+        CheckIfAllEnemiesDead();
+    }
+
+    private void CheckIfCurrentEnemyGroupDead()
+    {
+        if (IsCurrentEnemyGroupDead())
         {
             EventService.Instance.InvokeCurrentEnemyGroupDeadAction();
             enemyControllers.Clear();
             Debug.Log("Current Enemy Group dead");
         }
-
-        AllEnemiesDead();
     }
 
-    private void AllEnemiesDead()
+    private void CheckIfAllEnemiesDead()
     {
         if(nDeadEnemies == totalEnemies)
             EventService.Instance.InvokeAllEnemiesDeadAction();
@@ -55,15 +67,29 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
         return currentEnemyGroupDead;
     }
 
-    public void AddEnemyController(EnemyModel model, EnemyView view)
+    // Called via Enemy Spawner
+    public void CreateEnemy(EnemyView enemyView)
     {
-        enemyControllers.Add(new EnemyController(model, view));
+        EnemyModel enemyModel = new();
+        //EnemyController enemyController = new EnemyController(enemyModel, enemyView);
+        EnemyController enemyController = enemyPool.GetEnemyContoller(enemyModel, enemyView);
+        enemyControllers.Add(enemyController);
     }
 
+    // called via event onEnemyDeathAction
     public void EnemyDead(EnemyView enemyView)
     {
-        enemyView.EnemyDead();
+        enemyView.Controller.EnemyDead();
         nDeadEnemies++;
+
+        enemyView.gameObject.SetActive(false);
+        ReturnEnemyToPool(enemyView.Controller);
+
+    }
+
+    void ReturnEnemyToPool(EnemyController enemyController)
+    {
+        enemyPool.ReturnItem(enemyController);
     }
 
     //private void OnDrawGizmos()

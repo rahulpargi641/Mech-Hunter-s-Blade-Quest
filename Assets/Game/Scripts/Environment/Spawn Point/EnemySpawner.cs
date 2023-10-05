@@ -34,10 +34,7 @@ public class EnemySpawner : MonoBehaviour
             if (enemyView)
             {
                 enemyView.gameObject.SetActive(true);
-                EnemyModel enemyModel = new();
-                EnemyService.Instance.AddEnemyController(enemyModel, enemyView);
-                enemyView.SpawnEnemy();
-                //EventService.Instance.InvokeEnemySpawnedAction();
+                EnemyService.Instance.CreateEnemy(enemyView);
                 Debug.Log("Enemy Spawned." + enemyView.gameObject.name);
             }
         }

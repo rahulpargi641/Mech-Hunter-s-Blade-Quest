@@ -12,7 +12,7 @@ public class EnemyView : MonoBehaviour
     public EnemyType EnemyOfType => enemyType;
 
     public List<Transform> PatrolPoints;
-    public EnemyController Controller { private get; set; }
+    public EnemyController Controller { get; set; }
     public CharacterController CharacterController { get; set; }
     public bool AttackAnimationEnded { get; set; }
     public bool BeingHitAnimationEnded { get; set; }
@@ -31,14 +31,14 @@ public class EnemyView : MonoBehaviour
         damageCaster = GetComponentInChildren<DamageCasterView>();
     }
 
-    virtual protected void Start()
+    private void OnEnable()
     {
-        gameObject.SetActive(false);
-
         playerTransform = FindAnyObjectByType<PlayerView>().transform;
+
+        InitializeEnemyState();
     }
 
-    public void SpawnEnemy()
+    private void InitializeEnemyState()
     {
         currentState = new EnemySpawning(this, navMeshAgent, animator, playerTransform);
     }
@@ -72,17 +72,17 @@ public class EnemyView : MonoBehaviour
         damageCaster.DisableDamageCaster();
     }
 
-    public void EnemyDead()
-    {
-        Controller.EnemyDead();
-        CharacterController.enabled = false;
-    }
-
     public bool IsDead()
     {
         if (Controller.IsDead())
             return true;
         else
             return false;
+    }
+
+    public void EnemyDead()
+    {
+        Controller.EnemyDead();
+        CharacterController.enabled = false;
     }
 }
