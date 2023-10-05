@@ -5,9 +5,8 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
 {
     private List<EnemyController> enemyControllers;
 
-    private bool areEnemiesSpawned = false;
-    private int TotalEnemies = 7;
-    private int deadEnemies;
+    private int totalEnemies = 7;
+    private int nDeadEnemies;
 
     protected override void Awake()
     {
@@ -26,7 +25,7 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
         if (enemyControllers.Count == 0)
             return;
 
-        if(CurrentEnemyGroupDead())
+        if(IsCurrentEnemyGroupDead())
         {
             EventService.Instance.InvokeCurrentEnemyGroupDeadAction();
             enemyControllers.Clear();
@@ -38,11 +37,11 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
 
     private void AllEnemiesDead()
     {
-        if(deadEnemies == TotalEnemies)
+        if(nDeadEnemies == totalEnemies)
             EventService.Instance.InvokeAllEnemiesDeadAction();
     }
 
-    private bool CurrentEnemyGroupDead()
+    private bool IsCurrentEnemyGroupDead()
     {
         bool currentEnemyGroupDead = true;
         foreach (EnemyController enemyController in enemyControllers)
@@ -64,7 +63,7 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
     public void EnemyDead(EnemyView enemyView)
     {
         enemyView.EnemyDead();
-        deadEnemies++;
+        nDeadEnemies++;
     }
 
     //private void OnDrawGizmos()

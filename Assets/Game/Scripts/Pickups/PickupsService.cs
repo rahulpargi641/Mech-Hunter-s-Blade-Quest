@@ -2,10 +2,26 @@ using UnityEngine;
 
 public class PickupsService : MonoSingletonGeneric<PickupsService>
 {
-    [SerializeField] GameObject itemToDrop;
+    private PickupsPool pickupsPool;
 
-    public void DropItem(Vector3 dropPos)
+    private void Start()
     {
-        Instantiate(itemToDrop, dropPos, Quaternion.identity);
+        pickupsPool = GetComponent<PickupsPool>();
+    }
+
+    public PickupsView DropItem(Vector3 dropPos)
+    {
+        //Instantiate(itemToDrop, dropPos, Quaternion.identity);
+        PickupsView pickup = pickupsPool.GetPickup();
+        pickup.gameObject.SetActive(true);
+        pickup.transform.position = dropPos;
+        pickup.transform.rotation = Quaternion.identity;
+        return pickup;
+    }
+
+    public void ReturnPickupToPool(PickupsView pickView)
+    {
+        pickView.gameObject.SetActive(false);
+        pickupsPool.ReturnItem(pickView);
     }
 }

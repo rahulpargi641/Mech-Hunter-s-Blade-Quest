@@ -9,6 +9,7 @@ public class PickupsView : MonoBehaviour
 
     EPickUp pickup;
 
+
     private void OnTriggerEnter(Collider other)
     {
         PlayerView playerView = other.GetComponent<PlayerView>();
@@ -17,7 +18,9 @@ public class PickupsView : MonoBehaviour
             Debug.Log("Player entered the trigger");
 
             PlayerHealthService.Instance.AddHealth(20);
-            PlayerVFXService.Instance.PlayHealVFX();
+            PlayerVFX playerVFX = other.GetComponent<PlayerVFX>();
+            //PlayerVFXService.Instance.PlayHealVFX();
+            if (playerVFX) playerVFX.PlayHealVFX();
             gameObject.SetActive(false);
         }
     }

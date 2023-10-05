@@ -5,7 +5,7 @@ public class PlayerRun : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        PlayerVFXView playerVFXView = animator.GetComponent<PlayerVFXView>();
+        PlayerVFX playerVFXView = animator.GetComponent<PlayerVFX>();
         if (playerVFXView)
             playerVFXView.UpdateFootStep(true);
     }
@@ -19,7 +19,7 @@ public class PlayerRun : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        PlayerVFXView playerVFXView = animator.GetComponent<PlayerVFXView>();
+        PlayerVFX playerVFXView = animator.GetComponent<PlayerVFX>();
         if (playerVFXView)
             playerVFXView.UpdateFootStep(false);
     }
