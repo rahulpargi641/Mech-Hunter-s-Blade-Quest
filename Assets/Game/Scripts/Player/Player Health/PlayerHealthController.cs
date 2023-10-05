@@ -25,15 +25,23 @@ public class PlayerHealthController
 
             if (model.CurrentHealth <= 0)
             {
-                Debug.Log("Player is Dead!");
                 PlayerHealthService.Instance.InvokePlayerDeath();
+                Debug.Log("Player is Dead!");
             }
         }
     }
 
     internal void AddHealth(int healthPoints)
     {
-        model.CurrentHealth += healthPoints;
-        Debug.Log("Health added");
+        if(model.CurrentHealth < model.MaxHealth)
+        {
+            model.CurrentHealth += healthPoints;
+            Debug.Log("Health added");
+        }
+    }
+
+    public float CurrentHealthPercentage()
+    {
+        return model.CurrentHealthPercent;
     }
 }

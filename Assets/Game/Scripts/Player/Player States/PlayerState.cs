@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class PlayerState
@@ -50,12 +49,15 @@ public class PlayerState
 
         if (isHit)
         {
-            nextState = new BeingHit(playerView, animator);
+            nextState = new Hurt(playerView, animator);
             stage = EStage.Exit;
             return;
         }
     }
-    protected virtual void Exit() { stage = EStage.Exit; }
+    protected virtual void Exit() 
+    {
+        stage = EStage.Exit; 
+    }
 
     // Get run from outside and progress state through each of the different stages
     public PlayerState Process()
@@ -72,11 +74,18 @@ public class PlayerState
 
     protected bool CanAttack()
     {
-        if (playerView.MouseButtonDown)
+        if (playerView.MouseButton1Down)
             return true;
         else
             return false;
+    }
 
+    protected bool CanAttack2()
+    {
+        if (playerView.MouseButton2Down)
+            return true;
+        else
+            return false;
     }
 
     protected bool CanRun()
@@ -103,5 +112,6 @@ public class PlayerState
     private void PlayerDead()
     {
         isDead = true;
+        Debug.Log("Player dead notified");
     }
 }

@@ -10,7 +10,6 @@ public class EnemyPursue : EnemyState
         stage = EStage.Enter;
         navMeshAgent.speed = 1.5f;
         navMeshAgent.isStopped = false;
-        //Enter();
     }
 
     protected override void Enter()
@@ -32,7 +31,7 @@ public class EnemyPursue : EnemyState
                 nextState = new EnemyAttack(enemyAIView, navMeshAgent, animator, playerTransform);
                 stage = EStage.Exit;
             }
-            else if (!CanSeePlayer() || !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+            else if (! CanSeePlayer() || !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
                 nextState = new EnemyPatrol(enemyAIView, navMeshAgent, animator, playerTransform);
                 stage = EStage.Exit;

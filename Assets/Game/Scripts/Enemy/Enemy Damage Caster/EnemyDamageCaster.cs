@@ -6,7 +6,7 @@ public class EnemyDamageCaster : DamageCasterView
     {
         PlayerView playerView = other.GetComponent<PlayerView>();
 
-        if (playerView && !model.damagedTargets.Contains(other))
+        if (playerView)
         {
             PlayerService.Instance.AddHitImpact(transform.parent.position, 10f);
             EventService.Instance.InvokePlayerHitAction();

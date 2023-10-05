@@ -1,17 +1,28 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class EventService : MonoSingletonGeneric<EventService>
 {
-    public event Action onEnemyDeathAction;
+    //public event Action<EnemyView> onEnemySpawned;
+    public event Action<EnemyView> onEnemyDeathAction;
+    public event Action onAllEnemiesDeadAction;
+    public event Action onCurrentEnemyGroupDeadAction;
     public event Action onPlayerDeathAction;
     public event Action onPlayerHitAction;
+    public event Action<EnemyView> onEnemyHitAction;
 
-    public void InvokeEnemyDeathAction()
+    private void Awake()
     {
-        onEnemyDeathAction?.Invoke();
+        base.Awake();
+    }
+
+    //public void InvokeEnemySpawnedAction(EnemyView enemyView)
+    //{
+    //    onEnemySpawned?.Invoke(enemyView);
+    //}
+
+    public void InvokeEnemyDeathAction(EnemyView enemyView)
+    {
+        onEnemyDeathAction?.Invoke(enemyView);
     }
 
     public void InvokePlayerDeathAction()
@@ -22,5 +33,20 @@ public class EventService : MonoSingletonGeneric<EventService>
     public void InvokePlayerHitAction()
     {
         onPlayerHitAction?.Invoke();
+    }
+
+    public void InvokeEnemyHitAction(EnemyView enemyView)
+    {
+        onEnemyHitAction?.Invoke(enemyView);
+    }
+
+    public void InvokeAllEnemiesDeadAction()
+    {
+        onAllEnemiesDeadAction?.Invoke();
+    }
+
+    public void InvokeCurrentEnemyGroupDeadAction()
+    {
+        onCurrentEnemyGroupDeadAction?.Invoke();
     }
 }

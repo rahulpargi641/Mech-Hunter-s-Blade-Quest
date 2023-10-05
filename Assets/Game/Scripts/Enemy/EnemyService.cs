@@ -1,14 +1,75 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyService : MonoBehaviour
+public class EnemyService : MonoSingletonGeneric<EnemyService>
 {
-    [SerializeField] EnemyView enemyPrefab;
-    private EnemyController enemyController;
+    private List<EnemyController> enemyControllers;
 
-    void Awake()
+    private bool areEnemiesSpawned = false;
+    private int TotalEnemies = 7;
+    private int deadEnemies;
+
+    protected override void Awake()
     {
-        EnemyModel enemyModel = new();
-        //PlayerView playerView = Instantiate(playerPrefab);
-        enemyController = new EnemyController(enemyModel, enemyPrefab);
+        base.Awake();
+
+        enemyControllers = new List<EnemyController>();
     }
+
+    private void Start()
+    {
+        EventService.Instance.onEnemyDeathAction += EnemyDead;        
+    }
+
+    private void Update()
+    {
+        if (enemyControllers.Count == 0)
+            return;
+
+        if(CurrentEnemyGroupDead())
+        {
+            EventService.Instance.InvokeCurrentEnemyGroupDeadAction();
+            enemyControllers.Clear();
+            Debug.Log("Current Enemy Group dead");
+        }
+
+        AllEnemiesDead();
+    }
+
+    private void AllEnemiesDead()
+    {
+        if(deadEnemies == TotalEnemies)
+            EventService.Instance.InvokeAllEnemiesDeadAction();
+    }
+
+    private bool CurrentEnemyGroupDead()
+    {
+        bool currentEnemyGroupDead = true;
+        foreach (EnemyController enemyController in enemyControllers)
+        {
+            if (!enemyController.IsDead())
+            {
+                currentEnemyGroupDead = false;
+            }
+        }
+
+        return currentEnemyGroupDead;
+    }
+
+    public void AddEnemyController(EnemyModel model, EnemyView view)
+    {
+        enemyControllers.Add(new EnemyController(model, view));
+    }
+
+    public void EnemyDead(EnemyView enemyView)
+    {
+        enemyView.EnemyDead();
+        deadEnemies++;
+    }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawCube(boxCollider.transform.position, boxCollider.bounds.size);
+    //}
 }
