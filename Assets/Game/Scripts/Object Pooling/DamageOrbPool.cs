@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class DamageOrbPool : ObjectPoolGeneric<DamageOrbController>
 {
-    //[SerializeField]
     private DamageOrbModel model;
     private DamageOrbView view;
     
@@ -16,8 +15,8 @@ public class DamageOrbPool : ObjectPoolGeneric<DamageOrbController>
 
     protected override DamageOrbController CreateItem()
     {
-        DamageOrbView damageorbView = Instantiate(view);
+        DamageOrbView view = Object.Instantiate(this.view);
 
-        return new DamageOrbController(model, damageorbView);
+        return new DamageOrbController(model, view);
     }
 }

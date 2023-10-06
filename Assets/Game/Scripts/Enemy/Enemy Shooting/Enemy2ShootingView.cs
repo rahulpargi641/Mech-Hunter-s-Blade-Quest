@@ -14,9 +14,9 @@ public class Enemy2ShootingView : MonoBehaviour
         //damageOrb.transform.rotation = Quaternion.LookRotation(shootingPoint.forward);
         
 
-        DamageOrbController damageOrbController = DamageOrbService.Instance.CreateDamageOrb();
+        DamageOrbService.Instance.CreateDamageOrb(shootingPoint.position, Quaternion.LookRotation(shootingPoint.forward));
 
-            damageOrbController.SetDamageOrbTransform(shootingPoint.position, Quaternion.LookRotation(shootingPoint.forward));
+            //damageOrbController.SetDamageOrbTransform(shootingPoint.position, Quaternion.LookRotation(shootingPoint.forward));
     }
 
     private void Update()

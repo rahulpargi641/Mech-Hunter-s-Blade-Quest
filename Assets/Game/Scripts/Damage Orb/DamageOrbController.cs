@@ -21,10 +21,9 @@ public class DamageOrbController
 
     public void ProcessHit()
     {
-        PlayerService.Instance.AddHitImpact(view.transform.position, 10f);
-        EventService.Instance.InvokePlayerHitAction();
+        PlayerService.Instance.AddHitImpact(view.transform.position, model.HitForce);
+        EventService.Instance.InvokeOnPlayerHit();
         PlayerHealthService.Instance.ApplyDamage(model.Damage);
-        
         DamageOrbService.Instance.ReturnDamageOrbToPool(this);
     }
 

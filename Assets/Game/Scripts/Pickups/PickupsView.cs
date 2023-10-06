@@ -3,26 +3,25 @@ using UnityEngine;
 public class PickupsView : MonoBehaviour
 {
    public enum EPickUp
-    {
+   {
         HealOrb, Coin
-    }
+   }
 
     EPickUp pickup;
 
-    private int healOrbGain = 20;
+    public PickupsController Controller { private get; set; }
 
     private void OnTriggerEnter(Collider other)
     {
         PlayerView playerView = other.GetComponent<PlayerView>();
         if(playerView)
         {
-            PlayerHealthService.Instance.AddHealth(healOrbGain);
-            PlayerVFX playerVFX = other.GetComponent<PlayerVFX>();
+            Controller.ProcessHeal();
 
-            if (playerVFX)
-                playerVFX.PlayHealVFX();
+            //PlayerVFX playerVFX = other.GetComponent<PlayerVFX>();
 
-            PickupsService.Instance.ReturnPickupToPool(this);
+            //if (playerVFX)
+            //    playerVFX.PlayHealVFX();
             //gameObject.SetActive(false);
         }
     }

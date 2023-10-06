@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyDamageCaster : DamageCasterView
+public class EnemyDamageCasterView : DamageCasterView
 {
     protected override void OnTriggerEnter(Collider other)
     {
@@ -8,8 +8,8 @@ public class EnemyDamageCaster : DamageCasterView
 
         if (playerView)
         {
-            PlayerService.Instance.AddHitImpact(transform.parent.position, 10f);
-            EventService.Instance.InvokePlayerHitAction();
+            PlayerService.Instance.AddHitImpact(transform.parent.position, model.HitForce);
+            EventService.Instance.InvokeOnPlayerHit();
             PlayerHealthService.Instance.ApplyDamage(model.Damage);
         }
 

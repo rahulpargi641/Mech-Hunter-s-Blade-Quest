@@ -13,7 +13,7 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
     {
         base.Awake();
 
-        enemyPool = GetComponent<EnemyPool>();
+        enemyPool = new EnemyPool();
         enemyControllers = new List<EnemyController>();
     }
 
@@ -82,9 +82,8 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
         enemyView.Controller.EnemyDead();
         nDeadEnemies++;
 
-        enemyView.gameObject.SetActive(false);
-        ReturnEnemyToPool(enemyView.Controller);
-
+        //enemyView.gameObject.SetActive(false);
+        //ReturnEnemyToPool(enemyView.Controller);
     }
 
     void ReturnEnemyToPool(EnemyController enemyController)

@@ -3,15 +3,24 @@ using UnityEngine.VFX;
 
 public class VFXPool : ObjectPoolGeneric<VisualEffect>
 {
-    [SerializeField] VisualEffect beingHitSplashVFX;
+    private VisualEffect vfxToSpawn;
 
-    public VisualEffect GetHitSplashVFX()
+    public VisualEffect GetHitSplashVFX(VisualEffect beingHitSplashVFX)
     {
+        vfxToSpawn = beingHitSplashVFX;
+
+        return GetItemFromPool();
+    }
+
+    public VisualEffect GetHealVFX(VisualEffect healVFX)
+    {
+        vfxToSpawn = healVFX;
+
         return GetItemFromPool();
     }
 
     protected override VisualEffect CreateItem()
     {
-        return Instantiate(beingHitSplashVFX);
+        return Object.Instantiate(vfxToSpawn);
     }
 }

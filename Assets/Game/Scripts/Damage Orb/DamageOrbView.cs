@@ -26,7 +26,7 @@ public class DamageOrbView : MonoBehaviour
         }
     }
 
-    // Play from VFX Pool
+    // Play from Particle Pool
     private void PlayHitVFX()
     {
         Instantiate(hitVFX, transform.position, Quaternion.identity);

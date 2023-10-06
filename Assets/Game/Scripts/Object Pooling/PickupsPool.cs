@@ -1,16 +1,22 @@
 using UnityEngine;
 
-public class PickupsPool : ObjectPoolGeneric<PickupsView>
+public class PickupsPool : ObjectPoolGeneric<PickupsController>
 {
-    [SerializeField] PickupsView pickupPrefab;
+    private PickupsModel model;
+    private PickupsView view;
 
-    public PickupsView GetPickup()
+    public PickupsController GetPickup(PickupsModel model, PickupsView view)
     {
+        this.model = model;
+        this.view = view;
+
         return GetItemFromPool();
     }
 
-    protected override PickupsView CreateItem()
+    protected override PickupsController CreateItem()
     {
-        return Instantiate(pickupPrefab);
+        PickupsView view = Object.Instantiate(this.view);
+
+        return new PickupsController(model, view);
     }
 }

@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPoolGeneric<T> : MonoBehaviour
+public class ObjectPoolGeneric<T>
 {
     private List<PooledItem<T>> pooledItems = new List<PooledItem<T>>();
 

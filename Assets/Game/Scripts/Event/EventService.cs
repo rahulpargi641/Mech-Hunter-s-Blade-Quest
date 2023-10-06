@@ -20,7 +20,7 @@ public class EventService : MonoSingletonGeneric<EventService>
     //    onEnemySpawned?.Invoke(enemyView);
     //}
 
-    public void InvokeEnemyDeathAction(EnemyView enemyView)
+    public void InvokeOnEnemyDeath(EnemyView enemyView)
     {
         onEnemyDeathAction?.Invoke(enemyView);
     }
@@ -30,7 +30,7 @@ public class EventService : MonoSingletonGeneric<EventService>
         onPlayerDeathAction?.Invoke();
     }
 
-    public void InvokePlayerHitAction()
+    public void InvokeOnPlayerHit()
     {
         onPlayerHitAction?.Invoke();
     }
