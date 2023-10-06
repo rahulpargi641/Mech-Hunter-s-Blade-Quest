@@ -1,18 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageOrbService : MonoBehaviour
+public class DamageOrbService : MonoSingletonGeneric<DamageOrbService>
 {
-    // Start is called before the first frame update
+    [SerializeField] DamageOrbView damageOrbView;
+    private DamageOrbPool damageOrbPool;
+
     void Start()
     {
-        
+        damageOrbPool = new DamageOrbPool();
     }
 
-    // Update is called once per frame
-    void Update()
+    public DamageOrbController CreateDamageOrb()
     {
-        
+        DamageOrbModel damageOrbModel = new();
+
+        DamageOrbController damageOrbController = damageOrbPool.GetDamageOrb(damageOrbModel, damageOrbView);
+        damageOrbController.EnableDamageOrb();
+
+        return damageOrbController;
+    }
+
+    public void ReturnDamageOrbToPool(DamageOrbController damageOrbController)
+    {
+        damageOrbController.DisableDamageOrb();
+        damageOrbPool.ReturnItem(damageOrbController);
     }
 }

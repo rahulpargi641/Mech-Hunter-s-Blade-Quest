@@ -7,9 +7,9 @@ public class DamageCasterModel
 
     public List<Collider> damagedTargets;
 
-    public DamageCasterModel(int damage)
+    public DamageCasterModel()
     {
-        Damage = damage;
+        Damage = 30;
         damagedTargets = new List<Collider>();
     }
 }
