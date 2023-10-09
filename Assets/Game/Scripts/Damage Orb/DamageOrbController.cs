@@ -14,16 +14,17 @@ public class DamageOrbController
         this.view.Controller = this;
     }
 
-    public void MoveForward()
+    public void MoveOrbForward()
     {
         view.RigidBody.MovePosition(view.transform.position + view.transform.forward * model.Speed * Time.deltaTime);
     }
 
-    public void ProcessHit()
+    public void ProcessHit(PlayerHealthPresenter playerHealth)
     {
-        PlayerService.Instance.AddHitImpact(view.transform.position, model.HitForce);
         EventService.Instance.InvokeOnPlayerHit();
-        PlayerHealthService.Instance.ApplyDamage(model.Damage);
+        PlayerService.Instance.AddHitImpactForce(view.transform.position, model.HitForce);
+        playerHealth.ApplyDamage(model.Damage);
+
         DamageOrbService.Instance.ReturnDamageOrbToPool(this);
     }
 

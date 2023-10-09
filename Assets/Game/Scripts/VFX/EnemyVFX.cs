@@ -24,7 +24,7 @@ public class EnemyVFX : MonoBehaviour
         attackSmashVFX.SendEvent(onPlay);
     }
 
-    public void PlayBeingHitVFX(Vector3 attackerPos)
+    public void PlayHitVFX(Vector3 attackerPos)
     {
         Vector3 forceForward = transform.position - attackerPos;
         forceForward.Normalize();
@@ -33,17 +33,15 @@ public class EnemyVFX : MonoBehaviour
         beingHitVFX.Play();
     }
 
-    public void PlayBeingHitSplashVFX()
+    public void PlayHitSplashVFX()
     {
-        //VisualEffect splashVFX = Instantiate(beingHitSplashVFX, splashPos, Quaternion.identity);
 
         Vector3 splashPos = transform.position;
         splashPos.y += yOffset;
 
+        //VisualEffect splashVFX = Instantiate(beingHitSplashVFX, splashPos, Quaternion.identity);
         VisualEffect enemyOilSplashVFX = VFXService.Instance.SpawnOilSplashVFX(splashPos);
 
-        //enemyOilSplashVFX.transform.position = splashPos;
-        //enemyOilSplashVFX.transform.rotation = Quaternion.identity;
         enemyOilSplashVFX.SendEvent(onPlay);
 
         StartCoroutine(ReturnVFX(enemyOilSplashVFX));

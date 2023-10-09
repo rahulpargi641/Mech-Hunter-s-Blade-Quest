@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DamageCasterView : MonoBehaviour
+public class DamageCasterPresenter : MonoBehaviour
 {
     private Collider damageCasterCollider; 
 
@@ -33,7 +33,7 @@ public class DamageCasterView : MonoBehaviour
         damageCasterCollider.enabled = false;
     }
 
-    // for visualization in editor mode, if damageCasterCollider is touching other 
+    // for visualization in editor mode, if damageCasterCollider is touching other or not 
     private void OnDrawGizmos()
     {
         if (damageCasterCollider == null)

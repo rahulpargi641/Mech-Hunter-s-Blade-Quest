@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Dead : PlayerState
+public class PlayerDead : PlayerState
 {
-    public Dead(PlayerView playerView, Animator animator) : base(playerView, animator)
+    public PlayerDead(PlayerView playerView, PlayerSO player) : base(playerView, player)
     {
         state = EPlayerState.Dead;
         stage = EStage.Enter;
@@ -11,12 +11,12 @@ public class Dead : PlayerState
     {
         base.Enter();
 
-        animator.SetTrigger("Dead");
+        animator.SetTrigger(player.deadAnimName);
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Dead");
+        animator.ResetTrigger(player.deadAnimName);
         base.Exit();
     }
 }

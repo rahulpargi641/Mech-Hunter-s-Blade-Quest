@@ -21,7 +21,7 @@ public class GateView : MonoBehaviour
         EventService.Instance.onCurrentEnemyGroupDeadAction += OpenGate;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         EventService.Instance.onCurrentEnemyGroupDeadAction -= OpenGate;
     }

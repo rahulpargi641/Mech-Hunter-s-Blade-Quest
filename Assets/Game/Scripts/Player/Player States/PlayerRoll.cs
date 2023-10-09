@@ -1,19 +1,21 @@
 using UnityEngine;
 
-public class Roll : PlayerState
+public class PlayerRoll : PlayerState
 {
-    private float slideSpeed = 7f;
-    public Roll(PlayerView playerView, Animator animator) : base(playerView, animator)
+    private float rollSlideSpeed = 7f;
+    public PlayerRoll(PlayerView playerView, PlayerSO player) : base(playerView, player)
     {
         state = EPlayerState.Run;
         stage = EStage.Enter;
+
+        rollSlideSpeed = player.rollSlideSpeed;
     }
 
     protected override void Enter()
     {
         base.Enter();
 
-        animator.SetTrigger("Roll");
+        animator.SetTrigger(player.rollAnimName);
 
         playerView.RollAnimationEnded = false;
     }
@@ -26,20 +28,20 @@ public class Roll : PlayerState
 
         if(playerView.RollAnimationEnded)
         {
-            nextState = new Idle(playerView, animator);
+            nextState = new PlayerIdle(playerView, player);
             stage = EStage.Exit;
         }
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Roll");
+        animator.ResetTrigger(player.rollAnimName);
         base.Exit();
     }
 
     private void RollMovement()
     {
-        Vector3 movementVelocity = playerView.transform.forward * slideSpeed * Time.deltaTime;
+        Vector3 movementVelocity = playerView.transform.forward * rollSlideSpeed * Time.deltaTime;
         playerView.CharacterController.Move(movementVelocity);
     }
 }

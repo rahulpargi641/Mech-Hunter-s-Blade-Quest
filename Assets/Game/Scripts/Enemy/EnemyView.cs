@@ -16,19 +16,21 @@ public class EnemyView : MonoBehaviour
     public CharacterController CharacterController { get; set; }
     public bool AttackAnimationEnded { get; set; }
     public bool BeingHitAnimationEnded { get; set; }
+    public int EnemyID { private get; set; }
 
     protected Animator animator;
     protected NavMeshAgent navMeshAgent;
     protected Transform playerTransform;
-    private DamageCasterView damageCaster;
     protected EnemyState currentState;
+
+    private DamageCasterPresenter damageCaster;
 
     virtual protected void Awake()
     {
         CharacterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        damageCaster = GetComponentInChildren<DamageCasterView>();
+        damageCaster = GetComponentInChildren<DamageCasterPresenter>();
     }
 
     private void OnEnable()
@@ -80,9 +82,13 @@ public class EnemyView : MonoBehaviour
             return false;
     }
 
-    public void EnemyDead()
-    {
-        Controller.EnemyDead();
-        CharacterController.enabled = false;
-    }
+    //private void SetPatrolPoints()
+    //{
+    //    Transform parentTransform;
+    //    if (EnvironmentService.Instance.enemyPatrolPoints.TryGetValue(EnemyID, out parentTransform))
+    //    {
+    //        for (int i = 0; i < parentTransform.childCount; i++)
+    //            PatrolPoints2.Add(parentTransform.GetChild(i));
+    //    }
+    //}
 }

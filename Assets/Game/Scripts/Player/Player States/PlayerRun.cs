@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Run : PlayerState
+public class PlayerRun : PlayerState
 {
-    public Run(PlayerView playerView, Animator animator) : base(playerView, animator)
+    public PlayerRun(PlayerView playerView, PlayerSO player) : base(playerView, player)
     {
-        state = EPlayerState.Run;
+        base.state = PlayerState.EPlayerState.Run;
         stage = EStage.Enter;
     }
 
@@ -12,7 +12,7 @@ public class Run : PlayerState
     {
         base.Enter();
 
-        animator.SetTrigger("Run");
+        animator.SetTrigger(player.runAnimName);
     }
 
     protected override void Update()
@@ -21,34 +21,34 @@ public class Run : PlayerState
 
         playerView.Run();
 
-        if (! CanRun())
+        if (!CanRun())
         {
-            nextState = new Idle(playerView, animator);
+            nextState = new PlayerIdle(playerView, player);
             stage = EStage.Exit;
         }
 
         if (CanRoll())
         {
-            nextState = new Roll(playerView, animator);
+            nextState = new PlayerRoll(playerView, player);
             stage = EStage.Exit;
         }
 
         if (CanAttack())
         {
-            nextState = new Attack(playerView, animator);
+            nextState = new PlayerAttack(playerView, player);
             stage = EStage.Exit;
         }
 
         if (CanAttack2())
         {
-            nextState = new SlideAttack(playerView, animator);
+            nextState = new SlideAttack(playerView, player);
             stage = EStage.Exit;
         }
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Run");
+        animator.ResetTrigger(player.runAnimName);
         base.Exit();
     }
 }

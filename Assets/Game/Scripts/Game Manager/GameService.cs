@@ -4,6 +4,8 @@ using UnityEngine;
 public class GameService : MonoSingletonGeneric<GameService>
 {
     private GameController controller;
+    private int waitDuration = 5;
+
     void Start()
     {
         GameModel model = new GameModel();
@@ -13,47 +15,44 @@ public class GameService : MonoSingletonGeneric<GameService>
         EventService.Instance.onAllEnemiesDeadAction += GameFinished;
     }
 
-    // Update is called once per frame
+    private void OnDestroy()
+    {
+        EventService.Instance.onPlayerDeathAction -= GameOver;
+        EventService.Instance.onAllEnemiesDeadAction -= GameFinished;
+    }
+
     void Update()
     {
         if(controller.IsGameOver())
         {
-            Debug.Log("Game Over");
             StartCoroutine(ShowGameOverUI());
         }
 
         if(controller.IsGameFinished())
         {
-            Debug.Log("Game Finished");
             StartCoroutine(ShowGameFinishedUI());
         }
     }
 
     IEnumerator ShowGameOverUI()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(waitDuration);
 
         GameUIService.Instance.ShowGameOverUI();
     }
 
     IEnumerator ShowGameFinishedUI()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(waitDuration);
 
         GameUIService.Instance.ShowGameFinishedUI();
-    }
-
-    private void OnDisable()
-    {
-        EventService.Instance.onPlayerDeathAction -= GameOver;
-
-        EventService.Instance.onAllEnemiesDeadAction += GameFinished;
     }
 
     public void GameFinished()
     {
         controller.GameFinished();
     }
+
     public void GameOver()
     {
         controller.GameOver();

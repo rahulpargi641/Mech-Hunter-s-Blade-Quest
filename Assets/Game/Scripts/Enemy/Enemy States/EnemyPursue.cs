@@ -8,6 +8,7 @@ public class EnemyPursue : EnemyState
     {
         state = EState.Pursue;
         stage = EStage.Enter;
+
         navMeshAgent.speed = 1.5f;
         navMeshAgent.isStopped = false;
     }
@@ -24,6 +25,7 @@ public class EnemyPursue : EnemyState
         base.Update();
 
         UpdatePath(playerTransform.position);
+
         if (navMeshAgent.hasPath) // means following the player       
         {
             if (CanAttackPlayer())

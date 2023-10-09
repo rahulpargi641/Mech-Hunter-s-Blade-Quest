@@ -6,23 +6,26 @@ public class SlideAttack : PlayerState
     private float attackStartTime;
     private float attackSlideDuration = 0.1f;
     private float attackSlideSpeed = 0.5f;
-    public SlideAttack(PlayerView playerView, Animator animator) : base(playerView, animator)
+    public SlideAttack(PlayerView playerView, PlayerSO player) : base(playerView, player)
     {
         state = EPlayerState.Attack;
         stage = EStage.Enter;
+
+        attackSlideDuration = player.attackSlideDuration;
+        attackSlideSpeed = player.attackSlideSpeed;
     }
 
     protected override void Enter()
     {
         base.Enter();
 
-        animator.SetTrigger("Attack");
+        animator.SetTrigger(player.attackAnimName);
         playerView.AttackAnimationEnded = false;
 
         attackStartTime = Time.time;
 
         // Disabling player collider if not already disabled when performing attack
-        DamageCasterView damageCaster = playerView.GetComponentInChildren<DamageCasterView>();
+        DamageCasterPresenter damageCaster = playerView.GetComponentInChildren<DamageCasterPresenter>();
         if (damageCaster) damageCaster.DisableDamageCaster();
 
         //AudioService.Instance.PlayAttackSound
@@ -32,23 +35,23 @@ public class SlideAttack : PlayerState
     {
         base.Update();
 
-        PerformAttackSlide();
+        PerformSlideAttack();
 
         if (playerView.AttackAnimationEnded)
         {
-            nextState = new Idle(playerView, animator);
+            nextState = new PlayerIdle(playerView, player);
             stage = EStage.Exit;
         }
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Attack");
+        animator.ResetTrigger(player.attackAnimName);
         base.Exit();
     }
 
     // Player Slides forwards while performing attack
-    private void PerformAttackSlide()
+    private void PerformSlideAttack()
     {
         //model.MovementVelocity = Vector3.zero; // might have value from last frame
         playerView.CharacterController.Move(Vector3.zero);

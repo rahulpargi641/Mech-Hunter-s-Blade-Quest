@@ -32,19 +32,18 @@ public class EnemySpawner : MonoBehaviour
         foreach (EnemyView enemyView in enemyViews)
         {
             if (enemyView)
-            {
-                enemyView.gameObject.SetActive(true);
-                EnemyService.Instance.CreateEnemy(enemyView);
-                Debug.Log("Enemy Spawned." + enemyView.gameObject.name);
-            }
+                EnemyService.Instance.SpawnEnemy(enemyView, enemyView.transform.position);
         }
     }
 
+    // For Visulalization of spawner area and spawn points in the scene
     private void OnDrawGizmos()
     {
+        // For spawner area
         Gizmos.color = Color.red;
         Gizmos.DrawCube(boxCollider.transform.position, boxCollider.bounds.size);
 
+        // For spawn points
         Gizmos.color = Color.green;
         Vector3 center = transform.position + new Vector3(0f, 0.5f, 0f);
 

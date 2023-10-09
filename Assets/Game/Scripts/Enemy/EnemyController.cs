@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class EnemyController
 {
@@ -11,6 +12,23 @@ public class EnemyController
         this.view = view;
 
         view.Controller = this;
+        model.Controller = this;
+    }
+
+    public void SetTransform(Vector3 spawnPoint)
+    {
+        view.transform.position = spawnPoint;
+    }
+
+    public void EnableEnemy(int enemyID)
+    {
+        view.EnemyID = enemyID;
+        view.gameObject.SetActive(true);
+    }
+
+    public void DisableEnemy()
+    {
+        view.gameObject.SetActive(false);
     }
 
     public void EnemyDead()

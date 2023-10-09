@@ -10,6 +10,7 @@ public class EnemyPatrol : EnemyState
     {
         state = EState.Patrol;
         stage = EStage.Enter;
+
         navMeshAgent.speed = 1;
         navMeshAgent.isStopped = false;
     }
@@ -18,18 +19,19 @@ public class EnemyPatrol : EnemyState
     {
         base.Enter();
 
-        float lastDist = Mathf.Infinity;
+        float lastPatrolPointDist = Mathf.Infinity;
         for (int i = 0; i < enemyAIView.PatrolPoints.Count; i++)
         {
             Transform currPatrolPoint = enemyAIView.PatrolPoints[i];
 
             float distance = Vector3.Distance(enemyAIView.transform.position, currPatrolPoint.position);
-            if (distance < lastDist)
+            if (distance < lastPatrolPointDist)
             {
                 currentIndex = i;
-                lastDist = distance;
+                lastPatrolPointDist = distance;
             }
         }
+
         animator.SetTrigger("Run");
     }
     protected override void Update()

@@ -1,29 +1,40 @@
 using UnityEngine;
 
-public class PlayerDamageCaster : DamageCasterView
+public class PlayerDamageCaster : DamageCasterPresenter
 {
     protected override void OnTriggerEnter(Collider other)
     {
-        EnemyHealthView enemyhealthView = other.GetComponent<EnemyHealthView>();
+        EnemyHealthPresenter enemyhealth = other.GetComponent<EnemyHealthPresenter>();
         EnemyView enemyView = other.GetComponent<EnemyView>();
+        EnemyVFX enemyVFX = other.GetComponent<EnemyVFX>();
 
-        if (enemyhealthView && enemyView) /*&& !model.damagedTargets.Contains(other)*/
+        if (enemyhealth && enemyView)         /*&& !model.damagedTargets.Contains(other)*/
         {
-            enemyhealthView.ApplyDamage(model.Damage, transform.parent.position);
-            EventService.Instance.InvokeEnemyHitAction(enemyView);
-            PlayerVFX playerVFXView = transform.parent.GetComponent<PlayerVFX>();
-            if (playerVFXView)
-            {
-                RaycastHit hit;
-                bool isHit;
-                DrawBox(out hit, out isHit);
-
-                if (isHit)
-                    playerVFXView.PlaySlashVFX(hit.point + new Vector3(0f, 0.5f, 0f));
-            }
-
+            enemyhealth.ApplyDamage(enemyView, model.Damage);
+            EventService.Instance.InvokeOnEnemyHit(enemyView);
         }
 
+        if (enemyVFX)
+            PlayDamageVFXs(enemyVFX, transform.parent.position);
+
         base.OnTriggerEnter(other);
+    }
+
+    private void PlayDamageVFXs(EnemyVFX enemyVFX, Vector3 attackerPos = new Vector3())
+    {
+        enemyVFX.PlayHitVFX(attackerPos);
+        enemyVFX.PlayHitSplashVFX();
+
+        PlaySlashVFX();
+    }
+
+    private void PlaySlashVFX()
+    {
+        RaycastHit hit;
+        bool isHit;
+        DrawBox(out hit, out isHit);
+
+        if (isHit)
+            PlayerVFX.Instance.PlaySlashVFX(hit.point + new Vector3(0f, 0.5f, 0f));
     }
 }

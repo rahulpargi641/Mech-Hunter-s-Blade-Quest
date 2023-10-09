@@ -18,9 +18,10 @@ public class EnemySpawning : EnemyState
         base.Enter();
 
         animator.SetTrigger("Idle");
+
         currentSpawnTime = spawnDuration;
-        MaterialBlockView materialBlockView = enemyAIView.GetComponent<MaterialBlockView>();
-        materialBlockView.CharacterAppear();
+        MaterialBlock materialBlockView = enemyAIView.GetComponent<MaterialBlock>();
+        materialBlockView.CharacterAppearEffect();
     }
 
     protected override void Update()

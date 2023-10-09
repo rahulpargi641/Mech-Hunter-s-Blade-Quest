@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Hurt : PlayerState
+public class PlayerHurt : PlayerState
 {
-    public Hurt(PlayerView playerView, Animator animator) : base(playerView, animator)
+    public PlayerHurt(PlayerView playerView, PlayerSO player) : base(playerView, player)
     {
         state = EPlayerState.BeingHit;
         stage = EStage.Enter;
@@ -12,7 +12,7 @@ public class Hurt : PlayerState
     {
         base.Enter();
 
-        animator.SetTrigger("Hurt");
+        animator.SetTrigger(player.hurtAnimName);
         playerView.BeingHitAnimationEnded = false;
     }
 
@@ -20,24 +20,24 @@ public class Hurt : PlayerState
     {
         base.Update();
 
-        PlayerService.Instance.HitImpactOnPlayer();
+        PlayerService.Instance.ApplyHitImpactForce();
 
         if (playerView.BeingHitAnimationEnded)
         {
             if(CanRun())
             {
-                nextState = new Run(playerView, animator);
+                nextState = new PlayerRun(playerView, player);
                 stage = EStage.Exit;
             }
             if(CanAttack())
             {
-                nextState = new Attack(playerView, animator);
+                nextState = new PlayerAttack(playerView, player);
                 stage = EStage.Exit;
             }
 
             if (CanAttack2())
             {
-                nextState = new SlideAttack(playerView, animator);
+                nextState = new SlideAttack(playerView, player);
                 stage = EStage.Exit;
             }
         }
@@ -45,7 +45,7 @@ public class Hurt : PlayerState
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Hurt");
+        animator.ResetTrigger(player.hurtAnimName);
         base.Exit();
     }
 }

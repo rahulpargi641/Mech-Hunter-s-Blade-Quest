@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Idle : PlayerState
+public class PlayerIdle : PlayerState
 {
-    public Idle(PlayerView playerView, Animator animator) : base (playerView, animator)
+    public PlayerIdle(PlayerView playerView, PlayerSO player) : base (playerView, player)
     {
         state = EPlayerState.Idle;
         stage = EStage.Enter;
@@ -12,7 +12,7 @@ public class Idle : PlayerState
     {
         base.Enter();
 
-        animator.SetTrigger("Idle");
+        animator.SetTrigger(player.idleAnimName);
     }
 
     protected override void Update()
@@ -21,25 +21,25 @@ public class Idle : PlayerState
 
         if (CanRoll())
         {
-            nextState = new Roll(playerView, animator);
+            nextState = new PlayerRoll(playerView, player);
             stage = EStage.Exit;
         }
 
         if (CanRun())
         {
-            nextState = new Run(playerView, animator);
+            nextState = new PlayerRun(playerView, player);
             stage = EStage.Exit;
         }
 
         if(CanAttack())
         {
-            nextState = new Attack(playerView, animator);
+            nextState = new PlayerAttack(playerView, player);
             stage = EStage.Exit;
         }
 
         if(CanAttack2())
         {
-            nextState = new SlideAttack(playerView, animator);
+            nextState = new SlideAttack(playerView, player);
             stage = EStage.Exit;
         }
     }

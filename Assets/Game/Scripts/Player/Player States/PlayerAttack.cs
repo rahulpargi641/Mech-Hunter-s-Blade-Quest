@@ -1,29 +1,35 @@
 using UnityEngine;
 
-public class Attack : PlayerState
+public class PlayerAttack : PlayerState
 {
     // Combo attack
     private float attackStartTime;
-    private float attackAnimationDuration;
-    private int comboStep = 1;
+    private float attackAnimDuration;
+    private float minAnimWindow;
+    private float maxAnimDuration;
+    private int comboStep;
 
-    public Attack(PlayerView playerView, Animator animator) : base(playerView, animator)
+    public PlayerAttack(PlayerView playerView, PlayerSO player) : base(playerView, player)
     {
         state = EPlayerState.Attack;
         stage = EStage.Enter;
+
+        minAnimWindow = player.minAnimWindow;
+        maxAnimDuration = player.maxAnimWindow;
+        comboStep = 1;
     }
 
     protected override void Enter()
     {
         base.Enter();
 
-        animator.SetTrigger("Attack");
+        animator.SetTrigger(player.attackAnimName);
         playerView.AttackAnimationEnded = false;
 
         attackStartTime = Time.time;
 
         // Disabling player collider if not already disabled when performing attack
-        DamageCasterView damageCaster = playerView.GetComponentInChildren<DamageCasterView>();
+        DamageCasterPresenter damageCaster = playerView.GetComponentInChildren<DamageCasterPresenter>();
         if (damageCaster) damageCaster.DisableDamageCaster();
 
         //AudioService.Instance.PlayAttackSound
@@ -40,7 +46,7 @@ public class Attack : PlayerState
 
         if (playerView.AttackAnimationEnded)
         {
-            nextState = new Idle(playerView, animator);
+            nextState = new PlayerIdle(playerView, player);
             stage = EStage.Exit;
         }
     }
@@ -51,25 +57,22 @@ public class Attack : PlayerState
         if (clipInfo.Length > 0)
         {
             string currentClipName = clipInfo[0].clip.name;
-            attackAnimationDuration = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            attackAnimDuration = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-            if (currentClipName != "LittleAdventurerAndie_ATTACK_03" && attackAnimationDuration > 0.35f && attackAnimationDuration < 0.7f)
+            if (currentClipName != player.lastAttackComboClipName && attackAnimDuration > minAnimWindow && attackAnimDuration < maxAnimDuration)
             {
                 comboStep++;
-                if (comboStep > 3)
-                {
-                    comboStep = 2;
-                }
-                string animationName = "Attack" + comboStep.ToString();
+                if (comboStep > 3) comboStep = 2;
+
+                string animationName = player.attackAnimName + comboStep.ToString();
                 animator.SetTrigger(animationName);
-                //Debug.Log("Attack trigger name" + animationName);
             }
         }
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Attack");
+        animator.ResetTrigger(player.attackAnimName);
         base.Exit();
     }
 }

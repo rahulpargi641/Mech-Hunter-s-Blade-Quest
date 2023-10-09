@@ -3,20 +3,21 @@ using UnityEngine;
 public class PlayerModel
 {
     public float MoveSpeed { get; private set; }
-    public float Gravity { get; private set; }
-    public float VerticalVelocity { get; set; }
+    public float FallGravity { get; private set; }
+    public float VerticalSpeed { get; set; }
 
     public Vector3 MovementVelocity;
-    public Vector3 ImpactOnCharacter { get; set; }
-    public float ImpactMagnitude { get; private set; }
+    public Vector3 CurrentPushVelocity { get; set; }
+    public PlayerController Controller { private get; set; }
+    public PlayerSO PlayerSO { get; private set; }
 
-
-    public PlayerModel()
+    public PlayerModel(PlayerSO playerSO)
     {
-        MoveSpeed = 5f;
-        Gravity = -20f;
+        PlayerSO = playerSO;
+        MoveSpeed = playerSO.moveSpeed;
+        FallGravity = playerSO.fallGravity;
         MovementVelocity = new Vector3();
-        ImpactOnCharacter = new Vector3();
-        ImpactMagnitude = 0.2f;
+        CurrentPushVelocity = new Vector3();
+        //MinPushForce = 0.2f;
     }
 }

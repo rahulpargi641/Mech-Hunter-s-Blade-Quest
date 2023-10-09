@@ -20,18 +20,20 @@ public class EnemyState
     protected Transform playerTransform;
     protected EnemyState nextState;
 
-    private float visibleDist = 10.0f; // 10f
+    private float visibleDist = 10.0f;
     private float visibleAngle = 80.0f; // 30f
     private float attackDist = 2.2f; // 6f
+    private float visibleAttackAngle = 60.0f;
     private float shootingDist = 10.0f;
 
     private float pathUpdateDelay = 0.2f;
     private float pathUpdateDeadline;
 
+    protected bool isPlayerDead = false;
     private bool isEnemyHit = false;
     private bool isEnemyDead = false;
-    public bool isPlayerDead = false;
 
+    private bool areEventsSubscribed = false;
 
     public EnemyState(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
     {
@@ -45,9 +47,13 @@ public class EnemyState
     { 
         stage = EStage.Update;
 
-        EventService.Instance.onPlayerDeathAction += PlayerDead;
-        EventService.Instance.onEnemyDeathAction += EnemyDead;
-        EventService.Instance.onEnemyHitAction += EnemyHit;
+        if(!areEventsSubscribed)
+        {
+            areEventsSubscribed = true;
+            EventService.Instance.onPlayerDeathAction += PlayerDead;
+            EventService.Instance.onEnemyDeathAction += EnemyDead;
+            EventService.Instance.onEnemyHitAction += EnemyHit;
+        }
     }
 
     protected virtual void Update() 
@@ -67,7 +73,17 @@ public class EnemyState
             stage = EStage.Exit;
         }
     }
-    protected virtual void Exit() { stage = EStage.Exit; }
+    protected virtual void Exit()
+    { 
+        stage = EStage.Exit; 
+
+        if(isEnemyDead)
+        {
+            EventService.Instance.onPlayerDeathAction -= PlayerDead;
+            EventService.Instance.onEnemyDeathAction -= EnemyDead;
+            EventService.Instance.onEnemyHitAction -= EnemyHit;
+        }
+    }
     
     public EnemyState Process()
     {
@@ -108,14 +124,14 @@ public class EnemyState
 
         if (enemyAIView.EnemyOfType == EnemyType.Enemy01)
         {
-            if (playerDirection.magnitude < attackDist && facingAngle < 60)
+            if (playerDirection.magnitude < attackDist && facingAngle < visibleAttackAngle)
                 return true;
             else
                 return false;
         }
         else if (enemyAIView.EnemyOfType == EnemyType.Enemy02)
         {
-            if (playerDirection.magnitude < shootingDist && facingAngle < 60)
+            if (playerDirection.magnitude < shootingDist && facingAngle < visibleAttackAngle)
                 return true;
             else
                 return false;

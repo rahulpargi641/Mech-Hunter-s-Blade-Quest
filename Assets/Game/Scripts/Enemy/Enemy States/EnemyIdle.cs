@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class EnemyIdle : EnemyState
 {
     private int patrolChance = 50;
+
     public EnemyIdle(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
            : base(enemyAIView, navMeshAgent, animator, playerTransform)
     {

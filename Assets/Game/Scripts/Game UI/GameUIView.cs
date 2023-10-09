@@ -7,9 +7,7 @@ public class GameUIView : MonoBehaviour
     [SerializeField] GameObject UI_Pause;
     [SerializeField] GameObject UI_GameOver;
     [SerializeField] GameObject UI_GameFinished;
-
-    //[SerializeField] Button buttonReStart; 
-   
+    [SerializeField] string mainMenuName = "MainMenu";
     public GameUIController Controller { private get; set; }
 
     private void Start()
@@ -22,7 +20,6 @@ public class GameUIView : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePauseState();
-            Debug.Log("Pause UI toggle");
         }
     }
 
@@ -39,7 +36,7 @@ public class GameUIView : MonoBehaviour
     public void Button_MainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(mainMenuName);
     }
 
     public void Button_Restart()
@@ -83,6 +80,5 @@ public class GameUIView : MonoBehaviour
 
         Controller.SetCurrentState(state);
     }
-
 }
 
