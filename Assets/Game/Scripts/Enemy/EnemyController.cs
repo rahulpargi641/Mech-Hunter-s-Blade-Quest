@@ -22,7 +22,7 @@ public class EnemyController
 
     public void EnableEnemy(int enemyID)
     {
-        view.EnemyID = enemyID;
+        //view.EnemyID = enemyID;
         view.gameObject.SetActive(true);
     }
 
@@ -42,5 +42,10 @@ public class EnemyController
             return true;
         else
             return false;
+    }
+
+    public EnemySO GetEnemySO()
+    {
+        return model.EnemySO;
     }
 }

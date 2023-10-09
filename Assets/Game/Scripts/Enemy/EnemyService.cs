@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyService : MonoSingletonGeneric<EnemyService>
 {
+    [SerializeField] EnemySO enemySO;
     [SerializeField] EnemyView enemyView;
     private EnemyPool enemyPool;
     private List<EnemyController> enemyControllers;
@@ -69,7 +70,7 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
     // Called via Enemy Spawner
     public void SpawnEnemy(EnemyView enemyView, Vector3 spawnPoint)
     {
-        EnemyModel enemyModel = new();
+        EnemyModel enemyModel = new EnemyModel(enemySO);
         EnemyController enemyController = enemyPool.GetEnemyContoller(enemyModel, enemyView);
 
         enemyNumber++;

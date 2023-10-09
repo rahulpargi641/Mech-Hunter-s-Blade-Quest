@@ -14,19 +14,21 @@ public class EnemyState
 
     protected EState state;
     protected EStage stage;
+
     protected EnemyView enemyAIView;
+    protected EnemySO enemy;
+
     protected NavMeshAgent navMeshAgent;
     protected Animator animator;
     protected Transform playerTransform;
     protected EnemyState nextState;
 
-    private float visibleDist = 10.0f;
-    private float visibleAngle = 80.0f; // 30f
-    private float attackDist = 2.2f; // 6f
-    private float visibleAttackAngle = 60.0f;
-    private float shootingDist = 10.0f;
-
-    private float pathUpdateDelay = 0.2f;
+    private float visibleDist;
+    private float visibleAngle;
+    private float attackDist;
+    private float visibleAttackAngle;
+    private float shootingDist;
+    private float pathUpdateDelay;
     private float pathUpdateDeadline;
 
     protected bool isPlayerDead = false;
@@ -35,13 +37,22 @@ public class EnemyState
 
     private bool areEventsSubscribed = false;
 
-    public EnemyState(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
+    public EnemyState(EnemyView enemyAIView, EnemySO enemy)
     {
         this.enemyAIView = enemyAIView;
-        this.navMeshAgent = navMeshAgent;
-        this.animator = animator;
-        this.playerTransform = playerTransform;
-    }
+        this.enemy = enemy;
+
+        navMeshAgent = enemyAIView.NavMeshAgent;
+        animator = enemyAIView.Animator;
+        playerTransform = enemyAIView.PlayerTransform;
+
+        visibleDist = enemy.visibleDist;
+        visibleAngle = enemy.visibleAngle;
+        attackDist = enemy.attackDist;
+        visibleAttackAngle = enemy.visibleAttackAngle;
+        shootingDist = enemy.shootingDist;
+        pathUpdateDelay = enemy.pathUpdateDelay;
+}
 
     protected virtual void Enter() 
     { 
@@ -62,14 +73,14 @@ public class EnemyState
 
         if (isEnemyDead)
         {
-            nextState = new EnemyDead(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyDead(enemyAIView, enemy);
             stage = EStage.Exit;
             return;
         }
 
         if(isEnemyHit)
         {
-            nextState = new EnemyHurt(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyHurt(enemyAIView, enemy);
             stage = EStage.Exit;
         }
     }

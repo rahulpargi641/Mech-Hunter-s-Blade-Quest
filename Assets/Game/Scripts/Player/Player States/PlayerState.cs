@@ -15,8 +15,8 @@ public class PlayerState
     protected EStage stage;
 
     protected PlayerView playerView;
-    protected Animator animator;
     protected PlayerSO player;
+    protected Animator animator;
 
     protected PlayerState nextState;
 
@@ -27,8 +27,8 @@ public class PlayerState
     public PlayerState(PlayerView playerView, PlayerSO player)
     {
         this.playerView = playerView;
-        this.animator = playerView.Animator;
         this.player = player;
+        animator = playerView.Animator;
 
         stage = EStage.Enter;
     }

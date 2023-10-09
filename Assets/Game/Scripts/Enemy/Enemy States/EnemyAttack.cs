@@ -1,12 +1,10 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyAttack : EnemyState
 {
-    private float detectDist = 4f; // distance at which enemy detects the player even if enemy can't see the player
+    private float detectDist; // distance at which enemy detects the player even if enemy can't see the player
 
-    public EnemyAttack(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
-          : base(enemyAIView, navMeshAgent, animator, playerTransform)
+    public EnemyAttack(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
     {
         state = EState.Attack;
         stage = EStage.Enter;
@@ -16,6 +14,7 @@ public class EnemyAttack : EnemyState
     {
         base.Enter();
 
+        detectDist = enemy.detectDist;
         Attack();
         //AudioService.Instance.PlayAttackSound
     }
@@ -32,12 +31,12 @@ public class EnemyAttack : EnemyState
 
             if(CanDetectPlayer())
             {
-                nextState = new EnemyPursue(enemyAIView, navMeshAgent, animator, playerTransform);
+                nextState = new EnemyPursue(enemyAIView, enemy);
                 stage = EStage.Exit;
             }
             else if (!CanAttackPlayer())
             {
-                nextState = new EnemyIdle(enemyAIView, navMeshAgent, animator, playerTransform);
+                nextState = new EnemyIdle(enemyAIView, enemy);
                 stage = EStage.Exit;
             }
         }
@@ -60,7 +59,7 @@ public class EnemyAttack : EnemyState
 
         enemyAIView.AttackAnimationEnded = false;
         navMeshAgent.isStopped = true;
-        animator.SetTrigger("Attack");
+        animator.SetTrigger(enemy.attackAnimName);
     }
 
     private void FaceTowardsPlayer()
@@ -76,7 +75,7 @@ public class EnemyAttack : EnemyState
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Attack");
+        animator.ResetTrigger(enemy.attackAnimName);
         base.Exit();
     }
 }

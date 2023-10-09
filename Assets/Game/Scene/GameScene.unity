@@ -3499,6 +3499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3244ea1a264a32e4fb68491be843e076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemySO: {fileID: 11400000, guid: 9d8c7c1364220c548a792301b7110097, type: 2}
   enemyView: {fileID: 4853082170790360664, guid: 33960d582452d5e4c877a8f7bbeb1043, type: 3}
 --- !u!1 &1331244191 stripped
 GameObject:
@@ -5224,7 +5225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eb4e3f792aff6542b22886c51cac422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 1268834173}
+  playerView: {fileID: 1268834173}
+  playerSO: {fileID: 11400000, guid: 9b298d297aff2ab409f733c48b943138, type: 2}
 --- !u!4 &2070542939
 Transform:
   m_ObjectHideFlags: 0

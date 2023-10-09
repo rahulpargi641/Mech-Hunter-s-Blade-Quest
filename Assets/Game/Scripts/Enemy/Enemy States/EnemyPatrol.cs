@@ -5,8 +5,7 @@ public class EnemyPatrol : EnemyState
 {
     int currentIndex = -1;
 
-    public EnemyPatrol(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
-        : base(enemyAIView, navMeshAgent, animator, playerTransform)
+    public EnemyPatrol(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
     {
         state = EState.Patrol;
         stage = EStage.Enter;
@@ -32,7 +31,7 @@ public class EnemyPatrol : EnemyState
             }
         }
 
-        animator.SetTrigger("Run");
+        animator.SetTrigger(enemy.runAnimName);
     }
     protected override void Update()
     {
@@ -50,14 +49,14 @@ public class EnemyPatrol : EnemyState
 
         if (CanSeePlayer())
         {
-            nextState = new EnemyPursue(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyPursue(enemyAIView, enemy);
             stage = EStage.Exit;
         }
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Run");
+        animator.ResetTrigger(enemy.runAnimName);
         base.Exit();
     }
 }

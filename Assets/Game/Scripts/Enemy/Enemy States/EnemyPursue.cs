@@ -3,8 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyPursue : EnemyState
 {
-    public EnemyPursue(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
-     : base(enemyAIView, navMeshAgent, animator, playerTransform)
+    public EnemyPursue(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
     {
         state = EState.Pursue;
         stage = EStage.Enter;
@@ -17,7 +16,7 @@ public class EnemyPursue : EnemyState
     {
         base.Enter();
 
-        animator.SetTrigger("Run");
+        animator.SetTrigger(enemy.runAnimName);
     }
 
     protected override void Update()
@@ -30,12 +29,12 @@ public class EnemyPursue : EnemyState
         {
             if (CanAttackPlayer())
             {
-                nextState = new EnemyAttack(enemyAIView, navMeshAgent, animator, playerTransform);
+                nextState = new EnemyAttack(enemyAIView, enemy);
                 stage = EStage.Exit;
             }
             else if (! CanSeePlayer() || !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
-                nextState = new EnemyPatrol(enemyAIView, navMeshAgent, animator, playerTransform);
+                nextState = new EnemyPatrol(enemyAIView, enemy);
                 stage = EStage.Exit;
             }
         }
@@ -43,7 +42,7 @@ public class EnemyPursue : EnemyState
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Run");
+        animator.ResetTrigger(enemy.runAnimName);
         base.Exit();
     }
 }
