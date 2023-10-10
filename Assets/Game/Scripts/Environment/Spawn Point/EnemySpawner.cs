@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -8,12 +7,6 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] BoxCollider boxCollider;
 
     private bool areEnemiesSpawned = false;
-
-    //private void Awake()
-    //{
-    //    //var spawnPointArray = transform.parent.GetComponentsInChildren<EnemySpawner>();
-    //    //spawnPointList = new List<EnemySpawner>(spawnPointArray);
-    //}
 
     private void OnTriggerEnter(Collider other)
     {
@@ -56,4 +49,10 @@ public class EnemySpawner : MonoBehaviour
         //Gizmos.DrawWireCube(center, Vector3.one);
         //Gizmos.DrawLine(center, center + transform.forward * 2);
     }
+
+    //private void Awake()
+    //{
+    //    //var spawnPointArray = transform.parent.GetComponentsInChildren<EnemySpawner>();
+    //    //spawnPointList = new List<EnemySpawner>(spawnPointArray);
+    //}
 }

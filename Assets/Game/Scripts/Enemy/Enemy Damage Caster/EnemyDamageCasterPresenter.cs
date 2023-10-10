@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyDamageCaster : DamageCasterPresenter
+public class EnemyDamageCasterPresenter : DamageCasterPresenter
 {
     protected override void OnTriggerEnter(Collider other)
     {

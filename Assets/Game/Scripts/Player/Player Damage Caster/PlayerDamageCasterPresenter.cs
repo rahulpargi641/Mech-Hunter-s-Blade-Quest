@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerDamageCaster : DamageCasterPresenter
+public class PlayerDamageCasterPresenter : DamageCasterPresenter
 {
     protected override void OnTriggerEnter(Collider other)
     {
@@ -8,7 +8,7 @@ public class PlayerDamageCaster : DamageCasterPresenter
         EnemyView enemyView = other.GetComponent<EnemyView>();
         EnemyVFX enemyVFX = other.GetComponent<EnemyVFX>();
 
-        if (enemyhealth && enemyView)         /*&& !model.damagedTargets.Contains(other)*/
+        if (enemyhealth && enemyView)                        /*&& !model.damagedTargets.Contains(other)*/
         {
             enemyhealth.ApplyDamage(enemyView, model.Damage);
             EventService.Instance.InvokeOnEnemyHit(enemyView);

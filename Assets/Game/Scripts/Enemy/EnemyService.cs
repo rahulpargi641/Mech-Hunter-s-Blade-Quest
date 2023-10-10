@@ -4,7 +4,6 @@ using UnityEngine;
 public class EnemyService : MonoSingletonGeneric<EnemyService>
 {
     [SerializeField] EnemySO enemySO;
-    [SerializeField] EnemyView enemyView;
     private EnemyPool enemyPool;
     private List<EnemyController> enemyControllers;
 
