@@ -3,23 +3,17 @@ using UnityEngine;
 public class DamageOrbView : MonoBehaviour
 {
     [SerializeField] ParticleSystem hitVFX;
-    private Rigidbody rigidBody;
-
-    private DamageOrbModel model;
-
-    DamageOrbView()
-    {
-        model = new DamageOrbModel();
-    }
+    public Rigidbody RigidBody { get; private set; }
+    public DamageOrbController Controller { private get; set; }
 
     void Awake()
     {
-        rigidBody = GetComponent<Rigidbody>();
+        RigidBody = GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
     {
-        rigidBody.MovePosition(transform.position + transform.forward * model.Speed * Time.deltaTime);
+        Controller.MoveForward();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -27,11 +21,16 @@ public class DamageOrbView : MonoBehaviour
         PlayerView playerView = other.GetComponent<PlayerView>();
         if(playerView)
         {
-            PlayerService.Instance.AddHitImpact(transform.position, 10f);
-            EventService.Instance.InvokePlayerHitAction();
-            PlayerHealthService.Instance.ApplyDamage(model.Damage);
-            Instantiate(hitVFX, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Controller.ProcessHit();
+            PlayHitVFX();
         }
+    }
+
+    // Play from Particle Pool
+    private void PlayHitVFX()
+    {
+        Instantiate(hitVFX, transform.position, Quaternion.identity);
+        hitVFX.Play();
+        Destroy(gameObject);
     }
 }

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4853082170790360670}
   - component: {fileID: 4853082170790360665}
   - component: {fileID: 4853082170790360664}
-  - component: {fileID: 4853082170790360669}
   - component: {fileID: 4853082170790360658}
   - component: {fileID: 4853082170790360659}
   m_Layer: 6
@@ -22,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4853082170790360668
 Transform:
   m_ObjectHideFlags: 0
@@ -114,23 +113,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: 0
-  PatrolPoints: []
---- !u!114 &4853082170790360669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4853082170790360667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc89959a7ce532540b5bedddea5e28ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  footStep: {fileID: 1760891474481076697}
-  attackSmashVFX: {fileID: 8115873379494015288}
-  beingHitSplashVFX: {fileID: 5091917010390914819, guid: d1fe802ee7b6fc24497016910b9375d6, type: 3}
-  beingHitVFX: {fileID: 6081744172514945256}
+  PatrolPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &4853082170790360658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1248,7 +1234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6572561595865496318, guid: c2792d034b3f4154281cad9326455974, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6572561595865496319, guid: c2792d034b3f4154281cad9326455974, type: 3}
       propertyPath: m_InitialEventName
@@ -1260,11 +1246,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2792d034b3f4154281cad9326455974, type: 3}
---- !u!2083052967 &1760891474481076697 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 6572561595865496319, guid: c2792d034b3f4154281cad9326455974, type: 3}
-  m_PrefabInstance: {fileID: 4853082171626922790}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1760891474481076702 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6572561595865496312, guid: c2792d034b3f4154281cad9326455974, type: 3}
@@ -1331,7 +1312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3744957851513120301, guid: 5032253f50fbf924285917747193c530, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3744957851513120303, guid: 5032253f50fbf924285917747193c530, type: 3}
       propertyPath: m_Name
@@ -1339,11 +1320,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5032253f50fbf924285917747193c530, type: 3}
---- !u!2083052967 &8115873379494015288 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 3744957851513120298, guid: 5032253f50fbf924285917747193c530, type: 3}
-  m_PrefabInstance: {fileID: 4853082171817449234}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8115873379494015294 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3744957851513120300, guid: 5032253f50fbf924285917747193c530, type: 3}
@@ -1409,10 +1385,5 @@ PrefabInstance:
 --- !u!4 &976485225857000371 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5680359259124363205, guid: 0570e3315dd21b34094ca0475d3310a7, type: 3}
-  m_PrefabInstance: {fileID: 4853082172190018678}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &6081744172514945256 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1675108850642248862, guid: 0570e3315dd21b34094ca0475d3310a7, type: 3}
   m_PrefabInstance: {fileID: 4853082172190018678}
   m_PrefabAsset: {fileID: 0}

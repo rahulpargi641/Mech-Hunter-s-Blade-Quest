@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class PlayerVFXView : MonoBehaviour
+public class PlayerVFX : MonoBehaviour
 {
     [SerializeField] ParticleSystem blade01;
     [SerializeField] ParticleSystem blade02;

@@ -12,7 +12,7 @@ public class EnemyHealthView : HealthView
 
     public void ApplyDamage(int damage, Vector3 attackerPos = new Vector3())
     {
-        EnemyVFXView enemyVFXView = GetComponent<EnemyVFXView>();
+        EnemyVFX enemyVFXView = GetComponent<EnemyVFX>();
         if (enemyVFXView)
         {
             enemyVFXView.PlayBeingHitVFX(attackerPos);
