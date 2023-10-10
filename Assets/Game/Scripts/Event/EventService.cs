@@ -2,7 +2,6 @@ using System;
 
 public class EventService : MonoSingletonGeneric<EventService>
 {
-    //public event Action<EnemyView> onEnemySpawned;
     public event Action<EnemyView> onEnemyDeathAction;
     public event Action onAllEnemiesDeadAction;
     public event Action onCurrentEnemyGroupDeadAction;
@@ -15,17 +14,12 @@ public class EventService : MonoSingletonGeneric<EventService>
         base.Awake();
     }
 
-    //public void InvokeEnemySpawnedAction(EnemyView enemyView)
-    //{
-    //    onEnemySpawned?.Invoke(enemyView);
-    //}
-
     public void InvokeOnEnemyDeath(EnemyView enemyView)
     {
         onEnemyDeathAction?.Invoke(enemyView);
     }
 
-    public void InvokePlayerDeathAction()
+    public void InvokeOnPlayerDeath()
     {
         onPlayerDeathAction?.Invoke();
     }
@@ -35,17 +29,17 @@ public class EventService : MonoSingletonGeneric<EventService>
         onPlayerHitAction?.Invoke();
     }
 
-    public void InvokeEnemyHitAction(EnemyView enemyView)
+    public void InvokeOnEnemyHit(EnemyView enemyView)
     {
         onEnemyHitAction?.Invoke(enemyView);
     }
 
-    public void InvokeAllEnemiesDeadAction()
+    public void InvokeOnAllEnemiesDead()
     {
         onAllEnemiesDeadAction?.Invoke();
     }
 
-    public void InvokeCurrentEnemyGroupDeadAction()
+    public void InvokeOnCurrentEnemyGroupDead()
     {
         onCurrentEnemyGroupDeadAction?.Invoke();
     }

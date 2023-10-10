@@ -1,15 +1,14 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyPatrol : EnemyState
 {
     int currentIndex = -1;
 
-    public EnemyPatrol(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
-        : base(enemyAIView, navMeshAgent, animator, playerTransform)
+    public EnemyPatrol(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
     {
         state = EState.Patrol;
         stage = EStage.Enter;
+
         navMeshAgent.speed = 1;
         navMeshAgent.isStopped = false;
     }
@@ -18,19 +17,20 @@ public class EnemyPatrol : EnemyState
     {
         base.Enter();
 
-        float lastDist = Mathf.Infinity;
+        float lastPatrolPointDist = Mathf.Infinity;
         for (int i = 0; i < enemyAIView.PatrolPoints.Count; i++)
         {
             Transform currPatrolPoint = enemyAIView.PatrolPoints[i];
 
             float distance = Vector3.Distance(enemyAIView.transform.position, currPatrolPoint.position);
-            if (distance < lastDist)
+            if (distance < lastPatrolPointDist)
             {
                 currentIndex = i;
-                lastDist = distance;
+                lastPatrolPointDist = distance;
             }
         }
-        animator.SetTrigger("Run");
+
+        animator.SetTrigger(enemy.runAnimName);
     }
     protected override void Update()
     {
@@ -48,14 +48,14 @@ public class EnemyPatrol : EnemyState
 
         if (CanSeePlayer())
         {
-            nextState = new EnemyPursue(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyPursue(enemyAIView, enemy);
             stage = EStage.Exit;
         }
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Run");
+        animator.ResetTrigger(enemy.runAnimName);
         base.Exit();
     }
 }

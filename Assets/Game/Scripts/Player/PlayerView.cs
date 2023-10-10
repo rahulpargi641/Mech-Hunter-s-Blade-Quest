@@ -4,12 +4,11 @@ public class PlayerView : MonoBehaviour
 {
     public PlayerController Controller { private get; set; }
     public CharacterController CharacterController { get; set; }
-    public Animator Animator { get; set; }
+    public Animator Animator { get; private set; }
 
-    private DamageCasterView damageCaster; // service
+    private DamageCasterPresenter damageCaster; 
 
     private PlayerState currentState;
-
     public bool RollAnimationEnded { get; set; }
     public bool AttackAnimationEnded { get; set; }
     public bool BeingHitAnimationEnded { get; set; }
@@ -23,23 +22,27 @@ public class PlayerView : MonoBehaviour
     {
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponent<Animator>();
-        damageCaster = GetComponentInChildren<DamageCasterView>();
+        damageCaster = GetComponentInChildren<DamageCasterPresenter>();
     }
 
     private void Start()
     {
-        currentState = new Idle(this, Animator);
+        currentState = new PlayerIdle(this, Controller.GetPlayerSO());
     }
 
     private void Update()
     {
         ReadPlayerInput();
-        currentState = currentState.Process();
+
+        if (currentState == null)
+            currentState = new PlayerIdle(this, Controller.GetPlayerSO());
+        else
+            currentState = currentState.Process();
     }
 
     private void FixedUpdate()
     {
-        // currentState = currentState.Process();
+        //currentState = currentState.Process();
     }
 
     private void ReadPlayerInput()
@@ -56,7 +59,7 @@ public class PlayerView : MonoBehaviour
 
     public void Run()
     {
-        Controller.Run(HorizontalInput, VerticalInput);
+        Controller.ProcessMovement(HorizontalInput, VerticalInput);
     }
 
     // called via animation event

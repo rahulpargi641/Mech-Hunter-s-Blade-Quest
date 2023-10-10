@@ -2,23 +2,24 @@ using UnityEngine;
 
 public class PlayerService : MonoSingletonGeneric<PlayerService>
 {
-    [SerializeField] PlayerView playerPrefab;
+    [SerializeField] PlayerView playerView;
+    [SerializeField] PlayerSO playerSO;
     private PlayerController playerController;
 
-    void Start()
+    private void Start()
     {
-        PlayerModel playerModel = new();
+        PlayerModel playerModel = new PlayerModel(playerSO);
         //PlayerView playerView = Instantiate(playerPrefab);
-        playerController = new PlayerController(playerModel, playerPrefab);
+        playerController = new PlayerController(playerModel, playerView);
     }
 
-    public void AddHitImpact(Vector3 attackerPos, float force)
+    public void AddHitImpactForce(Vector3 attackerPos, float force)
     {
-        playerController.AddHitImpact(attackerPos, force);
+        playerController.AddHitImpactForce(attackerPos, force);
     }
 
-    public void HitImpactOnPlayer()
+    public void ApplyHitImpactForce()
     {
-        playerController.ProcessHitImpact();
+        playerController.ApplyHitImpactForce();
     }
 }

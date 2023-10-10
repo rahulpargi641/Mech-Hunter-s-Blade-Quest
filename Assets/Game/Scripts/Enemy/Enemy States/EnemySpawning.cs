@@ -6,8 +6,7 @@ public class EnemySpawning : EnemyState
     private float spawnDuration = 3f;
     private float currentSpawnTime;
 
-    public EnemySpawning(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
-           : base(enemyAIView, navMeshAgent, animator, playerTransform)
+    public EnemySpawning(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
     {
         state = EState.Spawning;
         stage = EStage.Enter;
@@ -17,10 +16,11 @@ public class EnemySpawning : EnemyState
     {
         base.Enter();
 
-        animator.SetTrigger("Idle");
+        animator.SetTrigger(enemy.idleAnimName);
+
         currentSpawnTime = spawnDuration;
-        MaterialBlockView materialBlockView = enemyAIView.GetComponent<MaterialBlockView>();
-        materialBlockView.CharacterAppear();
+        MaterialBlock materialBlockView = enemyAIView.GetComponent<MaterialBlock>();
+        materialBlockView.CharacterAppearEffect();
     }
 
     protected override void Update()
@@ -30,14 +30,14 @@ public class EnemySpawning : EnemyState
         currentSpawnTime -= Time.deltaTime;
         if(currentSpawnTime <= 0)
         {
-            nextState = new EnemyIdle(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyIdle(enemyAIView, enemy);
             stage = EStage.Exit;
         }
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Idle");
+        animator.ResetTrigger(enemy.idleAnimName);
         base.Exit();
     }
 }

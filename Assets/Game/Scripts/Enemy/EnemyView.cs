@@ -16,36 +16,34 @@ public class EnemyView : MonoBehaviour
     public CharacterController CharacterController { get; set; }
     public bool AttackAnimationEnded { get; set; }
     public bool BeingHitAnimationEnded { get; set; }
+    public Animator Animator { get; private set; }
+    public NavMeshAgent NavMeshAgent { get; private set; }
+    public Transform PlayerTransform { get; private set; }
 
-    protected Animator animator;
-    protected NavMeshAgent navMeshAgent;
-    protected Transform playerTransform;
-    private DamageCasterView damageCaster;
-    protected EnemyState currentState;
+    private DamageCasterPresenter damageCaster;
+    private EnemyState currentState;
 
     virtual protected void Awake()
     {
         CharacterController = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        damageCaster = GetComponentInChildren<DamageCasterView>();
+        Animator = GetComponent<Animator>();
+        NavMeshAgent = GetComponent<NavMeshAgent>();
+        damageCaster = GetComponentInChildren<DamageCasterPresenter>();
     }
 
     private void OnEnable()
     {
-        playerTransform = FindAnyObjectByType<PlayerView>().transform;
-
-        InitializeEnemyState();
-    }
-
-    private void InitializeEnemyState()
-    {
-        currentState = new EnemySpawning(this, navMeshAgent, animator, playerTransform);
+        PlayerTransform = FindAnyObjectByType<PlayerView>().transform;
+        
+        currentState = new EnemySpawning(this, Controller.GetEnemySO());
     }
 
     virtual protected void FixedUpdate()
     {
-        currentState = currentState.Process();
+        if(Controller == null)
+            currentState = new EnemySpawning(this, Controller.GetEnemySO());
+        else
+            currentState = currentState.Process();
     }
 
     // called via animation event
@@ -80,9 +78,13 @@ public class EnemyView : MonoBehaviour
             return false;
     }
 
-    public void EnemyDead()
-    {
-        Controller.EnemyDead();
-        CharacterController.enabled = false;
-    }
+    //private void SetPatrolPoints()
+    //{
+    //    Transform parentTransform;
+    //    if (EnvironmentService.Instance.enemyPatrolPoints.TryGetValue(EnemyID, out parentTransform))
+    //    {
+    //        for (int i = 0; i < parentTransform.childCount; i++)
+    //            PatrolPoints2.Add(parentTransform.GetChild(i));
+    //    }
+    //}
 }

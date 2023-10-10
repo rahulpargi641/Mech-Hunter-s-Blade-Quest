@@ -15,7 +15,7 @@ public class EnemyPool : ObjectPoolGeneric<EnemyController>
 
     protected override EnemyController CreateItem()
     {
-        //EnemyView view = Instantiate(this.view);
+        //EnemyView view = GameObject.Instantiate(this.view);
         EnemyController controller = new EnemyController(model, view);
         return controller;
     }

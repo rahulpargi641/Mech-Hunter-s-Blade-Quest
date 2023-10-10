@@ -11,19 +11,20 @@ public class PlayerController
         this.view = view;
 
         view.Controller = this;
+        model.Controller = this;
     }
 
-    public void Run(float horizontalInput, float verticalInput)
+    public void ProcessMovement(float horizontalInput, float verticalInput)
     {
-        XZPlaneMovementVelocity(horizontalInput, verticalInput);
+        XZPlaneMovement(horizontalInput, verticalInput);
         Turn();
-        YAxisMovementVelocity();
-        InAir();
+        YAxisMovement();
+        //InAir();
 
         view.CharacterController.Move(model.MovementVelocity);
     }
 
-    private void XZPlaneMovementVelocity(float horizontalInput, float verticalInput)
+    private void XZPlaneMovement(float horizontalInput, float verticalInput)
     {
         model.MovementVelocity.Set(horizontalInput, 0f, verticalInput);
         model.MovementVelocity.Normalize();
@@ -38,38 +39,42 @@ public class PlayerController
             view.transform.rotation = Quaternion.LookRotation(model.MovementVelocity);
     }
 
-
-    private void YAxisMovementVelocity()
+    private void YAxisMovement()
     {
         if (view.CharacterController.isGrounded == false)
-            model.VerticalVelocity = model.Gravity;
+            model.VerticalSpeed = model.FallGravity;
         else
-            model.VerticalVelocity = model.Gravity * 0.3f;
+            model.VerticalSpeed = model.FallGravity * 0.3f;
 
-            model.MovementVelocity += model.VerticalVelocity * Vector3.up * Time.deltaTime;
+            model.MovementVelocity += model.VerticalSpeed * Vector3.up * Time.deltaTime;
     }
 
-    private void InAir()
-    {
-        view.Animator.SetBool("AirBorne", !view.CharacterController.isGrounded);
-        //view.Animator.SetFloat("Speed", model.MovementVelocity.magnitude);
-    }
-
-    public void AddHitImpact(Vector3 attackerPos, float force)
+    public void AddHitImpactForce(Vector3 attackerPos, float force)
     {
         Vector3 impactDir = view.transform.position - attackerPos;
         impactDir.Normalize();
         impactDir.y = 0;
-        model.ImpactOnCharacter = impactDir * force;
+        model.CurrentPushVelocity = impactDir * force;
     }
 
-    public void ProcessHitImpact()
+    public void ApplyHitImpactForce()
     {
-        if(model.ImpactOnCharacter.magnitude > model.ImpactMagnitude)
+        if(model.CurrentPushVelocity.magnitude > 0)
         {
-            model.MovementVelocity = model.ImpactOnCharacter * Time.deltaTime;
+            model.MovementVelocity = model.CurrentPushVelocity * Time.deltaTime;
             view.CharacterController.Move(model.MovementVelocity);
         }
-        model.ImpactOnCharacter = Vector3.Lerp(model.ImpactOnCharacter, Vector3.zero, Time.deltaTime * 5);
+        model.CurrentPushVelocity = Vector3.Lerp(model.CurrentPushVelocity, Vector3.zero, Time.deltaTime * 5);
     }
+
+    public PlayerSO GetPlayerSO()
+    {
+        return model.PlayerSO;
+    }
+
+    //private void InAir()
+    //{
+    //    view.Animator.SetBool("AirBorne", !view.CharacterController.isGrounded);
+    //    //view.Animator.SetFloat("Speed", model.MovementVelocity.magnitude);
+    //}
 }

@@ -11,18 +11,12 @@ public class PickupsService : MonoSingletonGeneric<PickupsService>
         pickupsPool = new PickupsPool();
     }
 
-    public PickupsController CreatePickup(Vector3 dropPos)
+    public void SpawnPickup(Vector3 dropPos)
     {
-        //Instantiate(itemToDrop, dropPos, Quaternion.identity);
         PickupsModel pickupsModel = new();
         PickupsController pickupsController = pickupsPool.GetPickup(pickupsModel, pickupsView);
         pickupsController.SetTransform(dropPos, Quaternion.identity);
-        //pickupsController.gameObject.SetActive(true);
-        //pickupsController.transform.position = dropPos;
-        //pickupsController.transform.rotation = Quaternion.identity;
-        //return pickup;
         pickupsController.EnablePickup();
-        return pickupsController;
     }
 
     public void ReturnPickupToPool(PickupsController pickupsController)

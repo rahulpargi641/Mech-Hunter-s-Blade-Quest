@@ -1,10 +1,7 @@
-using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyDead : EnemyState
 {
-    public EnemyDead(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
-          : base(enemyAIView, navMeshAgent, animator, playerTransform)
+    public EnemyDead(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
     {
         state = EState.Dead;
         stage = EStage.Enter;
@@ -14,7 +11,7 @@ public class EnemyDead : EnemyState
     {
         base.Enter();
 
-        animator.SetTrigger("Dead");
+        animator.SetTrigger(enemy.deadAnimName);
     }
 
     protected override void Exit()

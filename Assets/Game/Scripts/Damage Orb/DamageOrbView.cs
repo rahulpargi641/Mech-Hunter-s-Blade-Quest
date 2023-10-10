@@ -13,15 +13,15 @@ public class DamageOrbView : MonoBehaviour
 
     void FixedUpdate()
     {
-        Controller.MoveForward();
+        Controller.MoveOrbForward();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerView playerView = other.GetComponent<PlayerView>();
-        if(playerView)
+        PlayerHealthPresenter playerHealth = other.GetComponent<PlayerHealthPresenter>();
+        if(playerHealth)
         {
-            Controller.ProcessHit();
+            Controller.ProcessHit(playerHealth);
             PlayHitVFX();
         }
     }

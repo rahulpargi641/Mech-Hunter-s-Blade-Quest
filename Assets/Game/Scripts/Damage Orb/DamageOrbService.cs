@@ -11,7 +11,7 @@ public class DamageOrbService : MonoSingletonGeneric<DamageOrbService>
         damageOrbPool = new DamageOrbPool();
     }
 
-    public void CreateDamageOrb(Vector3 spawnPoint, Quaternion rotation)
+    public void SpawnDamageOrb(Vector3 spawnPoint, Quaternion rotation)
     {
         DamageOrbModel damageOrbModel = new();
 

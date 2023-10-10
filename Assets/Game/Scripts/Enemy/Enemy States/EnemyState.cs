@@ -14,40 +14,57 @@ public class EnemyState
 
     protected EState state;
     protected EStage stage;
+
     protected EnemyView enemyAIView;
+    protected EnemySO enemy;
+
     protected NavMeshAgent navMeshAgent;
     protected Animator animator;
     protected Transform playerTransform;
     protected EnemyState nextState;
 
-    private float visibleDist = 10.0f; // 10f
-    private float visibleAngle = 80.0f; // 30f
-    private float attackDist = 2.2f; // 6f
-    private float shootingDist = 10.0f;
-
-    private float pathUpdateDelay = 0.2f;
+    private float visibleDist;
+    private float visibleAngle;
+    private float attackDist;
+    private float visibleAttackAngle;
+    private float shootingDist;
+    private float pathUpdateDelay;
     private float pathUpdateDeadline;
 
+    protected bool isPlayerDead = false;
     private bool isEnemyHit = false;
     private bool isEnemyDead = false;
-    public bool isPlayerDead = false;
 
+    private bool areEventsSubscribed = false;
 
-    public EnemyState(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
+    public EnemyState(EnemyView enemyAIView, EnemySO enemy)
     {
         this.enemyAIView = enemyAIView;
-        this.navMeshAgent = navMeshAgent;
-        this.animator = animator;
-        this.playerTransform = playerTransform;
-    }
+        this.enemy = enemy;
+
+        navMeshAgent = enemyAIView.NavMeshAgent;
+        animator = enemyAIView.Animator;
+        playerTransform = enemyAIView.PlayerTransform;
+
+        visibleDist = enemy.visibleDist;
+        visibleAngle = enemy.visibleAngle;
+        attackDist = enemy.attackDist;
+        visibleAttackAngle = enemy.visibleAttackAngle;
+        shootingDist = enemy.shootingDist;
+        pathUpdateDelay = enemy.pathUpdateDelay;
+}
 
     protected virtual void Enter() 
     { 
         stage = EStage.Update;
 
-        EventService.Instance.onPlayerDeathAction += PlayerDead;
-        EventService.Instance.onEnemyDeathAction += EnemyDead;
-        EventService.Instance.onEnemyHitAction += EnemyHit;
+        if(!areEventsSubscribed)
+        {
+            areEventsSubscribed = true;
+            EventService.Instance.onPlayerDeathAction += PlayerDead;
+            EventService.Instance.onEnemyDeathAction += EnemyDead;
+            EventService.Instance.onEnemyHitAction += EnemyHit;
+        }
     }
 
     protected virtual void Update() 
@@ -56,18 +73,28 @@ public class EnemyState
 
         if (isEnemyDead)
         {
-            nextState = new EnemyDead(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyDead(enemyAIView, enemy);
             stage = EStage.Exit;
             return;
         }
 
         if(isEnemyHit)
         {
-            nextState = new EnemyHurt(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyHurt(enemyAIView, enemy);
             stage = EStage.Exit;
         }
     }
-    protected virtual void Exit() { stage = EStage.Exit; }
+    protected virtual void Exit()
+    { 
+        stage = EStage.Exit; 
+
+        if(isEnemyDead)
+        {
+            EventService.Instance.onPlayerDeathAction -= PlayerDead;
+            EventService.Instance.onEnemyDeathAction -= EnemyDead;
+            EventService.Instance.onEnemyHitAction -= EnemyHit;
+        }
+    }
     
     public EnemyState Process()
     {
@@ -108,14 +135,14 @@ public class EnemyState
 
         if (enemyAIView.EnemyOfType == EnemyType.Enemy01)
         {
-            if (playerDirection.magnitude < attackDist && facingAngle < 60)
+            if (playerDirection.magnitude < attackDist && facingAngle < visibleAttackAngle)
                 return true;
             else
                 return false;
         }
         else if (enemyAIView.EnemyOfType == EnemyType.Enemy02)
         {
-            if (playerDirection.magnitude < shootingDist && facingAngle < 60)
+            if (playerDirection.magnitude < shootingDist && facingAngle < visibleAttackAngle)
                 return true;
             else
                 return false;

@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyIdle : EnemyState
 {
-    private int patrolChance = 50;
-    public EnemyIdle(EnemyView enemyAIView, NavMeshAgent navMeshAgent, Animator animator, Transform playerTransform)
-           : base(enemyAIView, navMeshAgent, animator, playerTransform)
+    private int patrolChance;
+
+    public EnemyIdle(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
     {
         state = EState.Idle;
         stage = EStage.Enter;
@@ -15,7 +14,9 @@ public class EnemyIdle : EnemyState
     {
         base.Enter();
 
-        animator.SetTrigger("Idle");
+        patrolChance = enemy.patrolChance;
+
+        animator.SetTrigger(enemy.idleAnimName);
     }
 
     protected override void Update()
@@ -24,19 +25,19 @@ public class EnemyIdle : EnemyState
 
         if (CanSeePlayer())
         {
-            nextState = new EnemyPursue(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyPursue(enemyAIView, enemy);
             stage = EStage.Exit;
         }
         else if (Random.Range(0, 100) < patrolChance)
         {
-            nextState = new EnemyPatrol(enemyAIView, navMeshAgent, animator, playerTransform);
+            nextState = new EnemyPatrol(enemyAIView, enemy);
             stage = EStage.Exit;
         }
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Idle");
+        animator.ResetTrigger(enemy.idleAnimName);
         base.Exit();
     }
 }

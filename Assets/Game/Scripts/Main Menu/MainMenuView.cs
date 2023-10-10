@@ -4,9 +4,10 @@ using UnityEditor;
 
 public class MainMenuView : MonoBehaviour
 {
+    [SerializeField] string gameSceneName = "GameScene";
     public void Button_Start()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene(gameSceneName);
     }
 
     public void Button_Quit()

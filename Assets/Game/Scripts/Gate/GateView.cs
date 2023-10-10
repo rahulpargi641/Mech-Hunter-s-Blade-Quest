@@ -15,13 +15,12 @@ public class GateView : MonoBehaviour
         model = new GateModel();
     }
 
-
     private void Start()
     {
         EventService.Instance.onCurrentEnemyGroupDeadAction += OpenGate;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         EventService.Instance.onCurrentEnemyGroupDeadAction -= OpenGate;
     }

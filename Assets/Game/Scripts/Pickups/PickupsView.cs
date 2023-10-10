@@ -13,10 +13,10 @@ public class PickupsView : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerView playerView = other.GetComponent<PlayerView>();
-        if(playerView)
+        PlayerHealthPresenter playerHealth = other.GetComponent<PlayerHealthPresenter>();
+        if(playerHealth)
         {
-            Controller.ProcessHeal();
+            Controller.ProcessHeal(playerHealth);
 
             //PlayerVFX playerVFX = other.GetComponent<PlayerVFX>();
 

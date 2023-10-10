@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PickupsController
@@ -22,9 +20,9 @@ public class PickupsController
         view.transform.rotation = rotation;
     }
 
-    public void ProcessHeal()
+    public void ProcessHeal(PlayerHealthPresenter playerHealth)
     {
-        PlayerHealthService.Instance.AddHealth(model.HealOrbGain);
+        playerHealth.AddHealth(model.HealOrbGain);
         VFXService.Instance.SpawnHealVFX(view.transform.position);
 
         PickupsService.Instance.ReturnPickupToPool(this);
