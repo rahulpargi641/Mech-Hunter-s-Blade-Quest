@@ -21,7 +21,7 @@
     - Defeating enemies causes them to drop healing orbs that restore the player's health.
 
     Boss Fight:
-    - The formidable boss enemy launches a barrage of fire orbs that players must skillfully evade to minimize damage.
+    - The boss enemy launches a barrage of fire orbs that players must skillfully evade to minimize damage.
     
     Smooth Camera Follow:
     - A smooth camera system ensures seamless tracking of the player's movements.
