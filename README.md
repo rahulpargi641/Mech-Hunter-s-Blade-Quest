@@ -62,11 +62,10 @@
            efficient approach for handling their attributes.
        
 #### Performance Optimization:
-    - To optimize performance, object pooling is implemented for enemies, damage orbs, pickups, and various VFX, 
-      effectively managing memory and CPU usage.
+    - To optimize performance, object pooling is implemented for enemies, damage orbs, pickups, and various 
+      VFX, effectively managing memory and CPU usage.
     
 #### Input Management:
-
     - Integrated Unity's new Input System to simplify the mapping of inputs to in-game actions. 
     - Custom input actions like OnJump() and OnFire() have been defined for jumping and shooting.
 
