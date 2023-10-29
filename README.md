@@ -11,22 +11,24 @@
     - Crafted with high-quality graphics and exceptional sound effects.
     
     Core Gameplay:
-    - Player actions include running, rolling, and attakcking with swords and normal attack, .
-    - Player lives are reduced upon contact with enemies and spikes.
+    - Player actions include running, rolling, and attakcking with swords.
+    - Three types of attacks:
+       - Normal Attack (one sword attack)
+       - Combo Attack (two swords attack)
+       - Dash Attack (slide forward and attack from a distance).
 
-    Ladders and Mushrooms:
-    - Jumpy bouncy mushrooms aid players in reaching greater heights.
-    - Ladders facilitate access to areas where the player cannot jump high enough.
+    Healing Orbs:
+    - Defeating enemies causes them to drop healing orbs that restore the player's health.
 
-    Pickups:
-    - Collect coins to score.
-
+    Boss Fight:
+    - The formidable boss enemy launches a barrage of fire orbs that players must skillfully evade to minimize damage.
+    
     Smooth Camera Follow:
     - A smooth camera system ensures seamless tracking of the player's movements.
     
     User Interface (UI):
-    - Main Menu, Game Over, Level Complete, Scoring, and Power-Up Gain pop-up screens.
-    - Pause screen with options to resume and quit the game.
+    - Visually appealing Main Menu, Pause Menu, Game Over, and Level Complete screens
+    - The Pause screen offers convenient options for resuming the game or quitting.
     
 ### Screenshots
 
@@ -35,28 +37,35 @@
 ### Code Structure and Game Design
 #### Code Structure
 
-    MVP (Model-View-Presenter):
-        - The codebase is organized using the Model-View-Presenter (MVP) architectural pattern.
+    MVC-S (Model-View-Controller-Service):
+        - The codebase is organized using the Model-View-Controller-Service (MVC-S) architectural pattern.
         - This approach maintains a clear separation of concerns:
            - The Model manages data.
-           - The View acts as a passive component handled by Unity.
-           - The Presenter is responsible for updating both the View and Model.
-        - Classes for Player, Enemy, Arrow, Coin, Score, GameOver, LevelComplete, MainMenu, and 
-          PlayerShooting have been implemented following the MVP pattern.
+           - The View is responsible for UI-related tasks and input handling.
+           - The Controller is responsible for updating both the View and Model.
+        - Classes for Player, Enemy, Pickups(Healing Orb), DamageOrb(FireOrb), GameManager, GameUI, , Level, Score have been 
+          implemented following the MVC pattern.
 
     Singletons:
         - Centralized control is ensured through the implementation of Singleton patterns.
-        - Essential services such as PlayerService, EnemyService, AudioService, LayerService, CoinService,
-          and ScoreService are designed as Singletons.
-          
+        - Essential services such as PlayerService, EnemyService, PickupsService(Healing Orb), DamageOrbService(FireOrb), 
+          GameService, FoodService, GameUIService, LevelService, are designed as Singletons.
+       
     Observer Pattern:
-        - Utilized the observer pattern to decouple classes and handle events like arrow hits, notifying 
-          the enemy Presenter of an enemy's demise, 
-        - and OnPlayerDeath to facilitate the activation of the GameOver screen.
-        
+        - Employed the observer pattern to decouple classes and facilitate event handling for events such as 
+          snake death,food and power-up consumption.
+        - This facilitates game over and power-up activation screens and efficient score updates by the ScoreController.
+
     Scriptable Objects:
-       - Player, Enemy, Arrow, Coin.
-       - Used for configuring their respective data.
+       - Food Types:
+       - Two distinct food types are available:
+          - Mass Gainer - Egg, Meat, Fish
+          - Mass Burner - Green Strawberry, Pumpkin
+       - Powerup Types:
+          - Three distinct food types are available:
+         - Speed Boost, Score Boost, Shield
+    - Snake Scriptable Object:
+       - Used for configuring snake-related data.
        
 #### Performance Optimization:
 
