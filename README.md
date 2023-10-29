@@ -43,13 +43,13 @@
            - The Model manages data.
            - The View is responsible for UI-related tasks and input handling.
            - The Controller is responsible for updating both the View and Model.
-        - Classes for Player, Enemy, Pickups(Healing Orb), DamageOrb(FireOrb), GameManager, GameUI, , Level, Score have been 
-          implemented following the MVC pattern.
+        - Classes for Player, Enemy, Pickups(Healing Orb), DamageOrb(FireOrb), GameManager, GameUI, Level, 
+          Score have been implemented following the MVC pattern.
 
     Singletons:
         - Centralized control is ensured through the implementation of Singleton patterns.
-        - Essential services such as PlayerService, EnemyService, PickupsService(Healing Orb), DamageOrbService(FireOrb), 
-          GameService, FoodService, GameUIService, LevelService, are designed as Singletons.
+        - Essential services such as PlayerService, EnemyService, PickupsService(Healing Orb), 
+          DamageOrbService, GameService, FoodService, GameUIService, LevelService, are designed as Singletons.
        
     Observer Pattern:
         - Employed the observer pattern to decouple classes and facilitate event handling for events such as 
