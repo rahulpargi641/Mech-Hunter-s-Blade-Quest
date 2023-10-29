@@ -71,9 +71,9 @@
       VFX, effectively managing memory and CPU usage.
 
 #### Level Design:
-    - Utilized high-quality graphics elements, including character models for both players and enemies, which were 
-      expertly designed by the
-    - Created game desgin stratigically for enemy spawner and enemy region they spawn in.
+    - Used high-quality graphics elements and integrated top-tier character models for both players and 
+      enemies, including the boss character
+    - Strategically positioned enemy spawners and their respective regions in the game.
 
 #### Enchanced Camera Tracking
     - Employed Cinemachine to smoothly follow the player. 
