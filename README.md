@@ -64,28 +64,19 @@
 #### Performance Optimization:
     - To optimize performance, object pooling is implemented for enemies, damage orbs, pickups, and various 
       VFX, effectively managing memory and CPU usage.
-    
-#### Input Management:
-    - Integrated Unity's new Input System to simplify the mapping of inputs to in-game actions. 
-    - Custom input actions like OnJump() and OnFire() have been defined for jumping and shooting.
 
 #### Level Design:
-
     - For rapid level design, Unity's Tilemap was utilized, enabling expedited level creation by 
       painting tiles and specifying tilemap rules.
     - Created multiple layers, including platform, Enemy, Obstacle, Water, Bouncy, and Player, to 
       distinguish between different types of tiles.
 
 #### Enchanced Camera Tracking
-
     - Employed Cinemachine to smoothly follow the player. 
-    - Utilized state-driven cameras like the run camera, climb camera, and idle camera for seamless 
-      transitions between different camera views.
 
 #### Animations:
-
-    - The Animator manages a range of animations, including Idle, Run, Climb, Jump, Shooting, and Hurt.
-
+    - The Player Animator handles character animations such as Idle, Run, Roll, attack, and Hurt.
+    - The Enemy Animator, derived from the Player Animator, handles animations such as idle, run, and attacks.
 ### Focus
     - Code Quality and Organization.
     - Architecture Design for Flexibility and Scalability.
