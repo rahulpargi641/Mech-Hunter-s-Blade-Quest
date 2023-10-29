@@ -49,7 +49,7 @@
     Singletons:
         - Centralized control is ensured through the implementation of Singleton patterns.
         - Essential services such as PlayerService, EnemyService, PickupsService(Healing Orb), 
-          DamageOrbService, GameService, FoodService, GameUIService, LevelService, are designed as Singletons.
+          DamageOrbService(FireOrb), GameService, GameUIService, LevelService, are designed as Singletons.
        
     Observer Pattern:
         - Employed the observer pattern to decouple classes and facilitate event handling for events such as 
