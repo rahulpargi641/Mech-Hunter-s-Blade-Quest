@@ -2,7 +2,7 @@
  
 ### Introduction
 
-    A thrilling 3D action game where you step into the role of the Mech Ninja, tasked with hunting down 
+    A 3D action game where you step into the role of the Mech Ninja, tasked with hunting down 
     rogue mechs and their formidable bosses This project prioritizes maintaining code quality and ensuring 
     the game's adaptability for future enhancements.
     
