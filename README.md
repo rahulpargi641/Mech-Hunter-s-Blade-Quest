@@ -8,7 +8,7 @@
     
 ### Features
     Visual and Audio Quality:
-    - Crafted with high-quality graphics and exceptional sound effects.
+    - Crafted with high-quality graphics and immersive sound effects.
     
     Core Gameplay:
     - Player actions include running, rolling, and attakcking with swords.
@@ -50,7 +50,12 @@
         - Centralized control is ensured through the implementation of Singleton patterns.
         - Essential services such as PlayerService, EnemyService, PickupsService(Healing Orb), 
           DamageOrbService(FireOrb), GameService, GameUIService, LevelService, are designed as Singletons.
-       
+          
+    State Pattern:
+        - Utilized the state pattern to manage player and enemy states.
+          - Player States : Idle, run, roll, attack, dash attack, hurt, and death.
+          - Enemy States: Idle, run, patrol, pursue, hurt, and death.
+    
     Observer Pattern:
         - Employed the observer pattern to decouple classes and facilitate event handling for events such as 
           player death, enemy hit, enemy death, and enemy group death.
@@ -66,10 +71,9 @@
       VFX, effectively managing memory and CPU usage.
 
 #### Level Design:
-    - For rapid level design, Unity's Tilemap was utilized, enabling expedited level creation by 
-      painting tiles and specifying tilemap rules.
-    - Created multiple layers, including platform, Enemy, Obstacle, Water, Bouncy, and Player, to 
-      distinguish between different types of tiles.
+    - Utilized high-quality graphics elements, including character models for both players and enemies, which were 
+      expertly designed by the
+    - Created game desgin stratigically for enemy spawner and enemy region they spawn in.
 
 #### Enchanced Camera Tracking
     - Employed Cinemachine to smoothly follow the player. 
@@ -77,9 +81,18 @@
 #### Animations:
     - The Player Animator handles character animations such as Idle, Run, Roll, attack, and Hurt.
     - The Enemy Animator, derived from the Player Animator, handles animations such as idle, run, and attacks.
+    
 ### Focus
     - Code Quality and Organization.
     - Architecture Design for Flexibility and Scalability.
-    - Visually appealing, with soothing music and sound effects. 
-
+    - Visually appealing with high-quality 3D graphics and immersive sound effects.
+    
 ### Gameplay Demonstration
+    For a visual demonstration of the gameplay, watch video on YouTube.
+    
+### Play the Game
+    To experience the game firsthand, play it directly by following this playable link.
+
+### Credits
+#### Assets
+- Character Models and Game Map: [Instructor's Name](link-to-instructor-profile)
