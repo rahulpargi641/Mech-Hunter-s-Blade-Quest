@@ -27,7 +27,7 @@
     - A smooth camera system ensures seamless tracking of the player's movements.
     
     User Interface (UI):
-    - Visually appealing Main Menu, Pause Menu, Game Over, and Level Complete screens
+    - Visually appealing Main Menu, Pause Menu, Game Over, and Level Complete screens.
     - The Pause screen offers convenient options for resuming the game or quitting.
     
 ### Screenshots
