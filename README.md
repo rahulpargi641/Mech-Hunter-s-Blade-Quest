@@ -54,24 +54,17 @@
     Observer Pattern:
         - Employed the observer pattern to decouple classes and facilitate event handling for events such as 
           player death, enemy hit, enemy death, and enemy group death.
-        - This facilitates the activation of the game over screen and the opening of the gate when the enemy group is defeated.
+        - This facilitates the activation of the game over screen and the opening of the gate when the enemy 
+          group is defeated.
 
     Scriptable Objects:
-       - Food Types:
-       - Two distinct food types are available:
-          - Mass Gainer - Egg, Meat, Fish
-          - Mass Burner - Green Strawberry, Pumpkin
-       - Powerup Types:
-          - Three distinct food types are available:
-         - Speed Boost, Score Boost, Shield
-    - Snake Scriptable Object:
-       - Used for configuring snake-related data.
+         - Scriptable objects were utilized to configure player and enemy data, providing a flexible and 
+           efficient approach for handling their attributes.
        
 #### Performance Optimization:
-
-    - To optimize performance, object pooling is implemented for arrows, coins, and enemies, 
-      which helps manage memory and CPU usage efficiently.
-
+    - To optimize performance, object pooling is implemented for enemies, damage orbs, pickups, and various VFX, 
+      effectively managing memory and CPU usage.
+    
 #### Input Management:
 
     - Integrated Unity's new Input System to simplify the mapping of inputs to in-game actions. 
