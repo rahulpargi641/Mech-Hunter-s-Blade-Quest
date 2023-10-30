@@ -19,7 +19,11 @@
 
     Healing Orbs:
     - Defeating enemies causes them to drop healing orbs that restore the player's health.
-
+    
+    Enemy AI:
+    - Enemies spawn as you enter their area, and they patrol the vicinity. They will chase you when detected,
+      attacking until you are defeated.
+    
     Boss Fight:
     - The boss enemy launches a barrage of fire orbs that players must skillfully evade to minimize damage.
     
@@ -54,7 +58,7 @@
     State Pattern:
         - Utilized the state pattern to manage player and enemy states.
           - Player States : Idle, run, roll, attack, dash attack, hurt, and death.
-          - Enemy States: Idle, run, patrol, pursue, hurt, and death.
+          - Enemy States: Idle, run, patrol, pursue, hurt, attack and death.
     
     Observer Pattern:
         - Employed the observer pattern to decouple classes and facilitate event handling for events such as 
