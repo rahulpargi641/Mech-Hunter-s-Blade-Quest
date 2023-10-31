@@ -76,7 +76,7 @@
 
 #### Level Design:
     - Used high-quality graphics elements and integrated top-tier character models for both players and 
-      enemies, including the boss character
+      enemies, including the boss character.
     - Strategically positioned enemy spawners and their respective regions in the game.
 
 #### Enchanced Camera Tracking
