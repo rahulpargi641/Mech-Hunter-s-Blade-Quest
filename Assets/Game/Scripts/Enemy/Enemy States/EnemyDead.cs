@@ -15,6 +15,7 @@ public class EnemyDead : EnemyState
         base.Enter();
 
         animator.SetTrigger("Dead");
+        AudioService.Instance.PlaySound(SoundType.EnemyDeath);
     }
 
     protected override void Exit()

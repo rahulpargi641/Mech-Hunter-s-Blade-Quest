@@ -25,7 +25,7 @@ public class SlideAttack : PlayerState
         DamageCasterView damageCaster = playerView.GetComponentInChildren<DamageCasterView>();
         if (damageCaster) damageCaster.DisableDamageCaster();
 
-        //AudioService.Instance.PlayAttackSound
+        AudioService.Instance.PlaySound(SoundType.RollSlide);
     }
 
     protected override void Update()

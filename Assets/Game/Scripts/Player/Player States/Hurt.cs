@@ -14,6 +14,7 @@ public class Hurt : PlayerState
 
         animator.SetTrigger("Hurt");
         playerView.BeingHitAnimationEnded = false;
+        AudioService.Instance.PlaySound(SoundType.Hurt);
     }
 
     protected override void Update()

@@ -89,9 +89,28 @@ public class PlayerView : MonoBehaviour
         damageCaster.DisableDamageCaster();
     }
 
-    //private void OnDisable()
-    //{
-    //    HorizontalInput = 0;
-    //    VerticalInput = 0;
-    //}
+    public void PlaySword1Sound()
+    {
+        AudioService.Instance.PlaySound(SoundType.Sword1Attack);
+    }
+
+    public void PlaySword2Sound()
+    {
+        AudioService.Instance.PlaySound(SoundType.Sword2Attack);
+    }
+
+    public void PlayTwoSwordSound()
+    {
+        AudioService.Instance.PlaySound(SoundType.TwoSwordAttack);
+    }
+
+    public void PlayFootStepSound()
+    {
+        AudioService.Instance.PlaySound(SoundType.Footsteps);
+    }
+
+    public void PlayRollSound()
+    {
+        AudioService.Instance.PlaySound(SoundType.RollSlide);
+    }
 }

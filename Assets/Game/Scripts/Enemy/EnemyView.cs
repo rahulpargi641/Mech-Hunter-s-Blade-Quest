@@ -72,6 +72,16 @@ public class EnemyView : MonoBehaviour
         damageCaster.DisableDamageCaster();
     }
 
+    public void PlayEnemyFootstepSound()
+    {
+        AudioService.Instance.PlaySound(SoundType.EnemyFootSteps);
+    }
+
+    public void PlayEnemyAttackSound()
+    {
+        AudioService.Instance.PlaySound(SoundType.EnemyAttack);
+    }
+
     public void EnemyDead()
     {
         Controller.EnemyDead();

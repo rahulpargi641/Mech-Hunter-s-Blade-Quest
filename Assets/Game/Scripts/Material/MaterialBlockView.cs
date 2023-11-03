@@ -6,7 +6,6 @@ public class MaterialBlockView : MonoBehaviour
     private SkinnedMeshRenderer skinnedMeshRenderer;
     private MaterialPropertyBlock materialPropertyBlock;
 
-
     private void Awake()
     {
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
@@ -61,7 +60,9 @@ public class MaterialBlockView : MonoBehaviour
         float dissolveHeightTarget = -10f;
         float dissolveHeight;
 
-        yield return new WaitForSeconds(2f); 
+        yield return new WaitForSeconds(2f);
+
+        AudioService.Instance.PlaySound(SoundType.Death);
 
         materialPropertyBlock.SetFloat("_enableDissolve", 1f);
         skinnedMeshRenderer.SetPropertyBlock(materialPropertyBlock);
@@ -103,6 +104,5 @@ public class MaterialBlockView : MonoBehaviour
 
         materialPropertyBlock.SetFloat("_enableDissolve", 0f);
         skinnedMeshRenderer.SetPropertyBlock(materialPropertyBlock);
-
     }
 }

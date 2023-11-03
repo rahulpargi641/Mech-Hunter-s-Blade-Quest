@@ -21,6 +21,7 @@ public class EnemySpawning : EnemyState
         currentSpawnTime = spawnDuration;
         MaterialBlockView materialBlockView = enemyAIView.GetComponent<MaterialBlockView>();
         materialBlockView.CharacterAppear();
+        AudioService.Instance.PlaySound(SoundType.EnemySpawning);
     }
 
     protected override void Update()
