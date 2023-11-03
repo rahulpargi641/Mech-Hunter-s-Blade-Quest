@@ -78,7 +78,7 @@ public class MaterialBlockView : MonoBehaviour
             yield return null;
         }
 
-        PickupsService.Instance.DropItem(transform.position);
+        PickupsService.Instance.CreatePickup(transform.position);
         gameObject.SetActive(false);
     }
 

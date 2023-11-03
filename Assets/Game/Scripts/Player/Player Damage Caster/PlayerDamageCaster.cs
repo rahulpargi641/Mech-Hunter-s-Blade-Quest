@@ -11,7 +11,7 @@ public class PlayerDamageCaster : DamageCasterView
         {
             enemyhealthView.ApplyDamage(model.Damage, transform.parent.position);
             EventService.Instance.InvokeEnemyHitAction(enemyView);
-            PlayerVFXView playerVFXView = transform.parent.GetComponent<PlayerVFXView>();
+            PlayerVFX playerVFXView = transform.parent.GetComponent<PlayerVFX>();
             if (playerVFXView)
             {
                 RaycastHit hit;
