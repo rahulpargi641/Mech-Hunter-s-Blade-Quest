@@ -37,7 +37,7 @@
 ### Screenshots
 
    (Insert screenshots)
-   ![Start Menu](./path/to/your/screenshot.png) 
+  ![Start Menu](./Screenshots/Start Menu.png)
   
 ### Code Structure and Game Design
 #### Code Structure
