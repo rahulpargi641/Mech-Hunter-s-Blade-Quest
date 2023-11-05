@@ -118,4 +118,5 @@
 
 ### Credits
 #### Assets
-- Character Models and Game Map: [Single-minded Ryan](https://www.udemy.com/user/single-minded-ryan/)
+    - Character Models and Game Map: 
+   [Single-minded Ryan](https://www.udemy.com/user/single-minded-ryan/)
