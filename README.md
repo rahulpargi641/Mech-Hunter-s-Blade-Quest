@@ -15,7 +15,7 @@
     - Three types of attacks:
        - Normal Attack (first sword attack) (Left click).
        - 2-step Combo Attack (first and then second sword attack) (Left click -> Left click).
-       - 3-step Combo Attack (first and then second sword attacks) (Left click -> Left click -> Left click).
+       - 3-step Combo Attack (first, then second sword attack, and finally both sword attack) (Left click -> Left click -> Left click).
        - Dash Attack (slide forward and attack from a distance) (Right click).
 
     Healing Orbs:
@@ -44,11 +44,6 @@
   ![HunterAttackedThreeEnemies](./Screenshots/HunterAttackedThreeEnemies.png)
   ![BossAttackingHunter](./Screenshots/BossAttackingHunter.png)
   ![BossEnemyHurtHunter](./Screenshots/BossEnemyHurtHunter.png)
-
-
-
-
-
 
   
 ### Code Structure and Game Design
@@ -120,3 +115,4 @@
 #### Assets
     - Character Models and Game Map:
    [Single-minded Ryan](https://www.udemy.com/user/single-minded-ryan/)
+ 
