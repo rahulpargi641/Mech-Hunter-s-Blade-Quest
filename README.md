@@ -35,9 +35,20 @@
     - The Pause screen offers convenient options for resuming the game or quitting.
     
 ### Screenshots
-
-   (Insert screenshots)
   ![Start Menu](./Screenshots/StartMenu.png)
+  ![Hunter Damaged Enemy](./Screenshots/HunterDamagedEnemy.png)
+  ![Enemy Dead](./Screenshots/EnemyDead.png)
+  ![HunterAttackedTwoEnemies](./Screenshots/HunterAttackedTwoEnemies.png)
+  ![ThreeEnemiesSpawned](./Screenshots/ThreeEnemiesSpawned.png)   
+  ![HunterAttackedThreeEnemies](./Screenshots/HunterAttackedThreeEnemies.png)
+  ![BossAttackingHunter](./Screenshots/BossAttackingHunter.png)
+  ![BossEnemyHurtHunter](./Screenshots/BossEnemyHurtHunter.png)
+
+
+
+
+
+
   
 ### Code Structure and Game Design
 #### Code Structure
