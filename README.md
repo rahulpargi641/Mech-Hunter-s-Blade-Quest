@@ -13,9 +13,10 @@
     Core Gameplay:
     - Player actions include running, rolling, and attakcking with swords.
     - Three types of attacks:
-       - Normal Attack (one sword attack)
-       - Combo Attack (two swords attack)
-       - Dash Attack (slide forward and attack from a distance).
+       - Normal Attack (one sword attack) (Left click).
+       - 2-step Combo Attack (two sword attacks) (Left click -> Left click).
+       - 3-step Combo Attack (three sword attacks) (Left click -> Left click -> Left click).
+       - Dash Attack (slide forward and attack from a distance) (Right click).
 
     Healing Orbs:
     - Defeating enemies causes them to drop healing orbs that restore the player's health.
@@ -105,12 +106,16 @@
     
 ### Gameplay Demonstration
     For a visual demonstration of the gameplay, watch video on YouTube.
+   https://youtu.be/_da6i8nP55E
     
 ### Play the Game
     To experience the game firsthand, play it directly by following this playable link.
    https://rahul-pargi.itch.io/mech-hunter
-
+   
+    - For the best performance, play it via the .exe file.
+   https://drive.google.com/file/d/1vTkCpfYoJgEkJ8K7jl8uQmJh42NtcSnI/view?usp=sharing
+    
 
 ### Credits
 #### Assets
-- Character Models and Game Map: [Instructor's Name](link-to-instructor-profile)
+- Character Models and Game Map: [Single-minded Ryan](https://www.udemy.com/user/single-minded-ryan/)
