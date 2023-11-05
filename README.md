@@ -110,7 +110,7 @@
     
 ### Play the Game
     - To experience the game firsthand, play it directly by following this playable link: 
-   [Play in Browser(WebGl)](https://rahul-pargi.itch.io/mech-hunter/)
+   [Play in browser(WebGl)](https://rahul-pargi.itch.io/mech-hunter/)
    
     - For the best performance, download and play the .exe file from this link:
    [Download .exe file](https://drive.google.com/file/d/1vTkCpfYoJgEkJ8K7jl8uQmJh42NtcSnI/view?usp=sharing/)
