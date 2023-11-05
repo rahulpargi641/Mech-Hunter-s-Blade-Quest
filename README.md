@@ -108,7 +108,7 @@
     
 ### Play the Game
     To experience the game firsthand, play it directly by following this playable link.
-    https://rahul-pargi.itch.io/mech-hunter
+   https://rahul-pargi.itch.io/mech-hunter
 
 
 ### Credits
