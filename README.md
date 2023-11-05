@@ -13,9 +13,9 @@
     Core Gameplay:
     - Player actions include running, rolling, and attakcking with swords.
     - Three types of attacks:
-       - Normal Attack (one sword attack) (Left click).
-       - 2-step Combo Attack (two sword attacks) (Left click -> Left click).
-       - 3-step Combo Attack (three sword attacks) (Left click -> Left click -> Left click).
+       - Normal Attack (first sword attack) (Left click).
+       - 2-step Combo Attack (first and then second sword attack) (Left click -> Left click).
+       - 3-step Combo Attack (first and then second sword attacks) (Left click -> Left click -> Left click).
        - Dash Attack (slide forward and attack from a distance) (Right click).
 
     Healing Orbs:
