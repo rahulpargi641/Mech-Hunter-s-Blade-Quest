@@ -105,14 +105,18 @@
     - Visually appealing with high-quality 3D graphics and immersive sound effects.
     
 ### Gameplay Demonstration
-   - For a visual demonstration of the gameplay, watch video on YouTube: [Youtube video link](https://youtu.be/_da6i8nP55E)
+    - For a visual demonstration of the gameplay, watch video on YouTube: 
+   [Youtube video link](https://youtu.be/_da6i8nP55E)
     
 ### Play the Game
-   - To experience the game firsthand, play it directly by following this playable link: [Play on itch.io](https://rahul-pargi.itch.io/mech-hunter/)
+    - To experience the game firsthand, play it directly by following this playable link: 
+   [Play on itch.io](https://rahul-pargi.itch.io/mech-hunter/)
    
-   - For the best performance, download and play the .exe file from this link: [Download .exe file](https://drive.google.com/file/d/1vTkCpfYoJgEkJ8K7jl8uQmJh42NtcSnI/view?usp=sharing/)
+   - For the best performance, download and play the .exe file from this link:
+   [Download .exe file](https://drive.google.com/file/d/1vTkCpfYoJgEkJ8K7jl8uQmJh42NtcSnI/view?usp=sharing/)
     
 
 ### Credits
 #### Assets
-   - Character Models and Game Map: [Single-minded Ryan](https://www.udemy.com/user/single-minded-ryan/)
+   - Character Models and Game Map:
+   [Single-minded Ryan](https://www.udemy.com/user/single-minded-ryan/)
