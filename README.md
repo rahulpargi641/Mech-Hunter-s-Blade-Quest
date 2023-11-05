@@ -109,14 +109,11 @@
    https://youtu.be/_da6i8nP55E
     
 ### Play the Game
-    To experience the game firsthand, play it directly by following this playable link.
-   https://rahul-pargi.itch.io/mech-hunter
+   - To experience the game firsthand, play it directly by following this playable link - [Play on itch.io](https://rahul-pargi.itch.io/mech-hunter/)
    
-    - For the best performance, play it via the .exe file.
-   https://drive.google.com/file/d/1vTkCpfYoJgEkJ8K7jl8uQmJh42NtcSnI/view?usp=sharing
+   - For the best performance, play it via the .exe file - [Download .exe](https://drive.google.com/file/d/1vTkCpfYoJgEkJ8K7jl8uQmJh42NtcSnI/view?usp=sharing/)
     
 
 ### Credits
 #### Assets
-    - Character Models and Game Map: 
-   [Single-minded Ryan](https://www.udemy.com/user/single-minded-ryan/)
+   - Character Models and Game Map: [Single-minded Ryan](https://www.udemy.com/user/single-minded-ryan/)
