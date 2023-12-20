@@ -12,9 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d3bb6b30ae12744802c83a153035f0, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
+  enemyType: 0
+  spawningDuration: 3
+  MaxHealth: 100
   visibleDist: 10
   visibleAngle: 80
   attackDist: 2.2
   visibleAttackAngle: 60
   shootingDist: 10
+  detectDist: 4
   pathUpdateDelay: 0.2
+  patrolChance: 50
+  damage: 30
+  hitForce: 10
+  idleAnimName: Idle
+  runAnimName: Run
+  hurtAnimName: Hurt
+  attackAnimName: Attack
+  deadAnimName: Dead

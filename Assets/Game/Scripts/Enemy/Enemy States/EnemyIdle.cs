@@ -2,42 +2,45 @@ using UnityEngine;
 
 public class EnemyIdle : EnemyState
 {
-    private int patrolChance;
+    private readonly int patrolChance;
 
-    public EnemyIdle(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
+    public EnemyIdle(EnemyController controller) : base(controller)
     {
-        state = EState.Idle;
-        stage = EStage.Enter;
+        state = EEnemyState.Idle;
+
+        patrolChance = controller.PatrolChance;
     }
 
     protected override void Enter()
     {
         base.Enter();
-
-        patrolChance = enemy.patrolChance;
-
-        animator.SetTrigger(enemy.idleAnimName);
+        animator.SetTrigger(controller.IdleAnimName);
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (CanSeePlayer())
-        {
-            nextState = new EnemyPursue(enemyAIView, enemy);
-            stage = EStage.Exit;
-        }
-        else if (Random.Range(0, 100) < patrolChance)
-        {
-            nextState = new EnemyPatrol(enemyAIView, enemy);
-            stage = EStage.Exit;
-        }
+        SwitchStateIf();
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger(enemy.idleAnimName);
+        animator.ResetTrigger(controller.IdleAnimName);
         base.Exit();
+    }
+
+    private void SwitchStateIf()
+    {
+        if (CanSeePlayer())
+        {
+            nextState = new EnemyPursue(controller);
+            stage = EStage.Exit;
+        }
+        else if (Random.Range(0, 100) < patrolChance)
+        {
+            nextState = new EnemyPatrol(controller);
+            stage = EStage.Exit;
+        }
     }
 }

@@ -2,26 +2,22 @@ using UnityEngine;
 
 public class PickupsService : MonoSingletonGeneric<PickupsService>
 {
-    [SerializeField] PickupsView pickupsView;
+    [SerializeField] HealOrb healOrbPrefab;
+    // [SerializeField] Coin coin;
 
-    private PickupsPool pickupsPool;
+    private HealOrbPool healOrbPool = new HealOrbPool();
 
-    private void Start()
+    public void SpawnHealOrb(Vector3 spawnPoint)
     {
-        pickupsPool = new PickupsPool();
+        HealOrb healOrb = healOrbPool.GetHealOrb(healOrbPrefab);
+
+        healOrb.SetTransform(spawnPoint, Quaternion.identity);
+        healOrb.EnableHealOrb();
     }
 
-    public void SpawnPickup(Vector3 dropPos)
+    public void ReturnHealOrbToPool(HealOrb healOrb) 
     {
-        PickupsModel pickupsModel = new();
-        PickupsController pickupsController = pickupsPool.GetPickup(pickupsModel, pickupsView);
-        pickupsController.SetTransform(dropPos, Quaternion.identity);
-        pickupsController.EnablePickup();
-    }
-
-    public void ReturnPickupToPool(PickupsController pickupsController)
-    {
-        pickupsController.DisablePickup();
-        pickupsPool.ReturnItem(pickupsController);
+        healOrb.DisableHealOrb();
+        healOrbPool.ReturnItem(healOrb);
     }
 }

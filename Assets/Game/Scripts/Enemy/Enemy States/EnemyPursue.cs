@@ -3,10 +3,14 @@ using UnityEngine.AI;
 
 public class EnemyPursue : EnemyState
 {
-    public EnemyPursue(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
+    private readonly float pathUpdateDelay;
+    private float pathUpdateDeadline;
+
+    public EnemyPursue(EnemyController controller) : base(controller)
     {
-        state = EState.Pursue;
-        stage = EStage.Enter;
+        state = EEnemyState.Pursue;
+
+        pathUpdateDelay = controller.PathUpdateDelay;
 
         navMeshAgent.speed = 1.5f;
         navMeshAgent.isStopped = false;
@@ -15,34 +19,58 @@ public class EnemyPursue : EnemyState
     protected override void Enter()
     {
         base.Enter();
-
-        animator.SetTrigger(enemy.runAnimName);
+        animator.SetTrigger(controller.RunAnimName);
     }
 
     protected override void Update()
     {
         base.Update();
 
-        UpdatePath(playerTransform.position);
+        if (playerTransform.position == null) return;
 
-        if (navMeshAgent.hasPath) // means following the player       
-        {
-            if (CanAttackPlayer())
-            {
-                nextState = new EnemyAttack(enemyAIView, enemy);
-                stage = EStage.Exit;
-            }
-            else if (! CanSeePlayer() || !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-            {
-                nextState = new EnemyPatrol(enemyAIView, enemy);
-                stage = EStage.Exit;
-            }
-        }
+        SetDestination(playerTransform.position);
+        FollowPlayerIfPathExists();
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger(enemy.runAnimName);
+        animator.ResetTrigger(controller.RunAnimName);
         base.Exit();
+    }
+
+    private void SetDestination(Vector3 targetPoint)
+    {
+        if (Time.time >= pathUpdateDeadline)
+        {
+            pathUpdateDeadline = Time.time + pathUpdateDelay;  // Update the deadline for the next path update
+            navMeshAgent.SetDestination(targetPoint);
+        }
+    }
+
+    private void FollowPlayerIfPathExists()
+    {
+        if (navMeshAgent.hasPath) // means currently pursuing the player by following a path      
+        {
+            SwitchStateIf();
+        }
+    }
+
+    private void SwitchStateIf()
+    {
+        if (CanAttackPlayer())
+        {
+            nextState = new EnemyAttack(controller);
+            stage = EStage.Exit;
+        }
+        else if (!CanSeePlayer() || HasReachedDestination())
+        {
+            nextState = new EnemyPatrol(controller);
+            stage = EStage.Exit;
+        }
+    }
+
+    private bool HasReachedDestination()
+    {
+        return !navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance;
     }
 }

@@ -2,51 +2,71 @@ using UnityEngine;
 
 public class PlayerIdle : PlayerState
 {
-    public PlayerIdle(PlayerView playerView, PlayerSO player) : base (playerView, player)
+    public PlayerIdle(PlayerController controller) : base (controller)
     {
         state = EPlayerState.Idle;
-        stage = EStage.Enter;
     }
 
     protected override void Enter()
     {
         base.Enter();
-
-        animator.SetTrigger(player.idleAnimName);
+        animator.SetTrigger(controller.IdleAnimName);
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (CanRoll())
-        {
-            nextState = new PlayerRoll(playerView, player);
-            stage = EStage.Exit;
-        }
-
-        if (CanRun())
-        {
-            nextState = new PlayerRun(playerView, player);
-            stage = EStage.Exit;
-        }
-
-        if(CanAttack())
-        {
-            nextState = new PlayerAttack(playerView, player);
-            stage = EStage.Exit;
-        }
-
-        if(CanAttack2())
-        {
-            nextState = new SlideAttack(playerView, player);
-            stage = EStage.Exit;
-        }
+        SwitchStateIfConditionsMet();
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger("Idle");
+        animator.ResetTrigger(controller.IdleAnimName);
         base.Exit();
+    }
+
+    protected void SwitchStateIfConditionsMet()
+    {
+        SwitchStateToRollIf();
+        SwitchStateToRunIf();
+        SwitchStateToAttackIf();
+        SwitchStateToDashAttackIf();
+    }
+
+    private void SwitchStateToRollIf()
+    {
+        if (RollButtonDown)
+        {
+            nextState = new PlayerRoll(controller);
+            stage = EStage.Exit;
+        }
+    }
+
+    private void SwitchStateToRunIf()
+    {
+        if (RunButtonDown)
+        {
+            nextState = new PlayerRun(controller);
+            stage = EStage.Exit;
+        }
+    }
+
+    private void SwitchStateToAttackIf()
+    {
+        if (AttackButtonDown)
+        {
+            nextState = new PlayerAttack(controller);
+            stage = EStage.Exit;
+        }
+    }
+
+    private void SwitchStateToDashAttackIf()
+    {
+        if (DashAttackButtonDown)
+        {
+            nextState = new PlayerDashAttack(controller);
+            stage = EStage.Exit;
+        }
     }
 }

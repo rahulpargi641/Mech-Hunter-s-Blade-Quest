@@ -4,79 +4,71 @@ using UnityEngine;
 public class EnemyService : MonoSingletonGeneric<EnemyService>
 {
     [SerializeField] EnemySO enemySO;
-    private EnemyPool enemyPool;
-    private List<EnemyController> enemyControllers;
+    private List<EnemyController> currentEnemyGroup = new List<EnemyController>();
 
-    private int nEnemies = 7;
-    private int enemyNumber;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        enemyPool = new EnemyPool();
-        enemyControllers = new List<EnemyController>();
-    }
+    private EnemyPool enemyPool = new EnemyPool();
+    private int nEnemies = 7; // No of enemies in the level
 
     private void Start()
     {
-        EventService.Instance.onEnemyDeathAction += DecreaseEnemyCount;        
+        EventService.Instance.onEnemyDeath += DecreaseEnemyCount;
+        EventService.Instance.onEnemyDissolved += ReturnEnemyToPool;
     }
 
     private void OnDestroy()
     {
-        EventService.Instance.onEnemyDeathAction -= DecreaseEnemyCount;
+        EventService.Instance.onEnemyDeath -= DecreaseEnemyCount;
+        EventService.Instance.onEnemyDissolved -= ReturnEnemyToPool;
     }
 
     private void Update()
     {
-        if (enemyControllers.Count == 0)
+        if (currentEnemyGroup.Count == 0)
             return;
         else
-            CheckIfCurrentEnemyGroupDead();
+            ProcessIfCurrentEnemyGroupDead();
 
-        CheckIfAllEnemiesDead();
+        ProcessIfAllEnemiesDead();
     }
 
-    private void CheckIfCurrentEnemyGroupDead()
+    private void ProcessIfCurrentEnemyGroupDead()
     {
         if (IsCurrentEnemyGroupDead())
         {
-            EventService.Instance.InvokeOnCurrentEnemyGroupDead();
-            enemyControllers.Clear();
-            Debug.Log("Current Enemy Group dead");
+            EventService.Instance.InvokeOnCurrentEnemyGroupDead(); // Opens the gate which gets closed when player enters the area
+            currentEnemyGroup.Clear();
+            Debug.Log("Current Enemy Group dead"); // remove it
         }
-    }
-
-    private void CheckIfAllEnemiesDead()
-    {
-        if(nEnemies <= 0)
-            EventService.Instance.InvokeOnAllEnemiesDead();
     }
 
     private bool IsCurrentEnemyGroupDead()
     {
         bool currentEnemyGroupDead = true;
-        foreach (EnemyController enemyController in enemyControllers)
+        foreach (EnemyController enemyController in currentEnemyGroup)
         {
-            if (!enemyController.IsDead())
+            if (!enemyController.IsDead)
                 currentEnemyGroupDead = false;
         }
 
         return currentEnemyGroupDead;
     }
 
+    private void ProcessIfAllEnemiesDead()
+    {
+        if(nEnemies <= 0)
+            EventService.Instance.InvokeOnAllEnemiesDead(); // Activates the GameComplete UI
+    }
+    
     // Called via Enemy Spawner
     public void SpawnEnemy(EnemyView enemyView, Vector3 spawnPoint)
     {
         EnemyModel enemyModel = new EnemyModel(enemySO);
-        EnemyController enemyController = enemyPool.GetEnemyContoller(enemyModel, enemyView);
+        EnemyController enemyController = enemyPool.GetEnemyController(enemyModel, enemyView);
 
-        enemyNumber++;
-        enemyController.EnableEnemy(enemyNumber);
+        enemyController.EnableEnemy();
         enemyController.SetTransform(spawnPoint);
 
-        enemyControllers.Add(enemyController);
+        currentEnemyGroup.Add(enemyController);
     }
 
     // called via event onEnemyDeathAction
@@ -85,15 +77,9 @@ public class EnemyService : MonoSingletonGeneric<EnemyService>
         nEnemies--;
     }
 
-    public void EnemyDissolved(EnemyView enemyView)
+    public void ReturnEnemyToPool(EnemyView dissolvedEnemy)
     {
-        enemyView.Controller.EnemyDead();
-        enemyView.Controller.DisableEnemy();
-        //ReturnEnemyToPool(enemyView.Controller);
-    }
-
-    public void ReturnEnemyToPool(EnemyController enemyController)
-    {
-        enemyPool.ReturnItem(enemyController);
+        dissolvedEnemy.DisableEnemy();
+        //enemyPool.ReturnItem(dissolvedEnemy.Controller);
     }
 }

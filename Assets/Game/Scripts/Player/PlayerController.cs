@@ -2,8 +2,61 @@ using UnityEngine;
 
 public class PlayerController
 {
+    #region View Related
+    public Animator Animator => view.Animator;
+    public DamageCasterView PlayerDamageCaster => view.DamageCaster;
+
+    public float HorizontalInput => view.HorizontalInput;
+    public float VerticalInput => view.VerticalInput;
+
+    public Vector3 PlayerForwardVector => view.transform.forward;
+    public bool IsGrounded => view.CharacterController.isGrounded;
+
+    public bool RunButtonDown => view.HorizontalInput != 0 || view.VerticalInput != 0;
+    public bool RollButtonDown => view.SpaceButtonDown;
+    public bool AttackButtonDown => view.LeftMouseButtonDown;
+    public bool DashAttackButtonDown => view.RightMouseButtonDown;
+
+    public bool HurtAnimationEnded { get { return view.HurtAnimationEnded; } set { view.HurtAnimationEnded = value; } }
+    public bool RollAnimationEnded { get { return view.RollAnimationEnded; } set { view.RollAnimationEnded = value; } }
+    public bool AttackAnimationEnded { get { return view.AttackAnimationEnded; } set { view.AttackAnimationEnded = value; } }
+    #endregion
+
+    #region Model Related
+    #region Movement Related
+
+    public bool IsHit { get { return model.IsHit; } set { model.IsHit = value; } }
+    public bool IsDead => model.IsDead;
+    public float MoveSpeed => model.MoveSpeed;
+    public float RollSlideSpeed => model.RollSlideSpeed;
+    public float FallGravity => model.FallGravity;
+    public Vector3 CurrentPushVelocity => model.CurrentPushVelocity;
+    #endregion
+
+    #region Attack related
+    public float MinComboWindow => model.MinComboWindow; // Min window to perform attack combo
+    public float MaxAnimWindow => model.MaxComboWindow; // Max window to perform attack combo
+    public float DashAttackSlideDuration => model.DashAttackSlideDuration;
+    public float DashAttackSlideSpeed => model.DashAttackSlideSpeed;
+    #endregion
+
+    #region Animations Names
+    public string IdleAnimName => model.IdleAnimName;
+    public string RunAnimName => model.RunAnimName;
+    public string RollAnimName => model.RollAnimName;
+    public string HurtAnimName => model.HurtAnimName;
+    public string AttackAnimName => model.AttackAnimName;
+    public string LastAttackInComboAnimName => model.LastAttackInComboAnimName;
+    public string DeadAnimName => model.DeadAnimName;
+    #endregion
+    #endregion
+
+    public bool CanEnterDeadState { get; set; } = true;
+
     readonly PlayerModel model;
     readonly PlayerView view;
+
+    private PlayerState currentState;
 
     public PlayerController(PlayerModel model, PlayerView view)
     {
@@ -12,64 +65,71 @@ public class PlayerController
 
         view.Controller = this;
         model.Controller = this;
+
+        EventService.Instance.onPlayerHit += ProcessPlayerHit;
+        EventService.Instance.onHealPickup += IncreaseHealth;
+
+        currentState = new PlayerIdle(this);
     }
 
-    public void ProcessMovement(float horizontalInput, float verticalInput)
+    public void ProcessCurrentState()
     {
-        XZPlaneMovement(horizontalInput, verticalInput);
-        Turn();
-        YAxisMovement();
-        //InAir();
-
-        view.CharacterController.Move(model.MovementVelocity);
+        currentState = currentState.ProcessState();
     }
 
-    private void XZPlaneMovement(float horizontalInput, float verticalInput)
+    public void MovePlayer(Vector3 moveVelocity)
     {
-        model.MovementVelocity.Set(horizontalInput, 0f, verticalInput);
-        model.MovementVelocity.Normalize();
-        model.MovementVelocity = Quaternion.Euler(0f, -45f, 0f) * model.MovementVelocity;
-
-        model.MovementVelocity *= model.MoveSpeed * Time.deltaTime;
+        view.CharacterController.Move(moveVelocity);
     }
 
-    private void Turn()
+    public void RotatePlayer(Vector3 moveVelocity) // Rotate player in the direction of velocity i.e current player moveement input
     {
-        if (model.MovementVelocity != Vector3.zero)
-            view.transform.rotation = Quaternion.LookRotation(model.MovementVelocity);
+        view.transform.rotation = Quaternion.LookRotation(moveVelocity);
     }
 
-    private void YAxisMovement()
+    private void ProcessPlayerHit(Vector3 hitPoint, float hitForce, int damage)
     {
-        if (view.CharacterController.isGrounded == false)
-            model.VerticalSpeed = model.FallGravity;
-        else
-            model.VerticalSpeed = model.FallGravity * 0.3f;
-
-            model.MovementVelocity += model.VerticalSpeed * Vector3.up * Time.deltaTime;
+        model.IsHit = true;
+        AddHitImpactForce(hitPoint, hitForce); 
+        ApplyDamage(damage);
     }
 
-    public void AddHitImpactForce(Vector3 attackerPos, float force)
+    public void AddHitImpactForce(Vector3 attackerPos, float hitForce)
     {
         Vector3 impactDir = view.transform.position - attackerPos;
         impactDir.Normalize();
         impactDir.y = 0;
-        model.CurrentPushVelocity = impactDir * force;
+
+        model.CurrentPushVelocity = impactDir * hitForce;
     }
 
-    public void ApplyHitImpactForce()
+    private void ApplyDamage(int damage)
     {
-        if(model.CurrentPushVelocity.magnitude > 0)
+        if (model.CurrentHealth > 0)
         {
-            model.MovementVelocity = model.CurrentPushVelocity * Time.deltaTime;
-            view.CharacterController.Move(model.MovementVelocity);
+            model.CurrentHealth -= damage;
+            EventService.Instance.InvokeOnPlayerHealthChange(model.CurrentHealthPercent);
+
+            if (model.CurrentHealth <= 0)
+            {
+                model.IsDead = true;
+                EventService.Instance.InvokeOnPlayerDeath();
+            }
         }
-        model.CurrentPushVelocity = Vector3.Lerp(model.CurrentPushVelocity, Vector3.zero, Time.deltaTime * 5);
     }
 
-    public PlayerSO GetPlayerSO()
+    private void IncreaseHealth(int healthGain)
     {
-        return model.PlayerSO;
+        if (model.CurrentHealth < model.MaxHealth)
+            model.CurrentHealth += healthGain;
+
+        EventService.Instance.InvokeOnPlayerHealthChange(model.CurrentHealthPercent);
+    }
+
+    public void OnDestroy()
+    {
+        EventService.Instance.onPlayerHit -= ProcessPlayerHit;
+        EventService.Instance.onHealPickup -= IncreaseHealth;
     }
 
     //private void InAir()

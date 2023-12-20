@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class DamageOrbView : MonoBehaviour
 {
     [SerializeField] ParticleSystem hitVFX;
@@ -18,19 +20,17 @@ public class DamageOrbView : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerHealthPresenter playerHealth = other.GetComponent<PlayerHealthPresenter>();
-        if(playerHealth)
+        PlayerView playerView = other.GetComponent<PlayerView>();
+        if(playerView)
         {
-            Controller.ProcessHit(playerHealth);
-            PlayHitVFX();
+            Controller.ProcessHit();
+            PlayDamageOrbHitVFX();
         }
     }
 
-    // Play from Particle Pool
-    private void PlayHitVFX()
+    private void PlayDamageOrbHitVFX()
     {
-        Instantiate(hitVFX, transform.position, Quaternion.identity);
-        hitVFX.Play();
-        Destroy(gameObject);
+        ParticleSystem damageOrbHitVFX = VFXService.Instance.SpawnDamageOrbHitVFX(transform.position);
+        damageOrbHitVFX.Play();
     }
 }

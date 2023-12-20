@@ -2,48 +2,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum EnemyType
-{
-    Enemy01, Enemy02
-}
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(CharacterMaterial))]
+[RequireComponent(typeof(EnemyVFX))]
 public class EnemyView : MonoBehaviour
 {
-    [SerializeField] private EnemyType enemyType;
-    public EnemyType EnemyOfType => enemyType;
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private EnemyType enemyType; // set it in Scriptable Object
+    public EnemyType EnemyType => enemyType;
+    public Transform PlayerTransform => playerTransform;
 
-    public List<Transform> PatrolPoints;
-    public EnemyController Controller { get; set; }
-    public CharacterController CharacterController { get; set; }
+    public List<Transform> PatrolPoints; // make serializefield
     public bool AttackAnimationEnded { get; set; }
-    public bool BeingHitAnimationEnded { get; set; }
+    public bool HurtAnimationEnded { get; set; }
+    public CharacterController CharacterController { get; set; }
     public Animator Animator { get; private set; }
     public NavMeshAgent NavMeshAgent { get; private set; }
-    public Transform PlayerTransform { get; private set; }
-
-    private DamageCasterPresenter damageCaster;
-    private EnemyState currentState;
+    public DamageCasterView DamageCaster { get; private set; }
+    public CharacterMaterial CharacterMaterial { get; private set; }
+    public EnemyController Controller { get; set; }
 
     virtual protected void Awake()
     {
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponent<Animator>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        damageCaster = GetComponentInChildren<DamageCasterPresenter>();
-    }
-
-    private void OnEnable()
-    {
-        PlayerTransform = FindAnyObjectByType<PlayerView>().transform;
-        
-        currentState = new EnemySpawning(this, Controller.GetEnemySO());
+        DamageCaster = GetComponentInChildren<DamageCasterView>();
+        CharacterMaterial = GetComponent<CharacterMaterial>();
     }
 
     virtual protected void FixedUpdate()
     {
-        if(Controller == null)
-            currentState = new EnemySpawning(this, Controller.GetEnemySO());
-        else
-            currentState = currentState.Process();
+        Controller?.ProcessCurrentState();
     }
 
     // called via animation event
@@ -55,27 +47,34 @@ public class EnemyView : MonoBehaviour
     // called via animation event
     public void HurtAnimationEnd()
     {
-        BeingHitAnimationEnded = true;
+        HurtAnimationEnded = true;
     }
 
     // called via animation event
     public void EnableDamageCaster()
     {
-        damageCaster.EnableDamageCaster();
+        DamageCaster.EnableDamageCaster();
     }
 
     // called via animation event
     public void DisableDamageCaster()
     {
-        damageCaster.DisableDamageCaster();
+        DamageCaster.DisableDamageCaster();
     }
 
-    public bool IsDead()
+    private void OnDestroy()
     {
-        if (Controller.IsDead())
-            return true;
-        else
-            return false;
+        Controller.OnDestroy();
+    }
+
+    public void EnableEnemy()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void DisableEnemy()
+    {
+        gameObject.SetActive(false);
     }
 
     //private void SetPatrolPoints()

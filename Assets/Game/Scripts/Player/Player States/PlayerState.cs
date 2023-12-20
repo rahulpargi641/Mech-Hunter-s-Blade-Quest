@@ -1,82 +1,58 @@
 using UnityEngine;
 
-public class PlayerState
+/* Fully Automated Finite State Machine.
+ * How this State Machine works :-
+ * 1. Any state in the state machine has 3 processes that runs at different time. three processes are Enter, Update and Exit. 
+ * 
+ * 2. These are also called 3 stages. Similar to Unity's StateMachineBehaviour class, which has different stages which allows 
+ *   you to define custom behaviors that are triggered at specific points during the animation state transitions and playback.
+ *   
+ * What happens in each stage :-
+ * 1. Enter - Enter runs as soon as state is transitioned to the state. Responsible for setting up things like animator parameters, animations or calculating waypoints for the patrol when entering into the Partol state.
+ * 2. Update - called after enter and continues to run until the transition out of the state is triggerd. Responsible for executing current state. Ex: npc keeps patrolling the area until it detects the player and then goes into the Pursue state.
+ * 3. Exit - called after update and before leaving the state. Responsible for resetting animator parameters and animations for preventing animation gliches and ensuring clean Re-entry.
+
+ */
+public abstract class PlayerState
 {
-    public enum EStage
-    {
-        Enter, Update, Exit
-    };
-    public enum EPlayerState
-    {
-        Idle, Run, Attack, BeingHit, Roll, Dead
-    };
-
-    public EPlayerState state;
+    protected EPlayerState state;
     protected EStage stage;
-
-    protected PlayerView playerView;
-    protected PlayerSO player;
-    protected Animator animator;
-
     protected PlayerState nextState;
 
-    private bool isHit = false;
-    private bool isDead = false;
-    private bool areEventsSubscribed = false;
+    protected PlayerController controller;
+    protected Animator animator;
+    protected bool RunButtonDown => controller.RunButtonDown;
+    protected bool RollButtonDown => controller.RollButtonDown;
+    protected bool AttackButtonDown => controller.AttackButtonDown;
+    protected bool DashAttackButtonDown => controller.DashAttackButtonDown;
 
-    public PlayerState(PlayerView playerView, PlayerSO player)
+    public PlayerState(PlayerController controller)
     {
-        this.playerView = playerView;
-        this.player = player;
-        animator = playerView.Animator;
+        this.controller = controller;
+        animator = controller.Animator;
 
         stage = EStage.Enter;
     }
 
-    protected virtual void Enter() 
+    protected virtual void Enter()
+    {
+        stage = EStage.Update;
+    }
+
+    protected virtual void Update() // Update is the stage on which the current state is being processed, is called every frame in the view.
     {
         stage = EStage.Update;
 
-        if (!areEventsSubscribed)
-        {
-            areEventsSubscribed = true;
-            EventService.Instance.onPlayerDeathAction += PlayerDead;
-            EventService.Instance.onPlayerHitAction += PlayerHit;
-        }
+        if (SwitchStateToDeadIf()) return;
+        if (SwitchStateToHurtIf()) return;
     }
 
-    protected virtual void Update() 
-    {
-        stage = EStage.Update;
-
-        if (isDead)
-        {
-            nextState = new PlayerDead(playerView, player);
-            stage = EStage.Exit;
-            return;
-        }
-
-        if (isHit)
-        {
-            nextState = new PlayerHurt(playerView, player);
-            stage = EStage.Exit;
-            return;
-        }
-    }
-
-    protected virtual void Exit() 
+    protected virtual void Exit()
     {
         stage = EStage.Exit;
-
-        if(isDead)
-        {
-            EventService.Instance.onPlayerDeathAction -= PlayerDead;
-            EventService.Instance.onPlayerHitAction -= PlayerHit;
-        }
     }
 
-    // Get run from outside and progress state through each of the different stages
-    public PlayerState Process()
+    public PlayerState ProcessState()  // Gets run in the view every update and progresses the current state through each of the three stages.
     {
         if (stage == EStage.Enter) Enter();
         if (stage == EStage.Update) Update();
@@ -85,48 +61,30 @@ public class PlayerState
             Exit();
             return nextState;
         }
-        return this; // we keep returning the same state
+        return this; // keep returning the same state
     }
 
-    protected bool CanAttack()
+    private bool SwitchStateToDeadIf()
     {
-        if (playerView.MouseButton1Down)
+        if (controller.IsDead && controller.CanEnterDeadState)
+        {
+            nextState = new PlayerDead(controller);
+            stage = EStage.Exit;
             return true;
-        else
-            return false;
+        }
+
+        return false;
     }
 
-    protected bool CanAttack2()
+    private bool SwitchStateToHurtIf()
     {
-        if (playerView.MouseButton2Down)
+        if (controller.IsHit && !controller.IsDead)
+        {
+            nextState = new PlayerHurt(controller);
+            stage = EStage.Exit;
             return true;
-        else
-            return false;
-    }
+        }
 
-    protected bool CanRun()
-    {
-        if (playerView.HorizontalInput != 0 || playerView.VerticalInput != 0)
-            return true;
-        else
-            return false;
-    }
-
-    protected bool CanRoll()
-    {
-        if (playerView.SpaceKeyDown)
-            return true;
-        else
-            return false;
-    }
-
-    private void PlayerHit()
-    {
-        isHit = true;
-    }
-
-    private void PlayerDead()
-    {
-        isDead = true;
+        return false;
     }
 }

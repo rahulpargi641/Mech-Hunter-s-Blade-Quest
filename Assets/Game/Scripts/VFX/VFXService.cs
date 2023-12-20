@@ -6,40 +6,52 @@ public class VFXService : MonoSingletonGeneric<VFXService>
 {
     [SerializeField] VisualEffect oilSplashVFX;
     [SerializeField] VisualEffect healVFX;
+    [SerializeField] ParticleSystem damageOrbHitVFX;
 
-    private VFXPool vfxPool;
+    private VFXPool healVFXPool = new VFXPool();
+    private VFXPool hitOilSplashVFXPool = new VFXPool();
 
-    // Start is called before the first frame update
-    void Start()
+    private ParticlePool particlePool = new ParticlePool();
+
+    public VisualEffect SpawnHitOilSplashVFX(Vector3 spawnPoint)
     {
-        vfxPool = new VFXPool();
-    }
-
-    public VisualEffect SpawnOilSplashVFX(Vector3 spawnPoint)
-    {
-        VisualEffect oilSplashVFX = vfxPool.GetHitSplashVFX(this.oilSplashVFX);
-        oilSplashVFX.gameObject.SetActive(true);
+        VisualEffect oilSplashVFX = hitOilSplashVFXPool.GetVFX(this.oilSplashVFX);
 
         oilSplashVFX.transform.position = spawnPoint;
-
+        oilSplashVFX.gameObject.SetActive(true);
 
         return oilSplashVFX;
     }
+
     public VisualEffect SpawnHealVFX(Vector3 spawnPoint)
     {
-        VisualEffect healVFX = vfxPool.GetHealVFX(this.healVFX);
-        healVFX.gameObject.SetActive(true);
+        VisualEffect healVFX = healVFXPool.GetVFX(this.healVFX);
 
         healVFX.transform.position = spawnPoint;
+        healVFX.gameObject.SetActive(true);
 
         return healVFX;
     }
 
-    public IEnumerator ReturnVFXToPool(VisualEffect vfx)
+    public ParticleSystem SpawnDamageOrbHitVFX(Vector3 spawnPoint)
     {
-        yield return new WaitForSeconds(3f);
+        ParticleSystem damageOrbHitVFX = particlePool.GetDamageOrbHitVFX(this.damageOrbHitVFX);
 
+        damageOrbHitVFX.transform.position = spawnPoint;
+        damageOrbHitVFX.gameObject.SetActive(true);
+
+        return damageOrbHitVFX;
+    }
+
+    public void ReturnVFXToPool(VisualEffect vfx)
+    {
         vfx.gameObject.SetActive(false);
-        vfxPool.ReturnItem(vfx);
+        healVFXPool.ReturnItem(vfx);
+    }
+
+    public void ReturnVFXToPool(ParticleSystem vfx)
+    {
+        vfx.gameObject.SetActive(false);
+        particlePool.ReturnItem(vfx);
     }
 }

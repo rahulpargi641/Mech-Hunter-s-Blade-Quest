@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,30 +8,35 @@ public class GameUIView : MonoBehaviour
     [SerializeField] GameObject UI_Pause;
     [SerializeField] GameObject UI_GameOver;
     [SerializeField] GameObject UI_GameFinished;
+
     [SerializeField] string mainMenuName = "MainMenu";
-    public GameUIController Controller { private get; set; }
+    [SerializeField] private int loadDelay = 5;
+
+    private EGameUIState currentState;
 
     private void Start()
     {
-        SwitchUIState(GameUI_State.GamePlay);
+        SwitchUIState(EGameUIState.GamePlay);
+
+        EventService.Instance.onPlayerDeath += ShowGameOverUI;
+        EventService.Instance.onAllEnemiesDead += ShowGameCompletedUI;
+    }
+
+    private void OnDestroy()
+    {
+        EventService.Instance.onPlayerDeath -= ShowGameOverUI;
+        EventService.Instance.onAllEnemiesDead -= ShowGameCompletedUI;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
             TogglePauseState();
-        }
     }
 
     public void TogglePauseState()
     {
-        GameUI_State currentState = Controller.GetCurrentState();
-
-        if (currentState == GameUI_State.GamePlay)
-            SwitchUIState(GameUI_State.Pause);
-        else if (currentState == GameUI_State.Pause)
-            SwitchUIState(GameUI_State.GamePlay);
+        SwitchUIState(currentState == EGameUIState.GamePlay ? EGameUIState.Pause : EGameUIState.GamePlay);
     }
 
     public void Button_MainMenu()
@@ -46,39 +52,60 @@ public class GameUIView : MonoBehaviour
 
     public void ShowGameOverUI()
     {
-        SwitchUIState(GameUI_State.GameOver);
+        ShowUIAfterDelay(EGameUIState.GameOver);
     }
 
-    public void ShowGameFinishedUI()
+    public void ShowGameCompletedUI()
     {
-        SwitchUIState(GameUI_State.GameFinished);
+        ShowUIAfterDelay(EGameUIState.GameCompleted);
     }
 
-    public void SwitchUIState(GameUI_State state)
+    public void SwitchUIState(EGameUIState state)
+    {
+        DeactivateAllUIElements();
+        HandleTimeScale(state);
+        ActivateUIElement(state);
+
+        currentState = state;
+    }
+
+    private void DeactivateAllUIElements()
     {
         UI_Pause.SetActive(false);
         UI_GameFinished.SetActive(false);
         UI_GameOver.SetActive(false);
+    }
 
-        Time.timeScale = 1;
+    private void HandleTimeScale(EGameUIState state)
+    {
+        Time.timeScale = state == EGameUIState.Pause ? 0 : 1;
+    }
 
+    private void ActivateUIElement(EGameUIState state)
+    {
         switch (state)
         {
-            case GameUI_State.GamePlay:
-                break;
-            case GameUI_State.Pause:
-                Time.timeScale = 0;
+            case EGameUIState.Pause:
                 UI_Pause.SetActive(true);
                 break;
-            case GameUI_State.GameFinished:
+            case EGameUIState.GameCompleted:
                 UI_GameFinished.SetActive(true);
                 break;
-            case GameUI_State.GameOver:
+            case EGameUIState.GameOver:
                 UI_GameOver.SetActive(true);
                 break;
         }
+    }
 
-        Controller.SetCurrentState(state);
+    private void ShowUIAfterDelay(EGameUIState state)
+    {
+        StartCoroutine(WaitForDelay(state));
+    }
+
+    private IEnumerator WaitForDelay(EGameUIState state)
+    {
+        yield return new WaitForSecondsRealtime(loadDelay);
+
+        SwitchUIState(state);
     }
 }
-

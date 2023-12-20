@@ -2,46 +2,47 @@ using UnityEngine;
 
 public class PlayerRoll : PlayerState
 {
-    private float rollSlideSpeed = 7f;
-    public PlayerRoll(PlayerView playerView, PlayerSO player) : base(playerView, player)
+    public PlayerRoll(PlayerController controller) : base(controller)
     {
         state = EPlayerState.Run;
-        stage = EStage.Enter;
-
-        rollSlideSpeed = player.rollSlideSpeed;
     }
 
     protected override void Enter()
     {
         base.Enter();
+        animator.SetTrigger(controller.RollAnimName);
 
-        animator.SetTrigger(player.rollAnimName);
-
-        playerView.RollAnimationEnded = false;
+        controller.RollAnimationEnded = false; // set it false then roll the player over few frames, it will be true when roll animation ends
     }
 
     protected override void Update()
     {
         base.Update();
 
-        RollMovement();
+        PerformRolling();
 
-        if(playerView.RollAnimationEnded)
-        {
-            nextState = new PlayerIdle(playerView, player);
-            stage = EStage.Exit;
-        }
+        SwitchStateToIdleIf();
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger(player.rollAnimName);
+        animator.ResetTrigger(controller.RollAnimName); // always good practice to animation to prevent animation gliches
         base.Exit();
     }
 
-    private void RollMovement()
+    private void PerformRolling()
     {
-        Vector3 movementVelocity = playerView.transform.forward * rollSlideSpeed * Time.deltaTime;
-        playerView.CharacterController.Move(movementVelocity);
+        float rollSlideSpeed = controller.RollSlideSpeed; 
+        Vector3 moveVelocity = controller.PlayerForwardVector * rollSlideSpeed * Time.deltaTime;
+        controller.MovePlayer(moveVelocity);
+    }
+
+    protected void SwitchStateToIdleIf()
+    {
+        if (controller.RollAnimationEnded) // RollAnimationEnded will be set to true via Animation event in the PlayerView when animation ends
+        {
+            nextState = new PlayerIdle(controller);
+            stage = EStage.Exit;
+        }
     }
 }

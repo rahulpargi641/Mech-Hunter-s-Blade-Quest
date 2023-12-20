@@ -1,15 +1,14 @@
 
 public class DamageOrbModel
 {
-    public float Speed { get; private set; }
-    public int Damage { get; private set; }
-    public float HitForce { get; private set; }
-    public DamageOrbController Controller { private get; set; }
+    public float Speed { get; }
+    public int Damage { get; }
+    public float HitForce { get; }
 
-    public DamageOrbModel()
+    public DamageOrbModel(DamageOrbSO damageOrbSO)
     {
-        Speed = 9f;
-        Damage = 10;
-        HitForce = 10f;
+        Speed = damageOrbSO.speed;
+        Damage = damageOrbSO.damage;
+        HitForce = damageOrbSO.hitForce;
     }
 }

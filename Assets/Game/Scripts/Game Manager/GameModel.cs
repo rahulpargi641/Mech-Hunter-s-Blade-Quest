@@ -1,6 +1,6 @@
 
-public class GameModel
+public class GameModel // For adding more things later
 {
-    public bool GameOver { get; set; }
-    public bool GameFinished { get; set; }
+    public bool GameOver { get; set; } = false;
+    public bool GameComplete { get; set; } = false;
 }

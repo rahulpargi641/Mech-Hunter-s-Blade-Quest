@@ -5,7 +5,7 @@ public class EnemyPool : ObjectPoolGeneric<EnemyController>
     private EnemyModel model;
     private EnemyView view;
 
-    public EnemyController GetEnemyContoller(EnemyModel model, EnemyView view)
+    public EnemyController GetEnemyController(EnemyModel model, EnemyView view)
     {
         this.model = model;
         this.view = view;

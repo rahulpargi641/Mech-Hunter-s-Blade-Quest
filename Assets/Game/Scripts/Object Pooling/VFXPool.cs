@@ -5,16 +5,9 @@ public class VFXPool : ObjectPoolGeneric<VisualEffect>
 {
     private VisualEffect vfxToSpawn;
 
-    public VisualEffect GetHitSplashVFX(VisualEffect beingHitSplashVFX)
+    public VisualEffect GetVFX(VisualEffect vfxToSpawn)
     {
-        vfxToSpawn = beingHitSplashVFX;
-
-        return GetItemFromPool();
-    }
-
-    public VisualEffect GetHealVFX(VisualEffect healVFX)
-    {
-        vfxToSpawn = healVFX;
+        this.vfxToSpawn = vfxToSpawn;
 
         return GetItemFromPool();
     }

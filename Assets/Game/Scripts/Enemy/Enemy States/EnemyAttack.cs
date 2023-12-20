@@ -2,80 +2,84 @@ using UnityEngine;
 
 public class EnemyAttack : EnemyState
 {
-    private float detectDist; // distance at which enemy detects the player even if enemy can't see the player
+    private readonly float detectDist; // distance at which enemy detects the player even if enemy can't see the player
 
-    public EnemyAttack(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
+    public EnemyAttack(EnemyController controller) : base(controller)
     {
-        state = EState.Attack;
-        stage = EStage.Enter;
+        state = EEnemyState.Attack;
+
+        detectDist = controller.DetectDist;
     }
 
     protected override void Enter()
     {
         base.Enter();
-
-        detectDist = enemy.detectDist;
-        Attack();
-        //AudioService.Instance.PlayAttackSound
+        PerformAttack();
     }
 
     protected override void Update()
     {
-        if (isPlayerDead) return;
-
         base.Update();
 
-        if (enemyAIView.AttackAnimationEnded)
-        {
-            Attack();
+        ContinueAttackingIf();
+    }
 
-            if(CanDetectPlayer())
-            {
-                nextState = new EnemyPursue(enemyAIView, enemy);
-                stage = EStage.Exit;
-            }
-            else if (!CanAttackPlayer())
-            {
-                nextState = new EnemyIdle(enemyAIView, enemy);
-                stage = EStage.Exit;
-            }
+    protected override void Exit()
+    {
+        animator.ResetTrigger(controller.AttackAnimName);
+        base.Exit();
+    }
+
+    private void PerformAttack()
+    {
+        FaceTowardsPlayer();
+
+        controller.AttackAnimationEnded = false;
+        navMeshAgent.isStopped = true;
+
+        animator.SetTrigger(controller.AttackAnimName);
+    }
+
+    private void ContinueAttackingIf()
+    {
+        if(controller.AttackAnimationEnded) // AttackAnimationEnded will be set to true in the EnemyView when attack animation ends via animation event
+        {
+            PerformAttack();
+            SwitchStateIf();
+        }
+    }
+
+    private void SwitchStateIf()
+    {
+        if (CanDetectPlayer())
+        {
+            nextState = new EnemyPursue(controller);
+            stage = EStage.Exit;
+        }
+        else if (!CanAttackPlayer())
+        {
+            nextState = new EnemyIdle(controller);
+            stage = EStage.Exit;
         }
     }
 
     private bool CanDetectPlayer()
     {
-        Vector3 playerDirection = playerTransform.position - enemyAIView.transform.position;
-        float facingAngle = Vector3.Angle(playerDirection, enemyAIView.transform.forward);
+        Vector3 playerDirection = playerTransform.position - controller.EnemyTransform.position;
+        float playerDistance = playerDirection.magnitude;
 
-        if (playerDirection.magnitude < detectDist)
-            return true;
-        else
-            return false;
-    }
-
-    private void Attack()
-    {
-        FaceTowardsPlayer();
-
-        enemyAIView.AttackAnimationEnded = false;
-        navMeshAgent.isStopped = true;
-        animator.SetTrigger(enemy.attackAnimName);
+        return playerDistance < detectDist;
     }
 
     private void FaceTowardsPlayer()
     {
-        Vector3 playerDirection = playerTransform.position - enemyAIView.transform.position;
+        Vector3 playerDirection = playerTransform.position - controller.EnemyTransform.position;
         playerDirection.y = 0; // To do: Update this with extension function
 
-        float facingAngle = Vector3.Angle(playerDirection, enemyAIView.transform.forward);
         Quaternion lookRotation = Quaternion.LookRotation(playerDirection);
-        enemyAIView.transform.rotation = lookRotation;
+        controller.EnemyTransform.rotation = lookRotation;
+        // To do: Rotate slowly using slerp
+        //float facingAngle = Vector3.Angle(playerDirection, controller.EnemyTransform.forward);
         //enemyAIView.transform.rotation = Quaternion.Slerp(enemyAIView.transform.rotation, lookRotation, rotationSpeed);
-    }
-
-    protected override void Exit()
-    {
-        animator.ResetTrigger(enemy.attackAnimName);
-        base.Exit();
     }
 }

@@ -7,49 +7,58 @@ public class EnemyVFX : MonoBehaviour
     [SerializeField] VisualEffect footStep;
     [SerializeField] VisualEffect attackSmashVFX;
     [SerializeField] ParticleSystem beingHitVFX;
-    //[SerializeField] VisualEffect beingHitSplashVFX;
+    [SerializeField] VisualEffect slash;
 
     [SerializeField] string onPlay = "OnPlay";
 
     private float waitDuration = 3f; // VFX returns to the pool after waitDuration
-    private float yOffset = 2; // splash vfx offset
+    private float splashVFXOffset = 2f; // splash vfx offset
 
+    // called via animation event, when enemy walks
     public void BurstFootStep()
     {
         footStep.SendEvent(onPlay);
     }
 
+    // called via animation event, when enemy attacks
     public void PlayAttackSmashVFX()
     {
         attackSmashVFX.SendEvent(onPlay);
     }
 
-    public void PlayHitVFX(Vector3 attackerPos)
+    // called when enemy is hit, enemy sliced vfx
+    public void PlayEnemyHitVFX(Vector3 attackerPos)
     {
-        Vector3 forceForward = transform.position - attackerPos;
-        forceForward.Normalize();
-        forceForward.y = 0;
-        beingHitVFX.transform.rotation = Quaternion.LookRotation(forceForward);
+        Vector3 forceForwardDir = transform.position - attackerPos;
+        forceForwardDir.Normalize();
+        forceForwardDir.y = 0;
+
+        beingHitVFX.transform.rotation = Quaternion.LookRotation(forceForwardDir);
         beingHitVFX.Play();
     }
 
-    public void PlayHitSplashVFX()
+    // called when enemy is hit, splashes oil on the ground
+    public void PlayEnemyOilSplashVFX()
     {
-
         Vector3 splashPos = transform.position;
-        splashPos.y += yOffset;
+        splashPos.y += splashVFXOffset;
 
-        //VisualEffect splashVFX = Instantiate(beingHitSplashVFX, splashPos, Quaternion.identity);
-        VisualEffect enemyOilSplashVFX = VFXService.Instance.SpawnOilSplashVFX(splashPos);
-
+        VisualEffect enemyOilSplashVFX = VFXService.Instance.SpawnHitOilSplashVFX(splashPos);
         enemyOilSplashVFX.SendEvent(onPlay);
 
         StartCoroutine(ReturnVFX(enemyOilSplashVFX));
     }
 
-    IEnumerator ReturnVFX(VisualEffect vfx)
+    // called enemy is attacked by the player
+    public void PlaySlashVFX(Vector3 pos)
+    {
+        slash.transform.position = pos;
+        slash.Play();
+    }
+
+    IEnumerator ReturnVFX(VisualEffect enemyOilSplashVFX)
     {
         yield return new WaitForSeconds(waitDuration);
-        VFXService.Instance.ReturnVFXToPool(vfx);
+        VFXService.Instance.ReturnVFXToPool(enemyOilSplashVFX);
     }
 }

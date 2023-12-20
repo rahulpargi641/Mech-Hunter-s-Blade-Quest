@@ -13,19 +13,20 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   name: 
-  playerView: {fileID: 8528935984836936671, guid: e55c289f7d14f2046842cec8ba19780d, type: 3}
+  MaxHealth: 100
   moveSpeed: 5
   rollSlideSpeed: 7
   fallGravity: -20
-  minAnimWindow: 0.35
-  maxAnimWindow: 0.7
-  attackSlideDuration: 0.1
+  damage: 30
+  hitForce: 10
+  minComboWindow: 0.35
+  maxComboWindow: 0.7
+  attackSlideDuration: 0.15
   attackSlideSpeed: 0.5
   idleAnimName: Idle
   runAnimName: Run
   rollAnimName: Roll
   hurtAnimName: Hurt
   attackAnimName: Attack
-  lastAttackComboClipName: LittleAdventurerAndie_ATTACK_03
+  lastAttackComboAnimName: LittleAdventurerAndie_ATTACK_03
   deadAnimName: Dead
-  itemType: 0

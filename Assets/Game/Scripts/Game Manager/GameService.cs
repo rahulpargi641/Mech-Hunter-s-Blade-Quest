@@ -1,60 +1,31 @@
-using System.Collections;
 using UnityEngine;
 
 public class GameService : MonoSingletonGeneric<GameService>
 {
     private GameController controller;
-    private int waitDuration = 5;
 
     void Start()
     {
         GameModel model = new GameModel();
         controller = new GameController(model);
 
-        EventService.Instance.onPlayerDeathAction += GameOver;
-        EventService.Instance.onAllEnemiesDeadAction += GameFinished;
+        EventService.Instance.onPlayerDeath += GameOver;
+        EventService.Instance.onAllEnemiesDead += GameCompleted;
     }
 
     private void OnDestroy()
     {
-        EventService.Instance.onPlayerDeathAction -= GameOver;
-        EventService.Instance.onAllEnemiesDeadAction -= GameFinished;
+        EventService.Instance.onPlayerDeath -= GameOver;
+        EventService.Instance.onAllEnemiesDead -= GameCompleted;
     }
 
-    void Update()
+    public void GameCompleted()
     {
-        if(controller.IsGameOver())
-        {
-            StartCoroutine(ShowGameOverUI());
-        }
-
-        if(controller.IsGameFinished())
-        {
-            StartCoroutine(ShowGameFinishedUI());
-        }
-    }
-
-    IEnumerator ShowGameOverUI()
-    {
-        yield return new WaitForSeconds(waitDuration);
-
-        GameUIService.Instance.ShowGameOverUI();
-    }
-
-    IEnumerator ShowGameFinishedUI()
-    {
-        yield return new WaitForSeconds(waitDuration);
-
-        GameUIService.Instance.ShowGameFinishedUI();
-    }
-
-    public void GameFinished()
-    {
-        controller.GameFinished();
+        controller.IsGameComplete = true;
     }
 
     public void GameOver()
     {
-        controller.GameOver();
+        controller.IsGameOver = true;
     }
 }

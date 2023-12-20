@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class PlayerVFX : MonoSingletonGeneric<PlayerVFX>
+public class PlayerVFX : MonoBehaviour
 {
     [SerializeField] ParticleSystem blade01;
     [SerializeField] ParticleSystem blade02;
@@ -20,23 +20,24 @@ public class PlayerVFX : MonoSingletonGeneric<PlayerVFX>
     }
 
     // called via attack01 animation event
-    public void PlayBlade01()
+    public void PlayBlade01() // normal attack
     {
         blade01.Play();
     }
 
     // called via attack02 animation event
-    public void PlayBlade02()
+    public void PlayBlade02() // 2nd step combo vfx
     {
         blade02.Play();
     }
 
     // called via attack03 animation event
-    public void PlayBlade03()
+    public void PlayBlade03() // 3rd step combo vfx
     {
         blade03.Play();
     }
 
+    // called via animation event
     public void StopBlade()
     {
         blade01.Simulate(0);
@@ -49,16 +50,9 @@ public class PlayerVFX : MonoSingletonGeneric<PlayerVFX>
         blade03.Stop();
     }
 
-    // called via attack01 animation event
-    public void PlaySlashVFX(Vector3 pos)
-    {
-        slash.transform.position = pos;
-        slash.Play();
-    }
-
-    // called when player pickups healing orb
-    public void PlayHealVFX()
-    {
-        heal.Play();
-    }
+    //public void PlaySlashVFX(Vector3 pos)
+    //{
+    //    slash.transform.position = pos;
+    //    slash.Play();
+    //}
 }

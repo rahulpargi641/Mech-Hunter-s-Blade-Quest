@@ -8,6 +8,7 @@ public class GateView : MonoBehaviour
     private BoxCollider gateCollider;
 
     private GateModel model;
+    private bool isOpened;
 
     private void Awake()
     {
@@ -17,31 +18,45 @@ public class GateView : MonoBehaviour
 
     private void Start()
     {
-        EventService.Instance.onCurrentEnemyGroupDeadAction += OpenGate;
+        EventService.Instance.onCurrentEnemyGroupDead += OpenGate;
     }
 
     private void OnDestroy()
     {
-        EventService.Instance.onCurrentEnemyGroupDeadAction -= OpenGate;
+        EventService.Instance.onCurrentEnemyGroupDead -= OpenGate;
     }
 
     private void OpenGate()
     {
+        if (isOpened) return;
+
         StartCoroutine(OpenGateAnimation());
     }
 
     IEnumerator OpenGateAnimation()
     {
-        float currentOpen_Duration = 0;
+        float currentOpenDuration = 0;
         Vector3 startPos = gateVisual.transform.position;
         Vector3 targetPos = startPos + Vector3.up * model.OpenTargetY;
 
-        while(currentOpen_Duration < model.OpenDuration)
+        while (currentOpenDuration < model.OpenDuration)
         {
-            currentOpen_Duration += Time.deltaTime;
-            gateVisual.transform.position = Vector3.Lerp(startPos, targetPos, currentOpen_Duration / model.OpenDuration);
+            UpdateGatePosition(startPos, targetPos, ref currentOpenDuration);
             yield return null;
         }
+
+        FinalizeGateOpening();
+    }
+
+    private void UpdateGatePosition(Vector3 startPos, Vector3 targetPos, ref float currentOpenDuration)
+    {
+        currentOpenDuration += Time.deltaTime;
+        gateVisual.transform.position = Vector3.Lerp(startPos, targetPos, currentOpenDuration / model.OpenDuration);
+    }
+
+    private void FinalizeGateOpening()
+    {
         gateCollider.gameObject.SetActive(false);
+        isOpened = true;
     }
 }

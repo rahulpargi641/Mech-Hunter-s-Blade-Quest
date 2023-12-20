@@ -1,46 +1,63 @@
 using System;
+using UnityEngine;
 
 public class EventService : MonoSingletonGeneric<EventService>
 {
-    public event Action<EnemyView> onEnemyDeathAction;
-    public event Action onAllEnemiesDeadAction;
-    public event Action onCurrentEnemyGroupDeadAction;
-    public event Action onPlayerDeathAction;
-    public event Action onPlayerHitAction;
-    public event Action<EnemyView> onEnemyHitAction;
+    public event Action<float> OnPlayerHealthChange;
+    public event Action onPlayerDeath;
+    public event Action<Vector3, float, int> onPlayerHit;
 
-    private void Awake()
-    {
-        base.Awake();
-    }
+    public event Action<int> onHealPickup;
 
-    public void InvokeOnEnemyDeath(EnemyView enemyView)
+    public event Action<EnemyView, int> onEnemyHit;
+    public event Action<EnemyView> onEnemyDeath;
+    public event Action<EnemyView> onEnemyDissolved;
+
+    public event Action onAllEnemiesDead;
+    public event Action onCurrentEnemyGroupDead;
+
+    public void InvokeOnPlayerHealthChange(float currentHealthPercent)
     {
-        onEnemyDeathAction?.Invoke(enemyView);
+        OnPlayerHealthChange?.Invoke(currentHealthPercent);
     }
 
     public void InvokeOnPlayerDeath()
     {
-        onPlayerDeathAction?.Invoke();
+        onPlayerDeath?.Invoke();
     }
 
-    public void InvokeOnPlayerHit()
+    public void InvokeOnPlayerHit(Vector3 hitPoint, float hitForce, int damage)
     {
-        onPlayerHitAction?.Invoke();
+        onPlayerHit?.Invoke(hitPoint, hitForce, damage);
     }
 
-    public void InvokeOnEnemyHit(EnemyView enemyView)
+    public void InvokeOnHealPickup(int healthGain)
     {
-        onEnemyHitAction?.Invoke(enemyView);
+        onHealPickup?.Invoke(healthGain);
+    }
+
+    public void InvokeOnEnemyHit(EnemyView hitEnemy, int damage)
+    {
+        onEnemyHit?.Invoke(hitEnemy, damage);
+    }
+
+    public void InvokeOnEnemyDeath(EnemyView enemyView)
+    {
+        onEnemyDeath?.Invoke(enemyView);
+    }
+
+    public void InvokeOnEnemyDissolved(EnemyView dissolvedEnemy)
+    {
+        onEnemyDissolved?.Invoke(dissolvedEnemy);
     }
 
     public void InvokeOnAllEnemiesDead()
     {
-        onAllEnemiesDeadAction?.Invoke();
+        onAllEnemiesDead?.Invoke();
     }
 
     public void InvokeOnCurrentEnemyGroupDead()
     {
-        onCurrentEnemyGroupDeadAction?.Invoke();
+        onCurrentEnemyGroupDead?.Invoke();
     }
 }

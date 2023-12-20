@@ -1,17 +1,12 @@
-using System.Collections.Generic;
-using UnityEngine;
 
 public class DamageCasterModel
 {
-    public int Damage { get; private set; }
-    public int HitForce { get; private set; }
+    public int Damage { get; }
+    public int HitForce { get; }
 
-    public List<Collider> damagedTargets;
-
-    public DamageCasterModel()
+    public DamageCasterModel(int hitForce, int damage) // initialized via child classes (Player and Enemies)
     {
-        Damage = 30;
-        HitForce = 10;
-        damagedTargets = new List<Collider>();
+        HitForce = hitForce;
+        Damage = damage;
     }
 }

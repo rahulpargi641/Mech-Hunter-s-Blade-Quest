@@ -1,34 +1,40 @@
+using UnityEngine;
 
 public class EnemyHurt : EnemyState
 {
-    public EnemyHurt(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
+    public EnemyHurt(EnemyController controller) : base(controller)
     {
-        state = EState.Idle;
-        stage = EStage.Enter;
+        state = EEnemyState.Idle;
     }
 
     protected override void Enter()
     {
         base.Enter();
+        animator.SetTrigger(controller.HurtAnimName);
 
-        animator.SetTrigger(enemy.hurtAnimName);
-        enemyAIView.BeingHitAnimationEnded = false;
+        controller.HurtAnimationEnded = false;
+        controller.CharacterMaterial?.PlayHurtBlinkEffect();
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (enemyAIView.BeingHitAnimationEnded)
-        {
-            nextState = new EnemyIdle(enemyAIView, enemy);
-            stage = EStage.Exit;
-        }
+        SwitchStateToIdleIf();
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger(enemy.hurtAnimName);
+        animator.ResetTrigger(controller.HurtAnimName); 
         base.Exit();
+    }
+
+    private void SwitchStateToIdleIf()
+    {
+        if (controller.HurtAnimationEnded) // HurtAnimationEnded will be set to true in the EnemyView when Hurt animation ends via animation event
+        {
+            nextState = new EnemyIdle(controller);
+            stage = EStage.Exit;
+        }
     }
 }

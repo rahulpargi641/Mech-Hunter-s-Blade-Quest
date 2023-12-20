@@ -2,77 +2,94 @@ using UnityEngine;
 
 public class PlayerAttack : PlayerState
 {
-    // Combo attack
-    private float attackStartTime;
-    private float attackAnimDuration;
-    private float minAnimWindow;
-    private float maxAnimDuration;
-    private int comboStep;
+    private float minComboWindow;
+    private float maxComboWindow;
 
-    public PlayerAttack(PlayerView playerView, PlayerSO player) : base(playerView, player)
+    private int comboStepNo;
+    private const int MaxComboSteps = 3;
+    private const int ResetComboStep = 2;
+
+    public PlayerAttack(PlayerController controller) : base(controller)
     {
         state = EPlayerState.Attack;
-        stage = EStage.Enter;
-
-        minAnimWindow = player.minAnimWindow;
-        maxAnimDuration = player.maxAnimWindow;
-        comboStep = 1;
     }
 
     protected override void Enter()
     {
         base.Enter();
+        animator.SetTrigger(controller.AttackAnimName);
 
-        animator.SetTrigger(player.attackAnimName);
-        playerView.AttackAnimationEnded = false;
-
-        attackStartTime = Time.time;
-
-        // Disabling player collider if not already disabled when performing attack
-        DamageCasterPresenter damageCaster = playerView.GetComponentInChildren<DamageCasterPresenter>();
-        if (damageCaster) damageCaster.DisableDamageCaster();
-
-        //AudioService.Instance.PlayAttackSound
+        InitializeCombo();
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if(CanAttack())
-        {
-            PerformAttackCombo();
-        }
+        PerformComboIfValid();
 
-        if (playerView.AttackAnimationEnded)
+        SwitchStateToIdleIf();
+    }
+
+    protected override void Exit()
+    {
+        animator.ResetTrigger(controller.AttackAnimName);
+        base.Exit();
+    }
+
+    private void InitializeCombo()
+    {
+        comboStepNo = 1;
+        minComboWindow = controller.MinComboWindow;
+        maxComboWindow = controller.MaxAnimWindow;
+
+        controller.AttackAnimationEnded = false;
+        controller.PlayerDamageCaster?.DisableDamageCaster();
+    }
+
+    private void PerformComboIfValid()
+    {
+        if (AttackButtonDown && IsComboWindowValid())
         {
-            nextState = new PlayerIdle(playerView, player);
-            stage = EStage.Exit;
+            UpdateComboStep();
+            TriggerComboAnimation();
         }
     }
 
-    private void PerformAttackCombo()
+    private bool IsComboWindowValid()
     {
         AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
         if (clipInfo.Length > 0)
         {
             string currentClipName = clipInfo[0].clip.name;
-            attackAnimDuration = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            float attackAnimDuration = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
-            if (currentClipName != player.lastAttackComboClipName && attackAnimDuration > minAnimWindow && attackAnimDuration < maxAnimDuration)
-            {
-                comboStep++;
-                if (comboStep > 3) comboStep = 2;
-
-                string animationName = player.attackAnimName + comboStep.ToString();
-                animator.SetTrigger(animationName);
-            }
+            return currentClipName != controller.LastAttackInComboAnimName &&
+                   attackAnimDuration > minComboWindow &&
+                   attackAnimDuration < maxComboWindow;
         }
+
+        return false;
     }
 
-    protected override void Exit()
+    private void UpdateComboStep()
     {
-        animator.ResetTrigger(player.attackAnimName);
-        base.Exit();
+        comboStepNo++;
+        if (comboStepNo > MaxComboSteps) comboStepNo = ResetComboStep; // Can only perform 3 step combo
+    }
+
+    private void TriggerComboAnimation()
+    {
+        string animationName = controller.AttackAnimName + comboStepNo.ToString();
+        animator.SetTrigger(animationName);
+    }
+
+    private void SwitchStateToIdleIf() // if Attack animation ends
+    {
+        if (controller.AttackAnimationEnded) // AttackAnimationEnded will be set to true via Animation event in the PlayerView when animation ends
+        {
+            nextState = new PlayerIdle(controller);
+            stage = EStage.Exit;
+        }
     }
 }

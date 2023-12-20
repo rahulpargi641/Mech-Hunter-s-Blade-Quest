@@ -2,21 +2,35 @@ using UnityEngine;
 
 public class PlayerDead : PlayerState
 {
-    public PlayerDead(PlayerView playerView, PlayerSO player) : base(playerView, player)
+    public PlayerDead(PlayerController controller) : base(controller)
     {
         state = EPlayerState.Dead;
-        stage = EStage.Enter;
     }
     protected override void Enter()
     {
         base.Enter();
+        animator.SetTrigger(controller.DeadAnimName);
 
-        animator.SetTrigger(player.deadAnimName);
+        controller.CanEnterDeadState = false;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        //SwitchStateToIdleIf(); // Player Respawns
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger(player.deadAnimName);
+        animator.ResetTrigger(controller.DeadAnimName);
         base.Exit();
+    }
+
+    private void SwitchStateToIdleIf()
+    {
+        // if Respawn conditions met
+        nextState = new PlayerIdle(controller);
+        stage = EStage.Exit;
     }
 }

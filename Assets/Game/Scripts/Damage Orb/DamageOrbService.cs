@@ -2,23 +2,18 @@ using UnityEngine;
 
 public class DamageOrbService : MonoSingletonGeneric<DamageOrbService>
 {
+    [SerializeField] DamageOrbSO damageOrbSO;
     [SerializeField] DamageOrbView damageOrbView;
 
-    private DamageOrbPool damageOrbPool;
-
-    void Start()
-    {
-        damageOrbPool = new DamageOrbPool();
-    }
+    private DamageOrbPool damageOrbPool = new DamageOrbPool();
 
     public void SpawnDamageOrb(Vector3 spawnPoint, Quaternion rotation)
     {
-        DamageOrbModel damageOrbModel = new();
-
+        DamageOrbModel damageOrbModel = new(damageOrbSO);
         DamageOrbController damageOrbController = damageOrbPool.GetDamageOrb(damageOrbModel, damageOrbView);
-        damageOrbController.EnableDamageOrb();
 
-        damageOrbController.SetDamageOrbTransform(spawnPoint, rotation);
+        damageOrbController.SetTransform(spawnPoint, rotation);
+        damageOrbController.EnableDamageOrb();
     }
 
     public void ReturnDamageOrbToPool(DamageOrbController damageOrbController)

@@ -3,41 +3,41 @@ using UnityEngine.AI;
 
 public class EnemySpawning : EnemyState
 {
-    private float spawnDuration = 3f;
     private float currentSpawnTime;
 
-    public EnemySpawning(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
+    public EnemySpawning(EnemyController controller) : base(controller)
     {
-        state = EState.Spawning;
-        stage = EStage.Enter;
+        state = EEnemyState.Spawning;
+
+        currentSpawnTime = controller.SpawningDuration;
     }
 
     protected override void Enter()
     {
         base.Enter();
 
-        animator.SetTrigger(enemy.idleAnimName);
-
-        currentSpawnTime = spawnDuration;
-        MaterialBlock materialBlockView = enemyAIView.GetComponent<MaterialBlock>();
-        materialBlockView.CharacterAppearEffect();
+        controller.CharacterMaterial?.StartCharacterAppearingEffect();
     }
 
     protected override void Update()
     {
         base.Update();
 
-        currentSpawnTime -= Time.deltaTime;
-        if(currentSpawnTime <= 0)
-        {
-            nextState = new EnemyIdle(enemyAIView, enemy);
-            stage = EStage.Exit;
-        }
+        SwitchStateToIdleIf();
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger(enemy.idleAnimName);
         base.Exit();
+    }
+
+    private void SwitchStateToIdleIf()
+    {
+        currentSpawnTime -= Time.deltaTime;
+        if (currentSpawnTime <= 0)
+        {
+            nextState = new EnemyIdle(controller);
+            stage = EStage.Exit;
+        }
     }
 }

@@ -59,6 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72ba1e6bc7531f64d802d097afdf5272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healOrbGain: 20
+  healVFX: {fileID: 6050473045160503347, guid: 59e037f841b401b41beacdaa9802504d, type: 3}
 --- !u!1001 &5308915341970166414
 PrefabInstance:
   m_ObjectHideFlags: 0

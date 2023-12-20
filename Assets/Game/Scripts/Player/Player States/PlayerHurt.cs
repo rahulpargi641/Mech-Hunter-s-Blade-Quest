@@ -2,50 +2,54 @@ using UnityEngine;
 
 public class PlayerHurt : PlayerState
 {
-    public PlayerHurt(PlayerView playerView, PlayerSO player) : base(playerView, player)
+    private Vector3 currentPushVelocity; // CurrentPushVelocity gets set when enemy hits the player in the PlayerController.
+    public PlayerHurt(PlayerController controller) : base(controller)
     {
-        state = EPlayerState.BeingHit;
-        stage = EStage.Enter;
+        state = EPlayerState.Hurt;
+
+        currentPushVelocity = controller.CurrentPushVelocity; 
     }
 
     protected override void Enter()
     {
         base.Enter();
+        animator.SetTrigger(controller.HurtAnimName);
 
-        animator.SetTrigger(player.hurtAnimName);
-        playerView.BeingHitAnimationEnded = false;
+        controller.HurtAnimationEnded = false;
+        controller.IsHit = false;
     }
 
     protected override void Update()
     {
         base.Update();
 
-        PlayerService.Instance.ApplyHitImpactForce();
+        ApplyHitImpactForce();
 
-        if (playerView.BeingHitAnimationEnded)
-        {
-            if(CanRun())
-            {
-                nextState = new PlayerRun(playerView, player);
-                stage = EStage.Exit;
-            }
-            if(CanAttack())
-            {
-                nextState = new PlayerAttack(playerView, player);
-                stage = EStage.Exit;
-            }
-
-            if (CanAttack2())
-            {
-                nextState = new SlideAttack(playerView, player);
-                stage = EStage.Exit;
-            }
-        }
+        SwitchStateToIdleIf();
     }
 
     protected override void Exit()
     {
-        animator.ResetTrigger(player.hurtAnimName);
+        animator.ResetTrigger(controller.HurtAnimName);
         base.Exit();
+    }
+
+    public void ApplyHitImpactForce() // Enemy Hit force pushes the player back
+    {
+        if (currentPushVelocity.magnitude > 0)
+        {
+            Vector3 moveVelocity = currentPushVelocity * Time.deltaTime;
+            controller.MovePlayer(moveVelocity);
+        }
+        currentPushVelocity = Vector3.Lerp(currentPushVelocity, Vector3.zero, Time.deltaTime * 5);
+    }
+
+    private void SwitchStateToIdleIf()
+    {
+        if (controller.HurtAnimationEnded) // HurtAnimationEnded will be set to true via Animation event in the PlayerView when animation ends
+        {
+            nextState = new PlayerIdle(controller);
+            stage = EStage.Exit;
+        }
     }
 }

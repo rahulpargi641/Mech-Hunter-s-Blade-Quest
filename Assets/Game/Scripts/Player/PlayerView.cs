@@ -1,72 +1,59 @@
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Animator))]
 public class PlayerView : MonoBehaviour
 {
-    public PlayerController Controller { private get; set; }
-    public CharacterController CharacterController { get; set; }
+    public CharacterController CharacterController { get; private set; }
     public Animator Animator { get; private set; }
+    public DamageCasterView DamageCaster { get; private set; }
 
-    private DamageCasterPresenter damageCaster; 
-
-    private PlayerState currentState;
     public bool RollAnimationEnded { get; set; }
     public bool AttackAnimationEnded { get; set; }
-    public bool BeingHitAnimationEnded { get; set; }
+    public bool HurtAnimationEnded { get; set; }
+
+    public bool LeftMouseButtonDown { get; private set; }
+    public bool RightMouseButtonDown { get; private set; }
+    public bool SpaceButtonDown { get; private set; }
     public float HorizontalInput { get; private set; }
     public float VerticalInput { get; private set; }
-    public bool MouseButton1Down { get; set; }
-    public bool MouseButton2Down { get; set; }
-    public bool SpaceKeyDown { get; set; }
+
+    public PlayerController Controller { private get; set; }
 
     private void Awake()
     {
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponent<Animator>();
-        damageCaster = GetComponentInChildren<DamageCasterPresenter>();
-    }
-
-    private void Start()
-    {
-        currentState = new PlayerIdle(this, Controller.GetPlayerSO());
+        DamageCaster = GetComponentInChildren<DamageCasterView>();
     }
 
     private void Update()
     {
         ReadPlayerInput();
 
-        if (currentState == null)
-            currentState = new PlayerIdle(this, Controller.GetPlayerSO());
-        else
-            currentState = currentState.Process();
+        Controller?.ProcessCurrentState();
     }
 
-    private void FixedUpdate()
-    {
-        //currentState = currentState.Process();
-    }
+    //private void FixedUpdate()
+    //{
+    //    //currentState = currentState.Process();
+    //}
 
     private void ReadPlayerInput()
     {
-        if (Time.timeScale != 0) MouseButton1Down = Input.GetMouseButton(0);
+        if (Time.timeScale != 0) LeftMouseButtonDown = Input.GetMouseButton(0);
+        if (Time.timeScale != 0) RightMouseButtonDown = Input.GetMouseButton(1);
 
-        if (Time.timeScale != 0) MouseButton2Down = Input.GetMouseButton(1);
-
-        SpaceKeyDown = Input.GetKeyDown(KeyCode.Space);
+        SpaceButtonDown = Input.GetKeyDown(KeyCode.Space);
 
         HorizontalInput = Input.GetAxisRaw("Horizontal");
         VerticalInput = Input.GetAxisRaw("Vertical");
-    }
-
-    public void Run()
-    {
-        Controller.ProcessMovement(HorizontalInput, VerticalInput);
     }
 
     // called via animation event
     public void AttackAnimationEnd()
     {
         AttackAnimationEnded = true;
-        //MouseButtonDown = false;
     }
 
     public void RollAnimationEnd()
@@ -77,24 +64,23 @@ public class PlayerView : MonoBehaviour
     // called via animation event
     public void BeingHitAnimationEnd()
     {
-        BeingHitAnimationEnded = true;
+        HurtAnimationEnded = true;
     }
 
     // called via animation event
     public void EnableDamageCaster()
     {
-        damageCaster.EnableDamageCaster();
+        DamageCaster.EnableDamageCaster();
     }
 
     // called via animation event
     public void DisableDamageCaster()
     {
-        damageCaster.DisableDamageCaster();
+        DamageCaster.DisableDamageCaster();
     }
 
-    //private void OnDisable()
-    //{
-    //    HorizontalInput = 0;
-    //    VerticalInput = 0;
-    //}
+    private void OnDestroy()
+    {
+        Controller.OnDestroy();
+    }
 }

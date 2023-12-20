@@ -1,21 +1,20 @@
 using UnityEngine;
 
-public class PlayerRunAnim : StateMachineBehaviour
+// StateMachineBehaviour is a part of Unity's Animation System. Currently attached to Run animation state.
+public class PlayerRunAnim : StateMachineBehaviour 
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         PlayerVFX playerVFX = animator.GetComponent<PlayerVFX>();
-        if (playerVFX)
-            playerVFX.UpdateFootStep(true);
+        playerVFX?.UpdateFootStep(true); // Plays footsteps vfx whenever player is in run animation;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         PlayerVFX playerVFX = animator.GetComponent<PlayerVFX>();
-        if (playerVFX)
-            playerVFX.UpdateFootStep(false);
+        playerVFX?.UpdateFootStep(false);
     }
 
 
@@ -24,7 +23,6 @@ public class PlayerRunAnim : StateMachineBehaviour
     //{
 
     //}
-
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

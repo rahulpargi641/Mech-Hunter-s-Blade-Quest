@@ -1,21 +1,23 @@
+using UnityEngine;
 
 public class EnemyDead : EnemyState
 {
-    public EnemyDead(EnemyView enemyAIView, EnemySO enemy) : base(enemyAIView, enemy)
+    public EnemyDead(EnemyController controller) : base(controller)
     {
-        state = EState.Dead;
-        stage = EStage.Enter;
+        state = EEnemyState.Dead;
     }
 
     protected override void Enter()
     {
         base.Enter();
+        animator.SetTrigger(controller.DeadAnimName);
 
-        animator.SetTrigger(enemy.deadAnimName);
+        controller.CharacterMaterial?.StartCharacterDissolvingEffect();
     }
 
     protected override void Exit()
     {
+        animator.ResetTrigger(controller.DeadAnimName);
         base.Exit();
     }
 }
