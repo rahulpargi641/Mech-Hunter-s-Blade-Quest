@@ -7,6 +7,12 @@ public class CharacterMaterial : MonoBehaviour
     private MaterialPropertyBlock materialPropertyBlock;
 
     private float blinkResetDuration = 0.2f;
+    private float dissolveStartHeight = 20f;
+    private float dissolveTargetHeight = -10f;
+    private float dissolveDuration = 2f;
+    private float appearDuration = 3f;
+    private float appearStartHeight = -10f;
+    private float appearTargetHeight = 20f;
 
     private void Awake()
     {
@@ -20,35 +26,14 @@ public class CharacterMaterial : MonoBehaviour
         skinnedMeshRenderer.GetPropertyBlock(materialPropertyBlock);
     }
 
-    public void PlayHurtBlinkEffect()
-    {
-        StartCoroutine(BlinkMaterialProperty("_blink", 0.4f));
-
-        IEnumerator BlinkMaterialProperty(string propertyName, float value)
-        {
-            SetMaterialProperty(propertyName, value);
-            yield return new WaitForSeconds(blinkResetDuration);
-            SetMaterialProperty(propertyName, 0f);
-        }
-    }
-
     private void SetMaterialProperty(string propertyName, float value)
     {
         materialPropertyBlock.SetFloat(propertyName, value);
         skinnedMeshRenderer.SetPropertyBlock(materialPropertyBlock);
     }
 
-    public void StartCharacterDissolvingEffect()
+    private IEnumerator ChangeMaterialHeightOverTime(float duration, float startHeight, float targetHeight)
     {
-        StartCoroutine(DissolveMaterial(2f, 20f, -10f));
-    }
-
-    IEnumerator DissolveMaterial(float duration, float startHeight, float targetHeight)
-    {
-        yield return new WaitForSeconds(2f);
-
-        SetMaterialProperty("_enableDissolve", 1f);
-
         float currentTime = 0f;
         float dissolveHeight;
 
@@ -61,6 +46,32 @@ public class CharacterMaterial : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void PlayHurtBlinkEffect()
+    {
+        StartCoroutine(BlinkMaterialProperty("_blink", 0.4f));
+    }
+
+    private IEnumerator BlinkMaterialProperty(string propertyName, float value)
+    {
+        SetMaterialProperty(propertyName, value);
+        yield return new WaitForSeconds(blinkResetDuration);
+        SetMaterialProperty(propertyName, 0f);
+    }
+
+    public void StartCharacterDissolvingEffect()
+    {
+        StartCoroutine(DissolveMaterial());
+    }
+
+    private IEnumerator DissolveMaterial()
+    {
+        yield return new WaitForSeconds(blinkResetDuration);
+
+        SetMaterialProperty("_enableDissolve", 1f);
+
+        yield return ChangeMaterialHeightOverTime(dissolveDuration, dissolveStartHeight, dissolveTargetHeight);
 
         HandleDissolvingCompletion();
     }
@@ -73,25 +84,14 @@ public class CharacterMaterial : MonoBehaviour
 
     public void StartCharacterAppearingEffect()
     {
-        StartCoroutine(AppearMaterial(3f, -10f, 20f));
+        StartCoroutine(AppearMaterial());
     }
 
-    IEnumerator AppearMaterial(float duration, float startHeight, float targetHeight)
+    private IEnumerator AppearMaterial()
     {
         SetMaterialProperty("_enableDissolve", 1f);
 
-        float currentTime = 0f;
-        float dissolveHeight;
-
-        while (currentTime < duration)
-        {
-            currentTime += Time.deltaTime;
-            dissolveHeight = Mathf.Lerp(startHeight, targetHeight, currentTime / duration);
-
-            SetMaterialProperty("_dissolve_height", dissolveHeight);
-
-            yield return null;
-        }
+        yield return ChangeMaterialHeightOverTime(appearDuration, appearStartHeight, appearTargetHeight);
 
         SetMaterialProperty("_enableDissolve", 0f);
     }

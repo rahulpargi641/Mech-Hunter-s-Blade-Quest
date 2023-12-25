@@ -4,9 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayerView : MonoBehaviour
 {
+    public DamageCasterView DamageCaster => damageCasterView;
     public CharacterController CharacterController { get; private set; }
     public Animator Animator { get; private set; }
-    public DamageCasterView DamageCaster { get; private set; }
 
     public bool RollAnimationEnded { get; set; }
     public bool AttackAnimationEnded { get; set; }
@@ -20,11 +20,13 @@ public class PlayerView : MonoBehaviour
 
     public PlayerController Controller { private get; set; }
 
+    [SerializeField] DamageCasterView damageCasterView;
+
     private void Awake()
     {
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponent<Animator>();
-        DamageCaster = GetComponentInChildren<DamageCasterView>();
+        //DamageCaster = GetComponentInChildren<DamageCasterView>();
     }
 
     private void Update()
@@ -34,10 +36,7 @@ public class PlayerView : MonoBehaviour
         Controller?.ProcessCurrentState();
     }
 
-    //private void FixedUpdate()
-    //{
-    //    //currentState = currentState.Process();
-    //}
+    // private void FixedUpdate() { currentState = currentState.Process(); }
 
     private void ReadPlayerInput()
     {
